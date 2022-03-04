@@ -32,9 +32,11 @@ public class ConnectionPool {
 
     public Connection getConnection() {
         try {
-            return dataSource.getConnection();
+            Connection conn = dataSource.getConnection();
+            return conn;
         } catch (SQLException e) {
             LOG.log(Level.SEVERE, null, e);
+            System.out.print(e.getMessage());
             return null;
         }
     }
