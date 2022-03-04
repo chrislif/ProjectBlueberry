@@ -31,6 +31,7 @@ public class AuthDB {
             statement = connection.prepareStatement(query);
             statement.setString(1, username);
             
+            statement.executeUpdate();
         } catch (SQLException ex) {
             throw ex;
         } finally {

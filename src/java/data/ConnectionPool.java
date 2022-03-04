@@ -40,7 +40,6 @@ public class ConnectionPool {
             return null;
         }
     }
-
     
     public void freeConnection(Connection c) {
         try {
