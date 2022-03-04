@@ -16,10 +16,10 @@ public class Authorization {
         try {
             Boolean flag = AuthDB.createAccount("Chris");
             if (flag) {
-                return "yay";
+                return "Test Data Added Successfully";
             }
             else {
-                return "boo";
+                return "Connection Failure";
             }
         }
         catch (SQLException ex) {
