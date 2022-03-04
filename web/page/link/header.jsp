@@ -22,7 +22,7 @@
                     <li>
                         <form action="public" method="post">
                             <input type="hidden" name="action" value="toHome">
-                            <input type="submit" value="Home" class="navbutton">
+                            <input type="submit" value="Test" class="navbutton">
                         </form>
                     </li>
                 </ul>
