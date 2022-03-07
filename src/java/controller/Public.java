@@ -43,7 +43,12 @@ public class Public extends HttpServlet {
                 request.setAttribute("result", result);
                 url = "/index.jsp";
                 break;
-            
+            case "toLogin":
+                url = "/page/auth/login.jsp";
+                break;
+            case "toRegister":
+                url = "/page/auth/register.jsp";
+                break;
             default:
                 url = "/index.jsp";
                 break;
