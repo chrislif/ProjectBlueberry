@@ -2,10 +2,12 @@ package controller;
 
 import controller.function.Authorization;
 import java.io.IOException;
+import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -31,9 +33,13 @@ public class Public extends HttpServlet {
     
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String url;
+        String url = "";
+        String email;
+        String password;
         
         String action = request.getParameter("action");
+        HttpSession session = request.getSession();
+        ArrayList<String> errorList = new ArrayList();
         
         switch (action) {
             
@@ -48,6 +54,16 @@ public class Public extends HttpServlet {
                 break;
             case "toRegister":
                 url = "/page/auth/register.jsp";
+                break;
+            case "register":
+                String username = request.getParameter("username");
+                password = request.getParameter("password");
+                String passwordCheck = request.getParameter("passwordCheck");
+                email = request.getParameter("email");
+
+                if (Authorization.IsValidLogin(username, password, email, errorList)){
+                    
+                }
                 break;
             default:
                 url = "/index.jsp";
