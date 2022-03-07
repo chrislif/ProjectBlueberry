@@ -16,7 +16,7 @@
     </head>
     <body>
         <header>
-            
+
         </header>
         <nav>
             <div class="navbar">
@@ -24,7 +24,13 @@
                     <li>
                         <form action="public" method="post">
                             <input type="hidden" name="action" value="toHome">
-                            <input type="submit" value="Test" class="navbutton">
+                            <input type="submit" value="Home" class="navbutton">
+                        </form>
+                    </li>
+                    <li>
+                        <form action="public" method="post">
+                            <input type="hidden" name="action" value="toLogin">
+                            <input type="submit" value="Login" class="navbutton">
                         </form>
                     </li>
                 </ul>

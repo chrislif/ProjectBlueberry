@@ -55,6 +55,7 @@ public class Authorization {
         
         Account user = new Account();
         user.setUserName(username);
+        user.setEmail(email);
 
         String hash;
         String salt = randomSalt();

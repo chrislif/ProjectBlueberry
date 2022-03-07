@@ -25,8 +25,8 @@ public class AuthDB {
         ResultSet resultSet = null;
         
         String query
-                = "INSERT INTO account (accountName, email, salt, hash)"
-                + "VALUES (?, ?, ?, ?)";
+                = "INSERT INTO account (accountName, email, salt, hash, accountXP)"
+                + "VALUES (?, ?, ?, ?, ?)";
         
         try {
             statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
@@ -34,6 +34,7 @@ public class AuthDB {
             statement.setString(2, user.getEmail());
             statement.setString(3, salt);
             statement.setString(4, hash);
+            statement.setInt(5, 0);
             
             statement.executeUpdate();
             resultSet = statement.getGeneratedKeys();
