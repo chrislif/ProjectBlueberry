@@ -8,27 +8,13 @@ import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Random;
+import model.Account;
 
 /**
  *
  * @author chris
  */
 public class Authorization {
-    
-    public static String testDBConnection() {
-        try {
-            Boolean flag = AuthDB.createAccount("Chris");
-            if (flag) {
-                return "Test Data Added Successfully";
-            }
-            else {
-                return "Connection Failure";
-            }
-        }
-        catch (SQLException ex) {
-            return ex.getMessage();
-        }
-    }
     
     public static Boolean IsValidLogin(String username, String password, String email, ArrayList<String> errorList) {
         Boolean isValid = true;
@@ -51,7 +37,7 @@ public class Authorization {
         return isValid;
     }
     
-    public static String RegisterUser(String email, String password, String passwordCheck, String username, ArrayList <String> errorList){
+    public static Account RegisterUser(String email, String password, String passwordCheck, String username, ArrayList <String> errorList){
         if (!password.equals(passwordCheck)) {
             errorList.add("Password do not match, please reenter");
             return null;
@@ -69,7 +55,6 @@ public class Authorization {
         
         Account user = new Account();
         user.setUserName(username);
-        user.setType(userType);
 
         String hash;
         String salt = randomSalt();
@@ -90,7 +75,7 @@ public class Authorization {
             return null;
         }
         
-        return "";
+        return user;
     }
     
     public static String randomSalt(){

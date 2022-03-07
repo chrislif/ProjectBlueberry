@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import model.Account;
 
 /**
  *
@@ -44,9 +45,6 @@ public class Public extends HttpServlet {
         switch (action) {
             
             case "toHome":
-                String result = Authorization.testDBConnection();
-                
-                request.setAttribute("result", result);
                 url = "/index.jsp";
                 break;
             case "toLogin":
@@ -62,7 +60,15 @@ public class Public extends HttpServlet {
                 email = request.getParameter("email");
 
                 if (Authorization.IsValidLogin(username, password, email, errorList)){
-                    
+                    Account newUser = Authorization.RegisterUser(email, password, passwordCheck, username, errorList);
+                    if (newUser != null){
+                        session.setAttribute("currentUser", newUser);
+                        url = "/index.jsp";
+                    } else {
+                        url = "/page/auth/register.jsp";
+                    }
+                } else {
+                    url = "/page/auth/register.jsp";
                 }
                 break;
             default:
@@ -70,6 +76,7 @@ public class Public extends HttpServlet {
                 break;
         }
         
+        request.setAttribute("errorList", errorList);
         getServletContext().getRequestDispatcher(url).forward(request, response);
     }
     

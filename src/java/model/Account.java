@@ -12,19 +12,15 @@ package model;
 public class Account {
     private int accountID;
     private String userName;
-    private String fullName;
-    private String accountType;
     private String email;
     private int accountXP;
 
     public Account() {
     }
 
-    public Account(int accountID, String userName, String fullName, String accountType, String email, int accountXP) {
+    public Account(int accountID, String userName, String email, int accountXP) {
         this.accountID = accountID;
         this.userName = userName;
-        this.fullName = fullName;
-        this.accountType = accountType;
         this.email = email;
         this.accountXP = accountXP;
     }
@@ -43,22 +39,6 @@ public class Account {
 
     public void setUserName(String userName) {
         this.userName = userName;
-    }
-
-    public String getFullName() {
-        return fullName;
-    }
-
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
-    }
-
-    public String getAccountType() {
-        return accountType;
-    }
-
-    public void setAccountType(String accountType) {
-        this.accountType = accountType;
     }
 
     public String getEmail() {
