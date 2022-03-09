@@ -50,17 +50,31 @@ public class Public extends HttpServlet {
             case "toLogin":
                 url = "/page/auth/login.jsp";
                 break;
+            case "authorize":
+                email = request.getParameter("email");
+                password = request.getParameter("password");
+                
+                if (Authorization.IsValidLogin(email, password, errorList)){
+                    Account user = Authorization.authorizeUser(email, password, errorList);
+                    if (user != null){
+                        session.setAttribute("currentUser", user);
+                        url = "/index.jsp";
+                    } else {
+                        url = "/page/auth/login.jsp";
+                    }
+                }
+                break;
             case "toRegister":
                 url = "/page/auth/register.jsp";
                 break;
             case "register":
-                String username = request.getParameter("username");
+                String accountName = request.getParameter("accountName");
                 password = request.getParameter("password");
                 String passwordCheck = request.getParameter("passwordCheck");
                 email = request.getParameter("email");
 
-                if (Authorization.IsValidLogin(username, password, email, errorList)){
-                    Account newUser = Authorization.RegisterUser(email, password, passwordCheck, username, errorList);
+                if (Authorization.IsValidRegisteration(accountName, password, email, errorList)){
+                    Account newUser = Authorization.RegisterUser(email, password, passwordCheck, accountName, errorList);
                     if (newUser != null){
                         session.setAttribute("currentUser", newUser);
                         url = "/index.jsp";

@@ -30,7 +30,7 @@ public class AuthDB {
         
         try {
             statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
-            statement.setString(1, user.getUserName());
+            statement.setString(1, user.getAccountName());
             statement.setString(2, user.getEmail());
             statement.setString(3, salt);
             statement.setString(4, hash);
@@ -56,6 +56,45 @@ public class AuthDB {
             }
         }
         return keyValue;
+    }
+    
+    public static Account loginUser(String email, String password) throws SQLException {
+        ConnectionPool pool = ConnectionPool.getInstance();
+        Connection connection = pool.getConnection();
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+        Account user = null;
+
+        String query = "SELECT * FROM account WHERE email = ?";
+        try {
+            statement = connection.prepareStatement(query);
+            statement.setString(1, email);
+            resultSet = statement.executeQuery();
+            resultSet.next();
+
+            if (compareHash(password, resultSet.getString("salt"), resultSet.getString("hash"))) {
+                user = new Account();
+
+                user.setAccountID(resultSet.getInt("accountID"));
+                user.setAccountName(resultSet.getString("accountName"));
+                user.setEmail(resultSet.getString("email"));
+                user.setAccountXP(resultSet.getInt("accountXP"));
+            }
+            
+            return user;
+        } catch (SQLException ex) {
+            throw ex;
+        } finally {
+            try {
+                if (resultSet != null && statement != null) {
+                    resultSet.close();
+                    statement.close();
+                }
+                pool.freeConnection(connection);
+            } catch (SQLException e) {
+                throw e;
+            }
+        }
     }
     
     public static Boolean doesUserExist(String email) throws SQLException{

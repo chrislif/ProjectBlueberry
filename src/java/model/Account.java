@@ -11,16 +11,16 @@ package model;
  */
 public class Account {
     private int accountID;
-    private String userName;
+    private String accountName;
     private String email;
     private int accountXP;
 
     public Account() {
     }
 
-    public Account(int accountID, String userName, String email, int accountXP) {
+    public Account(int accountID, String accountName, String email, int accountXP) {
         this.accountID = accountID;
-        this.userName = userName;
+        this.accountName = accountName;
         this.email = email;
         this.accountXP = accountXP;
     }
@@ -33,12 +33,12 @@ public class Account {
         this.accountID = accountID;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getAccountName() {
+        return accountName;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setAccountName(String accountName) {
+        this.accountName = accountName;
     }
 
     public String getEmail() {

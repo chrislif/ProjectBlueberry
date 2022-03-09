@@ -23,8 +23,8 @@
             <label for="passwordCheck">Retype Password: </label>
             <input type="password" name="passwordCheck"> 
             <br>
-            <label for="username">Username: </label>
-            <input type="text" name="username">
+            <label for="username">Account Name: </label>
+            <input type="text" name="accountName">
             <br>
             <input type="submit" value="Register">
         </form>
