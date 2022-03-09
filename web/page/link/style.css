@@ -5,7 +5,20 @@
     Created on : Mar 4, 2022, 4:22:38 PM
     Author     : chris
 */
+.navlist {
+    list-style-type: none;
+    display: flex;
+    align-items: center;
+    justify-content: left;
+    gap: 15px;
+}
+
+.navbutton {
+    border: none;
+    padding: 10px 25px;
+    background-color: #41A8F9;
+}
 
 footer {
-    background-color: gray;
+    background-color: #AEECFB;
 }

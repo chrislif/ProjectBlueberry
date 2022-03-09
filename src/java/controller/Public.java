@@ -50,6 +50,9 @@ public class Public extends HttpServlet {
             case "toLogin":
                 url = "/page/auth/login.jsp";
                 break;
+            case "toOverview":
+                url ="/page/project/overview.jsp";
+                break;
             case "authorize":
                 email = request.getParameter("email");
                 password = request.getParameter("password");
@@ -58,7 +61,7 @@ public class Public extends HttpServlet {
                     Account user = Authorization.authorizeUser(email, password, errorList);
                     if (user != null){
                         session.setAttribute("currentUser", user);
-                        url = "/index.jsp";
+                        url = "/page/project/overview.jsp";
                     } else {
                         url = "/page/auth/login.jsp";
                     }
@@ -79,7 +82,7 @@ public class Public extends HttpServlet {
                         session.setAttribute("currentUser", newUser);
                         url = "/index.jsp";
                     } else {
-                        url = "/page/auth/register.jsp";
+                        url = "/page/auth/login.jsp";
                     }
                 } else {
                     url = "/page/auth/register.jsp";
