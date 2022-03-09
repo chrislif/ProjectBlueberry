@@ -9,6 +9,8 @@
 <main>
     <div class="mainContent">
         <h1>Project Overview</h1>
+        
+        <button class="styledButton" type="button">Create Project</button>
     </div>
 </main>
 <jsp:include page="/page/link/footer.jsp"/>
