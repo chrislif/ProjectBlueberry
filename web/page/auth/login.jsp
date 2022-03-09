@@ -9,7 +9,7 @@
 <main>
     <div class="mainContent">
         <h1>Login Here</h1>
-        <h1>${errorList}</h1>
+        <div class="subContent">
         <form action="public" method="post">
             <input type="hidden" name="action" value="authorize">
 
@@ -19,13 +19,22 @@
             <label for="password">Password: </label>
             <input type="password" name="password">
             <br>
-            <input type="submit" value="Login">
+            <input type="submit" class="styledButton" value="Login">
         </form>
 
         <form action="public" method="post">
             <input type="hidden" name="action" value="toRegister">
-            <input type="submit" value="Register Here">
+            <input type="submit" class="styledButton" value="Register Here">
         </form>
+        </div>
+        
+        <div class="subContent" id="errorDisplay">
+        <ul>
+            <c:forEach items="${errorList}" var="error">
+                <li>${error}</li>
+            </c:forEach>
+        </ul>
+    </div>
     </div>
 </main>
 <jsp:include page="/page/link/footer.jsp"/>
