@@ -88,7 +88,7 @@ public class BlueDB {
             while (resultSet.next()){
                 account = new Account();
                 account.setAccountID(resultSet.getInt("accountID"));
-                account.setUserName(resultSet.getString("accountName"));
+                account.setAccountName(resultSet.getString("accountName"));
                 
                 contributers.add(account);
             }
