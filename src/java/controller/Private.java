@@ -1,5 +1,6 @@
 package controller;
 
+import controller.function.ProjectManager;
 import java.io.IOException;
 import java.util.ArrayList;
 import javax.servlet.ServletException;
@@ -42,6 +43,8 @@ public class Private extends HttpServlet {
         
         switch (action) {
             case "toOverview":
+                ProjectManager.retrieveProjects(currentUser);
+                
                 url ="/page/project/overview.jsp";
                 break;
             case "logout":
@@ -54,6 +57,7 @@ public class Private extends HttpServlet {
                 break;
         }
         
+        request.setAttribute("errorList", errorList);
         getServletContext().getRequestDispatcher(url).forward(request, response);
     }
     

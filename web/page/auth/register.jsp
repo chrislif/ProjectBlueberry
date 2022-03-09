@@ -8,9 +8,11 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <jsp:include page="/page/link/header.jsp"/>
 <main>
+    <div class="mainContent">
+
     <h1>Register Here!</h1>
     
-    <div>
+    <div class="subContent">
         <form action="public" method="post">
             <input type="hidden" name="action" value="register">
 
@@ -30,12 +32,14 @@
         </form>
     </div>
     
-    <div class="gridSubContent" id="errorDisplay">
+    <div class="subContent" id="errorDisplay">
         <ul>
             <c:forEach items="${errorList}" var="error">
                 <li>${error}</li>
             </c:forEach>
         </ul>
+    </div>
+            
     </div>
 </main>
 <jsp:include page="/page/link/footer.jsp"/>
