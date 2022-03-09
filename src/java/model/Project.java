@@ -5,6 +5,7 @@
  */
 package model;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 /**
@@ -14,20 +15,28 @@ import java.util.ArrayList;
 public class Project {
     private int ProjectID;
     private String projectName;
+    private LocalDate projectCreationDate;
     public ArrayList<Account> contributors;
     public ArrayList<Sprint> sprints;
 
     public Project() {
     }
 
-    public Project(int ProjectID, String projectName, ArrayList<Account> contributors, ArrayList<Sprint> sprints) {
+    public Project(int ProjectID, String projectName, LocalDate projectCreationDate, ArrayList<Account> contributors, ArrayList<Sprint> sprints) {
         this.ProjectID = ProjectID;
         this.projectName = projectName;
+        this.projectCreationDate = projectCreationDate;
         this.contributors = contributors;
         this.sprints = sprints;
     }
 
-    
+    public LocalDate getProjectCreationDate() {
+        return projectCreationDate;
+    }
+
+    public void setProjectCreationDate(LocalDate projectCreationDate) {
+        this.projectCreationDate = projectCreationDate;
+    }
 
     public int getProjectID() {
         return ProjectID;
