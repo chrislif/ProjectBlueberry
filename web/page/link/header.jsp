@@ -21,18 +21,40 @@
         <nav>
             <div class="navbar">
                 <ul class="navlist">
-                    <li>
-                        <form action="public" method="post">
-                            <input type="hidden" name="action" value="toHome">
-                            <input type="submit" value="Home" class="navbutton">
-                        </form>
-                    </li>
-                    <li>
-                        <form action="public" method="post">
-                            <input type="hidden" name="action" value="toLogin">
-                            <input type="submit" value="Login" class="navbutton">
-                        </form>
-                    </li>
+                    <div class="navSection">
+                        <li>
+                            <form action="public" method="post">
+                                <input type="hidden" name="action" value="toHome">
+                                <input type="submit" value="Home" class="navbutton">
+                            </form>
+                        </li>
+                        <c:if test="${currentUser != null}">
+                            <li>
+                                <form action="private" method="post">
+                                    <input type="hidden" name="action" value="toOverview">
+                                    <input type="submit" value="Overview" class="navbutton">
+                                </form>
+                            </li>
+                        </c:if>
+                    </div>
+                    <div class="navSection">
+                        <c:if test="${currentUser != null}">
+                            <li>
+                                <form action="private" method="post">
+                                    <input type="hidden" name="action" value="logout">
+                                    <input type="submit" value="Logout" class="navbutton">
+                                </form>
+                            </li>
+                        </c:if>
+                        <c:if test="${currentUser == null}">
+                            <li>
+                                <form action="public" method="post">
+                                    <input type="hidden" name="action" value="toLogin">
+                                    <input type="submit" value="Login" class="navbutton">
+                                </form>
+                            </li>
+                        </c:if>
+                    </div>
                 </ul>
             </div>
         </nav>

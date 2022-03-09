@@ -56,4 +56,43 @@ public class ProjectDB {
         return keyValue;   
     }
     
+    public static String insertContributer (int projectID, int accountID) throws SQLException{
+        ConnectionPool pool = ConnectionPool.getInstance();
+        Connection connection = pool.getConnection();
+        String keyValue = "";
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+        
+        String query = "INSERT INTO projectPeople (projectID, accountID, tag)"
+                + "VALUES (?, ?)";
+        
+        try {
+            statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+            statement = connection.prepareStatement(query);
+            statement.setInt(1, projectID);
+            statement.setInt(2, accountID);
+            statement.setString(3, "contributer");
+            
+            statement.executeUpdate();
+            resultSet = statement.getGeneratedKeys();
+            
+        } catch (SQLException ex){
+            throw ex;
+        } finally {
+            try {
+                if (resultSet != null && statement != null) {
+                    resultSet.next();
+                    keyValue = resultSet.getString(1);
+                    
+                    resultSet.close();
+                    statement.close();
+                }
+                pool.freeConnection(connection);
+            } catch (SQLException ex) {
+                throw ex;
+            }
+        }
+        return keyValue;   
+    }
+    
 }

@@ -15,11 +15,26 @@ import model.Account;
  * @author chris
  */
 public class Authorization {
-    
-    public static Boolean IsValidLogin(String username, String password, String email, ArrayList<String> errorList) {
+    public static Boolean IsValidLogin(String email, String password, ArrayList<String> errorList) {
         Boolean isValid = true;
 
-        if (username.isEmpty()) {
+        if (password.isEmpty()) {
+            errorList.add("Please enter a Password");
+            isValid = false;
+        }
+        
+        if (email.isEmpty()) {
+            errorList.add("Please enter a Email");
+            isValid = false;
+        }
+
+        return isValid;
+    }
+    
+    public static Boolean IsValidRegisteration(String accountName, String password, String email, ArrayList<String> errorList) {
+        Boolean isValid = true;
+
+        if (accountName.isEmpty()) {
             errorList.add("Please enter a Username");
             isValid = false;
         }
@@ -37,15 +52,25 @@ public class Authorization {
         return isValid;
     }
     
-    public static Account RegisterUser(String email, String password, String passwordCheck, String username, ArrayList <String> errorList){
+    public static Account authorizeUser(String email, String password, ArrayList<String> errorList) {
+        try {
+            return AuthDB.loginUser(email, password);
+        } catch (SQLException ex) {
+            errorList.add("Invalid Credentials");
+            //errorList.add(ex.getMessage());
+            return null;
+        }
+    }
+    
+    public static Account RegisterUser(String email, String password, String passwordCheck, String accountName, ArrayList <String> errorList){
         if (!password.equals(passwordCheck)) {
             errorList.add("Password do not match, please reenter");
             return null;
         }
         
         try {
-            if (AuthDB.doesUserExist(username)) {
-                errorList.add("Username invalid");
+            if (AuthDB.doesUserExist(email)) {
+                errorList.add("Email invalid");
                 return null;
             }
         } catch (SQLException ex) {
@@ -54,7 +79,7 @@ public class Authorization {
         }
         
         Account user = new Account();
-        user.setUserName(username);
+        user.setAccountName(accountName);
         user.setEmail(email);
 
         String hash;
