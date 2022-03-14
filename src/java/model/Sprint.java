@@ -5,7 +5,6 @@
  */
 package model;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 
 /**
@@ -15,14 +14,14 @@ import java.util.ArrayList;
 public class Sprint {
     private int sprintID;
     private String sprintName;
-    private LocalDate sprintStartDate;
-    private LocalDate sprintEndDate;
+    private String sprintStartDate;
+    private String sprintEndDate;
     public ArrayList<Story> stories;
 
     public Sprint() {
     }
 
-    public Sprint(int sprintID, String sprintName, LocalDate sprintStartDate, LocalDate sprintEndDate, ArrayList<Story> stories) {
+    public Sprint(int sprintID, String sprintName, String sprintStartDate, String sprintEndDate, ArrayList<Story> stories) {
         this.sprintID = sprintID;
         this.sprintName = sprintName;
         this.sprintStartDate = sprintStartDate;
@@ -46,19 +45,19 @@ public class Sprint {
         this.sprintName = sprintName;
     }
 
-    public LocalDate getSprintStartDate() {
+    public String getSprintStartDate() {
         return sprintStartDate;
     }
 
-    public void setSprintStartDate(LocalDate sprintStartDate) {
+    public void setSprintStartDate(String sprintStartDate) {
         this.sprintStartDate = sprintStartDate;
     }
 
-    public LocalDate getSprintEndDate() {
+    public String getSprintEndDate() {
         return sprintEndDate;
     }
 
-    public void setSprintEndDate(LocalDate sprintEndDate) {
+    public void setSprintEndDate(String sprintEndDate) {
         this.sprintEndDate = sprintEndDate;
     }
 
@@ -69,8 +68,4 @@ public class Sprint {
     public void setStories(ArrayList<Story> stories) {
         this.stories = stories;
     }
-
-    
-    
-    
 }

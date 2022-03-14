@@ -5,14 +5,11 @@
  */
 package data;
 
-import static java.lang.Integer.parseInt;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Set;
 import model.Account;
 import model.Project;
 
@@ -46,7 +43,7 @@ public class BlueDB {
                 project.setProjectID(resultSet.getInt("projectID"));
                 project.setProjectName(resultSet.getString("projectName"));
                 project.setProjectCreationDate(resultSet.getString("creationDate"));
-                //project.setContributors(getContributers(project));
+                project.setContributors(getContributers(project));
                 
                 projectList.add(project);
             }

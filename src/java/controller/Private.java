@@ -38,7 +38,7 @@ public class Private extends HttpServlet {
             case "getProjects":
                 ArrayList<Project> projectList = ProjectManager.retrieveProjects(currentUser, errorList);
                 
-                String projectListJSON = gson.toJson(projectList.get(0));
+                String projectListJSON = gson.toJson(projectList);
                 
                 responseOut.println(projectListJSON);
                 break;
