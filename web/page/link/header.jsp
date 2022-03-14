@@ -16,7 +16,7 @@
     </head>
     <body>
         <header>
-
+            <h1>Blueberry Dev Manager</h1>
         </header>
         <nav>
             <div class="navbar">

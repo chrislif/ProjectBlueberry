@@ -28,7 +28,7 @@
             <label for="username">Account Name: </label>
             <input type="text" name="accountName">
             <br>
-            <input type="submit" value="Register">
+            <input type="submit" class="styledButton" value="Register">
         </form>
     </div>
     
