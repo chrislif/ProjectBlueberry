@@ -29,24 +29,24 @@ public class BlueDB {
         
         ArrayList<Project> projectList = new ArrayList();
         
-        String query = "select account.accountID, tag, project.projectID, projectName, creationDate"
-                + "from project "
-                + "inner join projectPeople on project.projectID = projectContributer.projectID"
-                + "inner join account on account.accountID = projectContributer.accountID"
-                + "where acocunt.accountID = ?";
+        String query = "SELECT account.accountID, projectPeople.tag, project.projectID, project.projectName, project.creationDate FROM project "
+                + "INNER JOIN projectPeople ON project.projectID = projectPeople.projectID "
+                + "INNER JOIN account ON account.accountID = projectPeople.accountID "
+                + "WHERE account.accountID = ? ";
         
         try {
             statement = connection.prepareStatement(query);
             statement.setString(1, Integer.toString(user.getAccountID()));
+            
+            resultSet = statement.executeQuery();
             
             Project project;
             while(resultSet.next()){
                 project = new Project();
                 project.setProjectID(resultSet.getInt("projectID"));
                 project.setProjectName(resultSet.getString("projectName"));
-                project.setProjectCreationDate(LocalDate.parse(resultSet.getString("creationDate")));
-                project.setContributors(getContributers(project));
-                
+                project.setProjectCreationDate(resultSet.getString("creationDate"));
+                //project.setContributors(getContributers(project));
                 
                 projectList.add(project);
             }
@@ -73,11 +73,10 @@ public class BlueDB {
         ResultSet resultSet = null;
         ArrayList<Account> contributers = new ArrayList();
         
-        String query = "select account.accountID, tag, project.projectID"
-                + "from project"
-                + "inner join projectPeople on project.projectID = projectPeople.projectID\n"
-                + "inner join account on account.accountID = projectPeople.accountID"
-                + "where project.projectID = ? and tag = 'contributer'" ;
+        String query = "SELECT account.accountID, account.accountName, projectPeople.tag, project.projectID FROM project "
+                + "INNER JOIN projectPeople ON project.projectID = projectPeople.projectID "
+                + "INNER JOIN account ON account.accountID = projectPeople.accountID "
+                + "WHERE project.projectID = ? AND tag = 'contributer' ";
         
         try{
             statement = connection.prepareStatement(query);

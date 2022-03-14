@@ -5,9 +5,11 @@
  */
 package controller.function;
 
-import data.ProjectDB;
+import data.BlueDB;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import model.Account;
+import model.Project;
 
 /**
  *
@@ -15,12 +17,12 @@ import model.Account;
  */
 public class ProjectManager {
     
-    public static void retrieveProjects(Account user) {
-//        try {
-//            
-//            ProjectDB.getProjects();
-//        } catch (SQLException ex) {
-//            
-//        }
+    public static ArrayList<Project> retrieveProjects(Account user, ArrayList<String> errorList) {
+        try {
+            return BlueDB.generateProjectList(user);
+        } catch (SQLException ex) {
+            errorList.add(ex.getMessage());
+            return null;
+        }
     }
 }

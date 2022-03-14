@@ -8,11 +8,23 @@
 <jsp:include page="/page/link/header.jsp"/>
 <main>
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
-    <script type="text/javascript" src="overview.js"></script>
+    <script type="text/javascript" src="page/project/overview.js"></script>
     <div class="mainContent">
         <h1>Project Overview</h1>
         
-        <button class="styledButton" id="projectCreateButton" type="button">Create Project</button>
+        <div class="subContent" id="projectTable">
+            
+        </div>
+        
+        <div class="subContent hidden" id="projectForm">
+            <label for="projectName">Project Name: </label>
+            <input type="text" name="projectName">
+            <br>
+
+            <button class="styledButton" id="projectCreateButton">Create Project</button>
+        </div>
+        
+        <button class="styledButton" id="projectNewButton">New Project</button>
     </div>
 </main>
 <jsp:include page="/page/link/footer.jsp"/>

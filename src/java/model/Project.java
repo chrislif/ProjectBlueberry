@@ -5,7 +5,6 @@
  */
 package model;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 
 /**
@@ -15,14 +14,13 @@ import java.util.ArrayList;
 public class Project {
     private int ProjectID;
     private String projectName;
-    private LocalDate projectCreationDate;
+    private String projectCreationDate;
     public ArrayList<Account> contributors;
     public ArrayList<Sprint> sprints;
 
-    public Project() {
-    }
+    public Project() { }
 
-    public Project(int ProjectID, String projectName, LocalDate projectCreationDate, ArrayList<Account> contributors, ArrayList<Sprint> sprints) {
+    public Project(int ProjectID, String projectName, String projectCreationDate, ArrayList<Account> contributors, ArrayList<Sprint> sprints) {
         this.ProjectID = ProjectID;
         this.projectName = projectName;
         this.projectCreationDate = projectCreationDate;
@@ -30,11 +28,11 @@ public class Project {
         this.sprints = sprints;
     }
 
-    public LocalDate getProjectCreationDate() {
+    public String getProjectCreationDate() {
         return projectCreationDate;
     }
 
-    public void setProjectCreationDate(LocalDate projectCreationDate) {
+    public void setProjectCreationDate(String projectCreationDate) {
         this.projectCreationDate = projectCreationDate;
     }
 
@@ -62,15 +60,11 @@ public class Project {
         this.contributors = contributors;
     }
 
-    public ArrayList<Sprint> getSprintID() {
+    public ArrayList<Sprint> getSprints() {
         return sprints;
     }
 
-    public void setSprintID(ArrayList<Sprint> sprintID) {
+    public void setSprints(ArrayList<Sprint> sprints) {
         this.sprints = sprints;
     }
-
-    
-    
-    
 }
