@@ -5,6 +5,7 @@ var projectList;
 $(document).ready(() => {
    $("#projectNewButton").click(showProjectForm); 
    $("#projectCreateButton").click(createProject);
+   $("#projectCancelButton").click(hideProjectForm);
    
    retrieveProjects();
 });
@@ -20,6 +21,13 @@ class Project {
 function showProjectForm() {
     $("#projectForm").slideDown(100);
     $("#projectNewButton").hide();
+}
+
+function hideProjectForm() {
+    $("#projectName").val("");
+
+    $("#projectForm").slideUp(100);
+    $("#projectNewButton").fadeIn(100);
 }
 
 function createProject() {
