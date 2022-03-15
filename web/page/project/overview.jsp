@@ -12,8 +12,8 @@
     <div class="mainContent">
         <h1>Project Overview</h1>
         
-        <div class="subContent" id="projectTable">
-            
+        <div class="gridWrapper" id="projectTable">
+
         </div>
         
         <div class="subContent hidden" id="projectForm">

@@ -62,8 +62,16 @@ public class Private extends HttpServlet {
         
         switch (action) {
             case "toOverview":
-                url ="/page/project/overview.jsp";
+                url = "/page/project/overview.jsp";
                 break;
+                
+            case "toProject":
+                String projectID = request.getParameter("projectID");
+                
+                request.setAttribute("projectID", projectID);
+                url = "/page/project/projectHome.jsp";
+                break;
+            
             case "logout":
                 url = "/page/auth/login.jsp";
                 currentUser = null;

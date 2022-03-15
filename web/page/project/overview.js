@@ -1,12 +1,22 @@
 "use strict";
 
+var projectList;
+
 $(document).ready(() => {
    $("#projectNewButton").click(showProjectForm); 
    $("#projectCreateButton").click(createProject);
    
    retrieveProjects();
 });
-    
+
+class Project {
+    constructor(projectID, projectName, creationDate) {
+        this.projectID = projectID;
+        this.projectName = projectName;
+        this.creationDate = creationDate;
+    }
+}
+
 function showProjectForm() {
     $("#projectForm").slideDown(100);
     $("#projectNewButton").hide();
@@ -21,7 +31,23 @@ function retrieveProjects() {
     
     
     ajaxGet("private", {'action': 'getProjects'}, (result) => {
-        $("#projectTable").html(result);
+        projectList = JSON.parse(result);
+        
+        projectList.forEach(element => (
+            $("#projectTable").append(
+                `<form action="private" method="post">
+                    <input type="hidden" name="action" value="toProject">
+                    <input type="hidden" name="projectID" value="` + element.projectID + `">
+                    <button type="submit" class="gridSubContent gridButton">
+                        <div class="gridButtonText">
+                            <h3>Project: `+ element.projectName + `</h3>
+                            <p>ID: ` + element.projectID + `</p>
+                            <p>Date: ` + element.projectCreationDate + `</p>
+                        </div>
+                    </button>
+                </form>`
+            )
+        ));
     });
 }
 

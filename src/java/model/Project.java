@@ -12,7 +12,7 @@ import java.util.ArrayList;
  * @author jacks
  */
 public class Project {
-    private int ProjectID;
+    private int projectID;
     private String projectName;
     private String projectCreationDate;
     public ArrayList<Account> contributors;
@@ -20,8 +20,8 @@ public class Project {
 
     public Project() { }
 
-    public Project(int ProjectID, String projectName, String projectCreationDate, ArrayList<Account> contributors, ArrayList<Sprint> sprints) {
-        this.ProjectID = ProjectID;
+    public Project(int projectID, String projectName, String projectCreationDate, ArrayList<Account> contributors, ArrayList<Sprint> sprints) {
+        this.projectID = projectID;
         this.projectName = projectName;
         this.projectCreationDate = projectCreationDate;
         this.contributors = contributors;
@@ -37,11 +37,11 @@ public class Project {
     }
 
     public int getProjectID() {
-        return ProjectID;
+        return projectID;
     }
 
     public void setProjectID(int ProjectID) {
-        this.ProjectID = ProjectID;
+        this.projectID = ProjectID;
     }
 
     public String getProjectName() {

@@ -1,10 +1,8 @@
-/*
-
-*/
 /* 
     Created on : Mar 4, 2022, 4:22:38 PM
     Author     : chris
 */
+
 * {
     margin: 0;
     padding: 0;
@@ -29,8 +27,8 @@ body {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    
 }
+
 .navSection {
     display: flex;
     align-items: center;
@@ -71,6 +69,39 @@ body {
     display: none;
 }
 
+.gridWrapper {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    background: rgb(235, 235, 235);
+}
+
+.gridSubContent {
+    width: 90%;
+    margin: 15px;
+    padding: 15px;
+    background: rgb(235, 235, 235);
+    box-shadow: 2px 5px 5px black;
+    border: 1px solid #DDDDDD;
+    border-radius: 5px;
+    
+}
+
+.gridButton:hover {
+    background: rgb(0, 167, 225);
+    border: 1px solid rgb(0, 167, 225);
+}
+
+.gridButton:active {
+    box-shadow: 0 1px black;
+    background-color: rgb(255, 166, 48);
+    border: 1px solid rgb(255, 166, 48);
+    transform: translateY(4px);
+}
+
+.gridButtonText {
+    text-align: left;
+}
+
 .styledButton {
     padding: 10px 30px 10px 30px;
     margin-top: 15px;
@@ -84,7 +115,6 @@ body {
 .styledButton:hover {
     background: rgb(255, 166, 48);;
 }
-
 
 footer {
     margin-top: auto;
