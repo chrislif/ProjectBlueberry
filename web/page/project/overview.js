@@ -19,20 +19,26 @@ class Project {
 
 function showProjectForm() {
     $("#projectForm").slideDown(100);
-    $("#projectNewButton").hide();
+    $("#projectNewButton").slideUp(100);
 }
 
 function createProject() {
-    $("#projectForm").slideUp(100);
-    $("#projectNewButton").fadeIn(100);
+    ajaxGet("private", {'action': 'createProject','projectName': $("#projectNameText").val()}, (result) => {
+
+        console.log(result);
+
+        $("#projectNameText").val("");
+        $("#projectNewButton").slideDown(100);
+        $("#projectForm").slideUp(100);        
+        retrieveProjects();
+    });
 }
 
 function retrieveProjects() {
-    
-    
     ajaxGet("private", {'action': 'getProjects'}, (result) => {
         projectList = JSON.parse(result);
         
+        $("#projectTable").html("");
         projectList.forEach(element => (
             $("#projectTable").append(
                 `<form action="private" method="post">
@@ -60,7 +66,6 @@ var ajaxGet = (url, data, callback) => {
         success: callback,
         error: function (jqXHR, ex) {
             console.log(jqXHR);
-            $("#projectTable").html(jqXHR.responseText);
         }
     });
 };

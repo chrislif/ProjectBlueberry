@@ -8,7 +8,7 @@
 <jsp:include page="/page/link/header.jsp"/>
 <main>
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
-    <script type="text/javascript" src="page/project/auth.js"></script>
+    <script type="text/javascript" src="page/auth/auth.js"></script>
     <div class="mainContent">
         <h1>Login Here</h1>
         <div class="subContent">

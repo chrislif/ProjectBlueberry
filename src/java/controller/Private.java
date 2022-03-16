@@ -34,7 +34,6 @@ public class Private extends HttpServlet {
         String action = request.getParameter("action");
         
         switch (action) {
-            
             case "getProjects":
                 ArrayList<Project> projectList = ProjectManager.retrieveProjects(currentUser, errorList);
                 
@@ -43,6 +42,16 @@ public class Private extends HttpServlet {
                 responseOut.println(projectListJSON);
                 break;
             
+            case "createProject":
+                String projectName = request.getParameter("projectName");
+                
+                ProjectManager.createProject(currentUser, projectName, errorList);
+                
+                String errorListJSON = gson.toJson(errorList);
+                
+                responseOut.println(errorListJSON);
+                break;
+                
             default:
                 
                 break;

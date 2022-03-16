@@ -10,7 +10,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.time.LocalDate;
 import model.Project;
 
 /**
@@ -26,11 +25,10 @@ public class ProjectDB {
         ResultSet resultSet = null;
         
         String query = "INSERT INTO project (projectName, creationDate)"
-                + "VALUES (?, ?)";
+                     + "VALUES (?, ?)";
         
         try {
             statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
-            statement = connection.prepareStatement(query);
             statement.setString(1, name);
             statement.setString(2, creationDate);
             
@@ -56,43 +54,32 @@ public class ProjectDB {
         return keyValue;   
     }
     
-    public static String insertContributer (int projectID, int accountID) throws SQLException{
+    public static void insertContributer (int projectID, int accountID, String tag) throws SQLException{
         ConnectionPool pool = ConnectionPool.getInstance();
         Connection connection = pool.getConnection();
-        String keyValue = "";
         PreparedStatement statement = null;
-        ResultSet resultSet = null;
         
         String query = "INSERT INTO projectPeople (projectID, accountID, tag)"
-                + "VALUES (?, ?)";
+                     + "VALUES (?, ?, ?)";
         
         try {
-            statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
             statement = connection.prepareStatement(query);
             statement.setInt(1, projectID);
             statement.setInt(2, accountID);
-            statement.setString(3, "contributer");
+            statement.setString(3, tag);
             
             statement.executeUpdate();
-            resultSet = statement.getGeneratedKeys();
-            
         } catch (SQLException ex){
             throw ex;
         } finally {
             try {
-                if (resultSet != null && statement != null) {
-                    resultSet.next();
-                    keyValue = resultSet.getString(1);
-                    
-                    resultSet.close();
+                if (statement != null) {
                     statement.close();
                 }
                 pool.freeConnection(connection);
             } catch (SQLException ex) {
                 throw ex;
             }
-        }
-        return keyValue;   
+        } 
     }
-    
 }
