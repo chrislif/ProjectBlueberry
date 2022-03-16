@@ -22,6 +22,7 @@
             <br>
 
             <button class="styledButton" id="projectCreateButton">Create Project</button>
+            <button class="styledButton" id="projectCancelButton">Cancel</button>
         </div>
         
         <button class="styledButton" id="projectNewButton">New Project</button>
