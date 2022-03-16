@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import model.Account;
 import model.Project;
+import model.Sprint;
 
 /**
  *
@@ -30,6 +31,10 @@ public class Private extends HttpServlet {
         Account currentUser = (Account)session.getAttribute("currentUser");
         ArrayList<String> errorList = new ArrayList();
         
+        String errorListJSON;
+        int projectID;
+        ArrayList<Sprint> sprintList;
+        String sprintListJSON;
         Gson gson = new GsonBuilder().setDateFormat("yyyy-Mm-dd").create();
         String action = request.getParameter("action");
         
@@ -47,13 +52,39 @@ public class Private extends HttpServlet {
                 
                 ProjectManager.createProject(currentUser, projectName, errorList);
                 
-                String errorListJSON = gson.toJson(errorList);
+                errorListJSON = gson.toJson(errorList);
                 
                 responseOut.println(errorListJSON);
                 break;
                 
-            default:
+            case "getSprints":
+                projectID = Integer.parseInt(request.getParameter("projectID"));
                 
+                sprintList = ProjectManager.retrieveSprints(projectID, errorList);
+                
+                sprintListJSON = gson.toJson(sprintList);
+                
+                responseOut.println(sprintListJSON);
+                break;
+                
+            case "createSprint":
+                projectID = Integer.parseInt(request.getParameter("projectID"));
+                int sprintNum = Integer.parseInt(request.getParameter("sprintNum"));
+                String sprintName = request.getParameter("sprintName");
+                String sprintStartDate = request.getParameter("sprintStartDate");
+                String sprintEndDate = request.getParameter("sprintEndDate");
+                
+                ProjectManager.createSprint(projectID, sprintNum, sprintName, sprintStartDate, sprintEndDate, errorList);
+                
+                sprintList = ProjectManager.retrieveSprints(projectID, errorList);
+                
+                sprintListJSON = gson.toJson(sprintList);
+                
+                responseOut.println(sprintListJSON);
+                break;
+                        
+            default:
+                responseOut.println("default response, something went wrong");
                 break;
         }
         

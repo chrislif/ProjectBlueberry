@@ -10,14 +10,18 @@
 <main>
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
     <script type="text/javascript" src="page/project/projectHome.js"></script>
+    <script type="text/javascript" src="page/project/sprint.js"></script>
     <script type="text/javascript">
-            var project = JSON.parse('${project}');
-        </script>
+        var project = JSON.parse('${project}');
+    </script>
     <div class="mainContent">
         <div id="projectTitle">
         </div>
 
         <div class="subContent" id="projectOverview">
+        </div>
+        
+        <div class="subContent" id="sprintOverview">
         </div>
         
         <div class="subContent hidden" id="sprintForm">
@@ -43,9 +47,8 @@
             
             <button class="styledButton" id="sprintCreateButton">Create Sprint</button>
             <button class="styledButton" id="sprintCancelButton">Cancel</button>
-            
         </div>
-        <button class="styledButton" id="newSprintButton">Create Sprint</button>
+        <button class="styledButton" id="newSprintButton">New Sprint</button>
     </div>
 </main>
 <jsp:include page="/page/link/footer.jsp"/>

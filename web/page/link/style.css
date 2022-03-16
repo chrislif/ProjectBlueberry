@@ -156,8 +156,14 @@ select:focus {
     border: 2px solid rgb(255, 166, 48);
 }
 
-.contributorTable th {
+.stylizedTable {
+    border-spacing: 20px 5px;
+    text-align: left;
+}
+
+.stylizedTable th {
     border-bottom: 2px solid rgb(0, 167, 225);
+    
 }
 
 footer {

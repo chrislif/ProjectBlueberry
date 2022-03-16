@@ -17,9 +17,7 @@ function showProjectForm() {
 
 function createProject() {
     ajaxGet("private", {'action': 'createProject','projectName': $("#projectNameText").val()}, (result) => {
-        $("#projectNameText").val("");
-        $("#projectNewButton").slideDown(100);
-        $("#projectForm").slideUp(100);        
+        hideProjectForm();      
         retrieveProjects();
     });
 }
@@ -48,6 +46,7 @@ function retrieveProjects() {
 }
 
 function hideProjectForm() {
+    $("#projectNameText").val("");
     $("#projectForm").slideUp(100);
     $("#projectNewButton").slideDown(100);
 }

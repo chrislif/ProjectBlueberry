@@ -1,18 +1,14 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package model;
 
 import java.util.ArrayList;
 
 /**
  *
- * @author jacks
+ * @author jackson
  */
 public class Sprint {
     private int sprintID;
+    private int sprintNum;
     private String sprintName;
     private String sprintStartDate;
     private String sprintEndDate;
@@ -21,12 +17,12 @@ public class Sprint {
     public Sprint() {
     }
 
-    public Sprint(int sprintID, String sprintName, String sprintStartDate, String sprintEndDate, ArrayList<Story> stories) {
+    public Sprint(int sprintID, int sprintNum, String sprintName, String sprintStartDate, String sprintEndDate) {
         this.sprintID = sprintID;
+        this.sprintNum = sprintNum;
         this.sprintName = sprintName;
         this.sprintStartDate = sprintStartDate;
         this.sprintEndDate = sprintEndDate;
-        this.stories = stories;
     }
 
     public int getSprintID() {
@@ -35,6 +31,14 @@ public class Sprint {
 
     public void setSprintID(int sprintID) {
         this.sprintID = sprintID;
+    }
+
+    public int getSprintNum() {
+        return sprintNum;
+    }
+
+    public void setSprintNum(int sprintNum) {
+        this.sprintNum = sprintNum;
     }
 
     public String getSprintName() {
@@ -59,13 +63,5 @@ public class Sprint {
 
     public void setSprintEndDate(String sprintEndDate) {
         this.sprintEndDate = sprintEndDate;
-    }
-
-    public ArrayList<Story> getStories() {
-        return stories;
-    }
-
-    public void setStories(ArrayList<Story> stories) {
-        this.stories = stories;
     }
 }

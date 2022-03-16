@@ -10,7 +10,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import model.Project;
+import model.Sprint;
 
 /**
  *
@@ -54,7 +54,7 @@ public class ProjectDB {
         return keyValue;   
     }
     
-    public static void insertContributer (int projectID, int accountID, String tag) throws SQLException{
+    public static void insertContributer (int projectID, int accountID, String tag) throws SQLException {
         ConnectionPool pool = ConnectionPool.getInstance();
         Connection connection = pool.getConnection();
         PreparedStatement statement = null;
@@ -81,5 +81,36 @@ public class ProjectDB {
                 throw ex;
             }
         } 
+    }
+    
+    public static void createSprint (Sprint sprint, int projectID) throws SQLException {
+        ConnectionPool pool = ConnectionPool.getInstance();
+        Connection connection = pool.getConnection();
+        PreparedStatement statement = null;
+        
+        String query = "INSERT INTO sprint (projectID, sprintNum, sprintName, sprintStart, sprintEnd)"
+                     + "VALUES (?, ?, ?, ?, ?)";
+        
+        try {
+            statement = connection.prepareStatement(query);
+            statement.setInt(1, projectID);
+            statement.setInt(2, sprint.getSprintNum());
+            statement.setString(3, sprint.getSprintName());
+            statement.setString(4, sprint.getSprintStartDate());
+            statement.setString(5, sprint.getSprintEndDate());
+            
+            statement.executeUpdate();
+        } catch (SQLException ex){
+            throw ex;
+        } finally {
+            try {
+                if (statement != null) {
+                    statement.close();
+                }
+                pool.freeConnection(connection);
+            } catch (SQLException ex) {
+                throw ex;
+            }
+        }
     }
 }

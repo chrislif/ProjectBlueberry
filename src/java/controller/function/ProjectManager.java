@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package controller.function;
 
 import data.BlueDB;
@@ -12,6 +7,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import model.Account;
 import model.Project;
+import model.Sprint;
 
 /**
  *
@@ -41,6 +37,25 @@ public class ProjectManager {
     public static Project getProject(int projectID, ArrayList<String> errorList) {
         try {
             return BlueDB.getProject(projectID);
+        } catch (SQLException ex) {
+            errorList.add(ex.getMessage());
+            return null;
+        }
+    }
+    
+    public static void createSprint(int projectID, int sprintNum, String sprintName, String startDate, String endDate, ArrayList<String> errorList) {
+        Sprint newSprint = new Sprint(0, sprintNum, sprintName, startDate, endDate);
+        
+        try {
+            ProjectDB.createSprint(newSprint, projectID);
+        } catch (SQLException ex) {
+            errorList.add(ex.getMessage());
+        }
+    }
+    
+    public static ArrayList<Sprint> retrieveSprints(int projectID, ArrayList<String> errorList) {
+        try {
+            return BlueDB.getSprints(projectID);
         } catch (SQLException ex) {
             errorList.add(ex.getMessage());
             return null;
