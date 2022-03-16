@@ -19,6 +19,7 @@
                 <br>
                 <input type="text" name="email">
                 <br>
+                <br>
 
                 <label for="password">Password: </label>
                 <br>

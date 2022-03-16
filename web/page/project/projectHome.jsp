@@ -20,7 +20,7 @@
 
         </div>
         <div class="subContent hidden" id="sprintForm">
-            <h1>Add A Sprint</h1>
+            <h1>Add A Sprint</h1><br>
             
             <label for="sprintNumber">Sprint #: </label>
             <select name="sprintNumber" id="sprintNumber">
@@ -29,16 +29,16 @@
                     <option value="3">3</option>
                     <option value="4">4</option>
                     <option value="5">5</option>
-            </select><br>
+            </select><br><br>
             
             <label for="sprintName">Sprint Name: </label>
-            <input type="text" name="sprintName" id="sprintName"><br>
+            <input type="text" name="sprintName" id="sprintName"><br><br>
             
             <label for="sprintStartDate">Sprint Start Date: </label>
-            <input type="date" id="sprintStartDate" name="sprintStartDate"><br>
+            <input type="date" id="sprintStartDate" name="sprintStartDate"><br><br>
             
             <label for="sprintEndDate">Sprint End Date: </label>
-            <input type="date" id="sprintEndDate" name="sprintEndDate"><br>
+            <input type="date" id="sprintEndDate" name="sprintEndDate"><br><br>
             
             <button class="styledButton" id="sprintCreateButton">Create Sprint</button>
             <button class="styledButton" id="sprintCancelButton">Cancel</button>

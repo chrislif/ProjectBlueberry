@@ -5,6 +5,7 @@ var projectList;
 $(document).ready(() => {
    $("#projectNewButton").click(showProjectForm); 
    $("#projectCreateButton").click(createProject);
+   $("#projectCancelButton").click(hideProjectForm);
    
    retrieveProjects();
 });
@@ -55,6 +56,11 @@ function retrieveProjects() {
             )
         ));
     });
+}
+
+function hideProjectForm() {
+    $("#projectForm").slideUp(100);
+    $("#projectNewButton").slideDown(100);
 }
 
 var ajaxGet = (url, data, callback) => {
