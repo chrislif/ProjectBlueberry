@@ -72,6 +72,15 @@ body {
     display: none;
 }
 
+.dualTableWrapper {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+}
+
+.dualTableContent {
+    margin: 15px;
+}
+
 .gridWrapper {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr;
@@ -127,7 +136,7 @@ input[type=text], input[type=password], input[type=date] {
     outline: none;
     width: 25%;
     min-width: 200px;
-    padding: 5px 20px;
+    padding: 5px 15px;
     margin: 5px 5px;
     border: 2px solid rgb(0, 167, 225);
     border-radius: 15px;
@@ -145,6 +154,10 @@ select {
 
 select:focus {
     border: 2px solid rgb(255, 166, 48);
+}
+
+.contributorTable th {
+    border-bottom: 2px solid rgb(0, 167, 225);
 }
 
 footer {

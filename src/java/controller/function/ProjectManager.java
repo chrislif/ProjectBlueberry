@@ -37,4 +37,13 @@ public class ProjectManager {
             errorList.add(ex.getMessage());
         }
     }
+    
+    public static Project getProject(int projectID, ArrayList<String> errorList) {
+        try {
+            return BlueDB.getProject(projectID);
+        } catch (SQLException ex) {
+            errorList.add(ex.getMessage());
+            return null;
+        }
+    }
 }

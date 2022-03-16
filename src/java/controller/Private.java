@@ -66,6 +66,7 @@ public class Private extends HttpServlet {
         String action = request.getParameter("action");
         HttpSession session = request.getSession();
         ArrayList<String> errorList = new ArrayList();
+        Gson gson = new Gson();
         
         Account currentUser = (Account) session.getAttribute("currentUser");
         
@@ -76,8 +77,11 @@ public class Private extends HttpServlet {
                 
             case "toProject":
                 String projectID = request.getParameter("projectID");
+                Project selectedProject = ProjectManager.getProject(Integer.parseInt(projectID), errorList);
                 
-                request.setAttribute("projectID", projectID);
+                String projectJSON = gson.toJson(selectedProject);
+                request.setAttribute("project", projectJSON);
+                
                 url = "/page/project/projectHome.jsp";
                 break;
             

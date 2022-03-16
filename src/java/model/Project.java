@@ -16,15 +16,17 @@ public class Project {
     private String projectName;
     private String projectCreationDate;
     public ArrayList<Account> contributors;
+    public ArrayList<Account> managers;
     public ArrayList<Sprint> sprints;
 
     public Project() { }
 
-    public Project(int projectID, String projectName, String projectCreationDate, ArrayList<Account> contributors, ArrayList<Sprint> sprints) {
+    public Project(int projectID, String projectName, String projectCreationDate, ArrayList<Account> contributors, ArrayList<Account> managers, ArrayList<Sprint> sprints) {
         this.projectID = projectID;
         this.projectName = projectName;
         this.projectCreationDate = projectCreationDate;
         this.contributors = contributors;
+        this.managers = managers;
         this.sprints = sprints;
     }
 
@@ -50,21 +52,5 @@ public class Project {
 
     public void setProjectName(String projectName) {
         this.projectName = projectName;
-    }
-
-    public ArrayList<Account> getContributors() {
-        return contributors;
-    }
-
-    public void setContributors(ArrayList<Account> contributors) {
-        this.contributors = contributors;
-    }
-
-    public ArrayList<Sprint> getSprints() {
-        return sprints;
-    }
-
-    public void setSprints(ArrayList<Sprint> sprints) {
-        this.sprints = sprints;
     }
 }

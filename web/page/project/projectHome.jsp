@@ -10,15 +10,16 @@
 <main>
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
     <script type="text/javascript" src="page/project/projectHome.js"></script>
+    <script type="text/javascript">
+            var project = JSON.parse('${project}');
+        </script>
     <div class="mainContent">
-        <h1>Project Home</h1>
-
-        <div class="subContent">
-            <p>
-                <c:out value="${projectID}"/>
-            </p>
-
+        <div id="projectTitle">
         </div>
+
+        <div class="subContent" id="projectOverview">
+        </div>
+        
         <div class="subContent hidden" id="sprintForm">
             <h1>Add A Sprint</h1><br>
             

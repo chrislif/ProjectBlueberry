@@ -10,14 +10,6 @@ $(document).ready(() => {
    retrieveProjects();
 });
 
-class Project {
-    constructor(projectID, projectName, creationDate) {
-        this.projectID = projectID;
-        this.projectName = projectName;
-        this.creationDate = creationDate;
-    }
-}
-
 function showProjectForm() {
     $("#projectForm").slideDown(100);
     $("#projectNewButton").slideUp(100);
@@ -25,9 +17,6 @@ function showProjectForm() {
 
 function createProject() {
     ajaxGet("private", {'action': 'createProject','projectName': $("#projectNameText").val()}, (result) => {
-
-        console.log(result);
-
         $("#projectNameText").val("");
         $("#projectNewButton").slideDown(100);
         $("#projectForm").slideUp(100);        
