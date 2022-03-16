@@ -12,26 +12,28 @@ function displaySprints(sprintList) {
     var sprintHtml = `
         <h2>
             Sprint Overview
-        </h2>
-        <table class="stylizedTable">
-            <tr>
-                <th>Number</th>
-                <th>Name</th>
-                <th>Start Date</th>
-                <th>End Date</th>
-            </tr>`;
+        </h2>`;
     
     sprintList.forEach((sprint) => {
-        sprintHtml +=
-            `<tr>
-                <td>` + sprint.sprintNum + `</td>
-                <td>` + sprint.sprintName + `</td>
-                <td>` + sprint.sprintStartDate + `</td>
-                <td>` + sprint.sprintEndDate + `</td>
-            </tr>`;
+        sprintHtml += 
+            `
+                <div class="sprintCard">
+                    <div class="sprintCardHeader">
+                        <h1 class="sprintName">` + sprint.sprintName + `</h1>
+                        <p class="sprintDate">` + sprint.sprintStartDate + ` - ` + sprint.sprintEndDate + `</p>
+                        <h2>`+ sprint.sprintNum + `</h2> 
+                    </div>
+                    <div class="sprintBody">
+                        <div class="userStoryHeader">
+                            <h1>User Stories</h1>
+                        </div>
+                        <ul class="userStoryList">
+                        </ul>
+                    </div>
+                </div>
+            `
     });
     
-    sprintHtml += `</table>`;
     
     $("#sprintOverview").empty().append(sprintHtml);
 }

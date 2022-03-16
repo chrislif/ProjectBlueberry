@@ -11,6 +11,7 @@
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
     <script type="text/javascript" src="page/project/projectHome.js"></script>
     <script type="text/javascript" src="page/project/sprint.js"></script>
+    <script type="text/javascript" src="page/project/story.js"></script>
     <script type="text/javascript">
         var project = JSON.parse('${project}');
     </script>
@@ -20,35 +21,62 @@
 
         <div class="subContent" id="projectOverview">
         </div>
-        
+
         <div class="subContent" id="sprintOverview">
         </div>
-        
+
         <div class="subContent hidden" id="sprintForm">
             <h1>Add A Sprint</h1><br>
-            
+
             <label for="sprintNumber">Sprint #: </label>
             <select name="sprintNumber" id="sprintNumber">
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
             </select><br><br>
-            
+
             <label for="sprintName">Sprint Name: </label>
             <input type="text" name="sprintName" id="sprintName"><br><br>
-            
+
             <label for="sprintStartDate">Sprint Start Date: </label>
             <input type="date" id="sprintStartDate" name="sprintStartDate"><br><br>
-            
+
             <label for="sprintEndDate">Sprint End Date: </label>
             <input type="date" id="sprintEndDate" name="sprintEndDate"><br><br>
-            
+
             <button class="styledButton" id="sprintCreateButton">Create Sprint</button>
             <button class="styledButton" id="sprintCancelButton">Cancel</button>
         </div>
         <button class="styledButton" id="newSprintButton">New Sprint</button>
+
+        <div class="subContent hidden" id="userStoryForm">
+            <label for="storyName">User Story Name: </label>
+            <input type="text" name="storyName" id="newStoryName"> <br> <br>
+            
+            <label for="storySprintNum">Which Sprint: </label>
+            <select name="priorityLevel">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+            </select> <br> <br>
+            
+            <label for="priorityLevel">Priority: </label>
+            <select name="priorityLevel">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+            </select> <br> <br>
+
+            <button class="styledButton" id="storyCreateButton">Create Sprint</button>
+            <button class="styledButton" id="storyCancelButton">Cancel</button>
+        </div>
+        <button class="styledButton" id="newStoryButton">New User Story</button>
     </div>
 </main>
 <jsp:include page="/page/link/footer.jsp"/>
