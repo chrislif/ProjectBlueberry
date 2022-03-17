@@ -82,7 +82,15 @@ public class Private extends HttpServlet {
                 
                 responseOut.println(sprintListJSON);
                 break;
-                        
+               
+            case "getStories":
+            
+                break;
+                
+            case "createStory":
+                
+                break;
+                
             default:
                 responseOut.println("default response, something went wrong");
                 break;

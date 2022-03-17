@@ -26,7 +26,7 @@
         </div>
 
         <div class="subContent hidden" id="sprintForm">
-            <h1>Add A Sprint</h1><br>
+            <h2>Add A Sprint</h2><br>
 
             <label for="sprintNumber">Sprint #: </label>
             <select name="sprintNumber" id="sprintNumber">
@@ -51,11 +51,13 @@
         </div>
 
         <div class="subContent hidden" id="userStoryForm">
+            <h2>Add A Story</h2><br>
+            
             <label for="storyName">User Story Name: </label>
             <input type="text" name="storyName" id="newStoryName"> <br> <br>
             
             <label for="storySprintNum">Which Sprint: </label>
-            <select name="priorityLevel">
+            <select name="storySprintNum" id="storySprintNum">
                 <option value="1">1</option>
                 <option value="2">2</option>
                 <option value="3">3</option>
@@ -64,7 +66,7 @@
             </select> <br> <br>
             
             <label for="priorityLevel">Priority: </label>
-            <select name="priorityLevel">
+            <select name="priorityLevel" id="storyPriorityLevel">
                 <option value="1">1</option>
                 <option value="2">2</option>
                 <option value="3">3</option>

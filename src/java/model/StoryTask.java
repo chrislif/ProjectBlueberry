@@ -9,19 +9,23 @@ package model;
  *
  * @author jacks
  */
-class Task {
+public class StoryTask {
     private int taskID;
     private String taskName;
-    private String taskDescription;
+    private int taskPriority;
+    private int taskTime;
+    private String taskDetails;
     private Boolean taskCompleted;
 
-    public Task() {
+    public StoryTask() {
     }
 
-    public Task(int taskID, String taskName, String taskDescription, Boolean taskCompleted) {
+    public StoryTask(int taskID, String taskName, int taskPriority, int taskTime, String taskDetails, Boolean taskCompleted) {
         this.taskID = taskID;
         this.taskName = taskName;
-        this.taskDescription = taskDescription;
+        this.taskPriority = taskPriority;
+        this.taskTime = taskTime;
+        this.taskDetails = taskDetails;
         this.taskCompleted = taskCompleted;
     }
 
@@ -41,12 +45,28 @@ class Task {
         this.taskName = taskName;
     }
 
-    public String getTaskDescription() {
-        return taskDescription;
+    public int getTaskPriority() {
+        return taskPriority;
     }
 
-    public void setTaskDescription(String taskDescription) {
-        this.taskDescription = taskDescription;
+    public void setTaskPriority(int taskPriority) {
+        this.taskPriority = taskPriority;
+    }
+
+    public int getTaskTime() {
+        return taskTime;
+    }
+
+    public void setTaskTime(int taskTime) {
+        this.taskTime = taskTime;
+    }
+
+    public String getTaskDetails() {
+        return taskDetails;
+    }
+
+    public void setTaskDetails(String taskDetails) {
+        this.taskDetails = taskDetails;
     }
 
     public Boolean getTaskCompleted() {
@@ -56,6 +76,4 @@ class Task {
     public void setTaskCompleted(Boolean taskCompleted) {
         this.taskCompleted = taskCompleted;
     }
-    
-    
 }

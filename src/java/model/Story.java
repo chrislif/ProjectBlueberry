@@ -14,19 +14,16 @@ import java.util.ArrayList;
 public class Story {
     private int storyID;
     private String storyName;
-    private String storyDescription;
     private int storyPriority;
-    public ArrayList<Task> tasks;
+    public ArrayList<StoryTask> tasks;
 
     public Story() {
     }
 
-    public Story(int storyID, String storyName, String storyDescription, int storyPriority, ArrayList<Task> tasks) {
+    public Story(int storyID, String storyName, int storyPriority) {
         this.storyID = storyID;
         this.storyName = storyName;
-        this.storyDescription = storyDescription;
         this.storyPriority = storyPriority;
-        this.tasks = tasks;
     }
 
     public int getStoryID() {
@@ -45,14 +42,6 @@ public class Story {
         this.storyName = storyName;
     }
 
-    public String getStoryDescription() {
-        return storyDescription;
-    }
-
-    public void setStoryDescription(String storyDescription) {
-        this.storyDescription = storyDescription;
-    }
-
     public int getStoryPriority() {
         return storyPriority;
     }
@@ -60,14 +49,4 @@ public class Story {
     public void setStoryPriority(int storyPriority) {
         this.storyPriority = storyPriority;
     }
-
-    public ArrayList<Task> getTasks() {
-        return tasks;
-    }
-
-    public void setTasks(ArrayList<Task> tasks) {
-        this.tasks = tasks;
-    }
-    
-    
 }

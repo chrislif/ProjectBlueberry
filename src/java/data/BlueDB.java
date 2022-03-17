@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import model.Account;
 import model.Project;
 import model.Sprint;
+import model.Story;
+import model.StoryTask;
 
 /**
  *
@@ -39,8 +41,7 @@ public class BlueDB {
                 project.setProjectID(resultSet.getInt("projectID"));
                 project.setProjectName(resultSet.getString("projectName"));
                 project.setProjectCreationDate(resultSet.getString("creationDate"));
-                project.contributors = getContributers(project);
-                project.managers = getManagers(project);
+                
                 projectList.add(project);
             }
         } catch (SQLException ex){
@@ -198,10 +199,12 @@ public class BlueDB {
             Sprint sprint;
             while (resultSet.next()){
                 sprint = new Sprint();
+                sprint.setSprintID(resultSet.getInt("sprintID"));
                 sprint.setSprintNum(resultSet.getInt("sprintNum"));
                 sprint.setSprintName(resultSet.getString("sprintName"));
                 sprint.setSprintStartDate(resultSet.getString("sprintStart"));
                 sprint.setSprintEndDate(resultSet.getString("sprintEnd"));
+                sprint.stories = getStories(sprint.getSprintID());
                 
                 sprints.add(sprint);
             }
@@ -219,6 +222,91 @@ public class BlueDB {
             }
         }
         return sprints;
+    }
+    
+    public static ArrayList<Story> getStories(int sprintID) throws SQLException {
+        ConnectionPool pool = ConnectionPool.getInstance();
+        Connection connection = pool.getConnection();
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+        ArrayList<Story> stories = new ArrayList();
+        
+        String query = "SELECT * FROM stories WHERE sprintID = ?";
+        try {
+            statement = connection.prepareStatement(query);
+            statement.setString(1, Integer.toString(sprintID));
+            resultSet = statement.executeQuery();
+            
+            Story story;
+            while (resultSet.next()){
+                story = new Story();
+                story.setStoryID(resultSet.getInt("storyID"));
+                story.setStoryName(resultSet.getString("storyName"));
+                story.setStoryPriority(resultSet.getInt("storyPriority"));
+                story.tasks = getTasks(story.getStoryID());
+                
+                stories.add(story);
+            }
+        } catch (SQLException ex) {
+            throw ex;
+        } finally {
+            try {
+                if (resultSet != null && statement != null) {
+                    resultSet.close();
+                    statement.close();
+                }
+                pool.freeConnection(connection);
+            } catch (SQLException ex) {
+                throw ex;
+            }
+        }
+        return stories;
+    }
+    
+    public static ArrayList<StoryTask> getTasks(int storyID) throws SQLException {
+        ConnectionPool pool = ConnectionPool.getInstance();
+        Connection connection = pool.getConnection();
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+        ArrayList<StoryTask> tasks = new ArrayList();
+        
+        String query = "SELECT * FROM tasks WHERE storyID = ?";
+        try {
+            statement = connection.prepareStatement(query);
+            statement.setString(1, Integer.toString(storyID));
+            resultSet = statement.executeQuery();
+            
+            StoryTask task;
+            while (resultSet.next()){
+                task = new StoryTask();
+                task.setTaskID(resultSet.getInt("taskID"));
+                task.setTaskName(resultSet.getString("taskName"));
+                task.setTaskPriority(resultSet.getInt("taskPriority"));
+                task.setTaskTime(resultSet.getInt("taskTime"));
+                task.setTaskDetails(resultSet.getString("taskDetails"));
+                int completedInt = resultSet.getInt("taskCompleted");
+                if (completedInt > 0){
+                    task.setTaskCompleted(true);
+                } else {
+                    task.setTaskCompleted(false);
+                }
+                
+                tasks.add(task);
+            }
+        } catch (SQLException ex) {
+            throw ex;
+        } finally {
+            try {
+                if (resultSet != null && statement != null) {
+                    resultSet.close();
+                    statement.close();
+                }
+                pool.freeConnection(connection);
+            } catch (SQLException ex) {
+                throw ex;
+            }
+        }
+        return tasks;
     }
 }
 

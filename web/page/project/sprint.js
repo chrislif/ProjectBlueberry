@@ -15,27 +15,19 @@ function displaySprints(sprintList) {
         </h2>`;
     
     sprintList.forEach((sprint) => {
+        console.log(sprint);
         sprintHtml += 
-            `
-                <div class="sprintCard">
-                    <div class="sprintCardHeader">
-                        <h2 class="sprintName">` + sprint.sprintName + `</h2>
-                        <p class="sprintDate">` + sprint.sprintStartDate + ` - ` + sprint.sprintEndDate + `</p>
-                        <h2>`+ sprint.sprintNum + `</h2> 
-                    </div>
-                    <div class="sprintBody">
-                        <div class="userStoryHeader">
-                            <h2>User Stories</h2>
-                        </div>
-                        <div class="storyCard">
-                            <ul class="userStoryList">
-                            </ul>
-                        </div>
-                    </div>
+            `<div class="sprintCard">
+                <div class="sprintCardHeader">
+                    <h2 class="sprintName">` + sprint.sprintName + `</h2>
+                    <p class="sprintDate">` + sprint.sprintStartDate + ` to ` + sprint.sprintEndDate + `</p>
+                    <h3>`+ sprint.sprintNum + `</h3> 
                 </div>
-            `
+                <div class="storyCard">
+                    <h3 class="storyName">` + sprint.sprintName + `</h3>
+                </div>
+            </div>`;
     });
-    
     
     $("#sprintOverview").empty().append(sprintHtml);
 }
@@ -70,8 +62,6 @@ function hideSprintForm() {
 }
 
 function createSprint() {
-    $("#sprintNumber").val();
-    
     ajaxGet('private', {'action': 'createSprint', 
                         'projectID': project.projectID,
                         'sprintNum': $("#sprintNumber option:selected").val(), 
