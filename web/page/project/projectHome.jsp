@@ -49,7 +49,6 @@
             <button class="styledButton" id="sprintCreateButton">Create Sprint</button>
             <button class="styledButton" id="sprintCancelButton">Cancel</button>
         </div>
-        <button class="styledButton" id="newSprintButton">New Sprint</button>
 
         <div class="subContent hidden" id="userStoryForm">
             <label for="storyName">User Story Name: </label>
@@ -76,6 +75,8 @@
             <button class="styledButton" id="storyCreateButton">Create Sprint</button>
             <button class="styledButton" id="storyCancelButton">Cancel</button>
         </div>
+        
+        <button class="styledButton" id="newSprintButton">New Sprint</button>
         <button class="styledButton" id="newStoryButton">New User Story</button>
     </div>
 </main>

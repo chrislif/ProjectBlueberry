@@ -19,16 +19,18 @@ function displaySprints(sprintList) {
             `
                 <div class="sprintCard">
                     <div class="sprintCardHeader">
-                        <h1 class="sprintName">` + sprint.sprintName + `</h1>
+                        <h2 class="sprintName">` + sprint.sprintName + `</h2>
                         <p class="sprintDate">` + sprint.sprintStartDate + ` - ` + sprint.sprintEndDate + `</p>
                         <h2>`+ sprint.sprintNum + `</h2> 
                     </div>
                     <div class="sprintBody">
                         <div class="userStoryHeader">
-                            <h1>User Stories</h1>
+                            <h2>User Stories</h2>
                         </div>
-                        <ul class="userStoryList">
-                        </ul>
+                        <div class="storyCard">
+                            <ul class="userStoryList">
+                            </ul>
+                        </div>
                     </div>
                 </div>
             `

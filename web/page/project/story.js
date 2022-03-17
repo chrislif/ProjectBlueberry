@@ -16,3 +16,7 @@ function hideStoryForm() {
     $("#userStoryForm").slideUp(100);
     $("#newStoryButton").show();
 }
+
+function createStory() {
+    
+}
