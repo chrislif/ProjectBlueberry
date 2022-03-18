@@ -5,6 +5,12 @@ $(document).ready(() => {
     $("#sprintCancelButton").click(hideSprintForm);
     $("#sprintCreateButton").click(createSprint);
     
+    $(window).click(function(e) {
+        if (e.target.id === "mainModal") {
+            $("#mainModal").fadeOut(100);
+        }
+    });
+    
     displaySprints(project.sprints);
 });
 
@@ -58,7 +64,7 @@ function displaySprints(sprintList) {
                 $("#mainModal").fadeOut(500);
             });
             
-            $("mainModal").fadeIn(200);
+            $("#mainModal").fadeIn(200);
         });
     });
 }
