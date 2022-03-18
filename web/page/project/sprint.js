@@ -22,32 +22,54 @@ function displaySprints(sprintList) {
 
     sprintList.forEach((sprint) => {
         console.log(sprint);
-        sprintHtml +=
-                `<div class="sprintCard">
+        sprintHtml += `
+            <div class="sprintCard">
                 <div class="sprintCardHeader">
                     <h2 class="sprintName">` + sprint.sprintName + `</h2>
                     <p class="sprintDate">` + sprint.sprintStartDate + ` to ` + sprint.sprintEndDate + `</p>
                     <h3>` + sprint.sprintNum + `</h3> 
-                </div>
+                </div>`;
+        
+            sprint.stories.forEach((story) => {
+                sprintHtml += `
                 <div class="storyCard">
                     <div class="storyCardHeader">
-                        <h3 class="storyName">User Story (Creation of Tasks)</h3>
+                        <h3 class="storyName">Story: ` + story.storyName + `</h3>
                         <button class="styledButton" id="newTaskButton">New Task</button>
                     </div>
-                    <table class="userStoryTable">
+                    <table class="stylizedTable">
                         <tr>
-                            <th>To-Do</th>
-                            <th>Doing</th>
-                            <th>Done</th>
-                        </tr>
+                            <th>Task Name</th>
+                            <th>Task Priority</th>
+                            <th>Task Details</th>
+                        </tr>`;
+            
+                story.tasks.forEach((task) => {
+                        sprintHtml += `
+                        <tr>
+                            <td>` + task.taskName + `</td>
+                            <td>` + task.taskPriority + `</td>
+                            <td>` + task.taskDetails + `</td>
+                        </tr>`;
+                    });
+
+                sprintHtml += `
                     </table>
-                </div>
+                    <div>
+                        <table class="stylizedTable">
+                            <tr>
+                                <th>To-Do</th>
+                                <th>Doing</th>
+                                <th>Done</th>
+                            </tr>
+                        </table>
+                    </div>
+                </div>`;
+            });
+            
+        sprintHtml += `
                 <button class="styledButton" id="newStoryButton` + sprint.sprintID + `" data-sprintid="` + sprint.sprintID + `">New Story</button>
             </div>`;
-        
-        sprint.stories.forEach((story) => {
-            console.log(story);
-        });
 
     });
 
@@ -75,7 +97,7 @@ function displaySprints(sprintList) {
                                 <option value="5">5</option>
                             </select> <br> <br>
 
-                            <button class="styledButton" id="storyCreateButton">Create Sprint</button>
+                            <button class="styledButton" id="storyCreateButton">Create Story</button>
                         </div>
                     </div>`);
 

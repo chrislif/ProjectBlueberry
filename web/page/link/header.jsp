@@ -25,14 +25,14 @@
                         <li>
                             <form action="public" method="post">
                                 <input type="hidden" name="action" value="toHome">
-                                <input type="submit" value="Home" class="navbutton">
+                                <input type="submit" value="Home" class="navbutton primaryColor">
                             </form>
                         </li>
                         <c:if test="${currentUser != null}">
                             <li>
                                 <form action="private" method="post">
                                     <input type="hidden" name="action" value="toOverview">
-                                    <input type="submit" value="Overview" class="navbutton">
+                                    <input type="submit" value="Overview" class="navbutton primaryColor">
                                 </form>
                             </li>
                         </c:if>
