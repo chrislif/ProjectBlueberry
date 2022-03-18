@@ -39,12 +39,28 @@ function displaySprints(sprintList) {
                 <button class="styledButton" id="newStoryButton`+sprint.sprintID+`" data-sprintid="`+sprint.sprintID+`">New Story</button>
             </div>`;
         
-        $("#newStoryButton" + sprint.sprintID).click(() => {
-            console.log($(this).attr("data-sprintID"));
-        });
     });
     
     $("#sprintOverview").empty().append(sprintHtml);
+    
+    sprintList.forEach((sprint) => {
+        $("#newStoryButton" + sprint.sprintID).click(function() {
+            console.log($(this).attr("data-sprintid"));
+            
+            $("#mainModal").html(
+                    `<div id="modalBox" class="modalContent">
+                        <span id="modalCloseButton" class="closeButton">&times;</span>
+                        <div id="modalContent">
+                        </div>
+                    </div>`);
+            
+            $("#modalCloseButton").click(() => {
+                $("#mainModal").fadeOut(500);
+            });
+            
+            $("mainModal").fadeIn(200);
+        });
+    });
 }
 
 function showSprintForm() {

@@ -16,6 +16,7 @@
         var project = JSON.parse('${project}');
     </script>
     <div class="mainContent">
+        
         <div id="projectTitle">
         </div>
 
@@ -52,10 +53,10 @@
 
         <div class="subContent hidden" id="userStoryForm">
             <h2>Add A Story</h2><br>
-            
+
             <label for="storyName">User Story Name: </label>
             <input type="text" name="storyName" id="newStoryName"> <br> <br>
-            
+
             <label for="storySprintNum">Which Sprint: </label>
             <select name="storySprintNum" id="storySprintNum">
                 <option value="1">1</option>
@@ -64,7 +65,7 @@
                 <option value="4">4</option>
                 <option value="5">5</option>
             </select> <br> <br>
-            
+
             <label for="priorityLevel">Priority: </label>
             <select name="priorityLevel" id="storyPriorityLevel">
                 <option value="1">1</option>
@@ -77,9 +78,13 @@
             <button class="styledButton" id="storyCreateButton">Create Sprint</button>
             <button class="styledButton" id="storyCancelButton">Cancel</button>
         </div>
-        
+
         <button class="styledButton" id="newSprintButton">New Sprint</button>
         <button class="styledButton" id="newStoryButton">New User Story</button>
+        
+        <div id="mainModal" class="modalBackground">
+        </div>
     </div>
+
 </main>
 <jsp:include page="/page/link/footer.jsp"/>
