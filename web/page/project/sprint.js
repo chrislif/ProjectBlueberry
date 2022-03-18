@@ -24,9 +24,24 @@ function displaySprints(sprintList) {
                     <h3>`+ sprint.sprintNum + `</h3> 
                 </div>
                 <div class="storyCard">
-                    <h3 class="storyName">` + sprint.sprintName + `</h3>
+                    <div class="storyCardHeader">
+                        <h3 class="storyName">User Story (Creation of Tasks)</h3>
+                        <button class="styledButton" id="newTaskButton">New Task</button>
+                    </div>
+                    <table class="userStoryTable">
+                        <tr>
+                            <th>To-Do</th>
+                            <th>Doing</th>
+                            <th>Done</th>
+                        </tr>
+                    </table>
                 </div>
+                <button class="styledButton" id="newStoryButton`+sprint.sprintID+`" data-sprintid="`+sprint.sprintID+`">New Story</button>
             </div>`;
+        
+        $("#newStoryButton" + sprint.sprintID).click(() => {
+            console.log($(this).attr("data-sprintID"));
+        });
     });
     
     $("#sprintOverview").empty().append(sprintHtml);
