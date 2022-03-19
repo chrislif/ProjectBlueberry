@@ -2,7 +2,6 @@
 
 $(document).ready(() => {
     $("#newSprintButton").click(showSprintForm);
-    $("#sprintCancelButton").click(hideSprintForm);
     $("#sprintCreateButton").click(createSprint);
 
     $(window).click(function (e) {
@@ -10,7 +9,7 @@ $(document).ready(() => {
             $("#mainModal").fadeOut(100);
         }
     });
-            
+
     displaySprints(project.sprints);
 });
 
@@ -29,13 +28,13 @@ function displaySprints(sprintList) {
                     <p class="sprintDate">` + sprint.sprintStartDate + ` to ` + sprint.sprintEndDate + `</p>
                     <h3>` + sprint.sprintNum + `</h3> 
                 </div>`;
-        
-            sprint.stories.forEach((story) => {
-                sprintHtml += `
+
+        sprint.stories.forEach((story) => {
+            sprintHtml += `
                 <div class="storyCard">
                     <div class="storyCardHeader">
                         <h3 class="storyName">Story: ` + story.storyName + `</h3>
-                        <button class="styledButton" id="newTaskButton">New Task</button>
+                        <button class="styledButton" id="newTaskButton` + story.storyID + `" data-storyid="` + story.storyID + `">New Task</button>
                     </div>
                     <table class="stylizedTable">
                         <tr>
@@ -43,17 +42,17 @@ function displaySprints(sprintList) {
                             <th>Task Priority</th>
                             <th>Task Details</th>
                         </tr>`;
-            
-                story.tasks.forEach((task) => {
-                        sprintHtml += `
+
+            story.tasks.forEach((task) => {
+                sprintHtml += `
                         <tr>
                             <td>` + task.taskName + `</td>
                             <td>` + task.taskPriority + `</td>
                             <td>` + task.taskDetails + `</td>
                         </tr>`;
-                    });
+            });
 
-                sprintHtml += `
+            sprintHtml += `
                     </table>
                     <div>
                         <table class="stylizedTable">
@@ -65,8 +64,8 @@ function displaySprints(sprintList) {
                         </table>
                     </div>
                 </div>`;
-            });
-            
+        });
+
         sprintHtml += `
                 <button class="styledButton" id="newStoryButton` + sprint.sprintID + `" data-sprintid="` + sprint.sprintID + `">New Story</button>
             </div>`;
@@ -107,12 +106,80 @@ function displaySprints(sprintList) {
 
             $("#mainModal").fadeIn(200);
         });
+
+        // Creates the click event for the create task form
+        sprint.stories.forEach((story) => {
+            $("#newTaskButton" + story.storyID).click(function () {
+
+                $("#mainModal").html(
+                        `<div id="modalBox" class="modalContent">
+                    <span id="modalCloseButton" class="closeButton">&times;</span>
+                    <div id="modalContent">
+                        <h2>Add a Task to ` + story.storyName + `</h2><br>
+                
+                        <label for="taskName">Task Name: </label>
+                        <input type="text" name="taskName" id="newTaskNAme"> <br> <br>
+                
+                        <label for="taskDetails">Task Details: </label>
+                        <input type="text" name="taskDetails" id="newTaskDetails"> <br> <br>
+                
+                        <label for="taskTime">Task Time (In Hours): </label>
+                        <input type="text" name="taskTime" id="newTaskTime"> <br> <br>
+                
+                        <label for="taskPriorityLevel">Priority: </label>
+                        <select name="taskPriorityLevel" id="taskPriorityLevel">
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                        </select> <br> <br>
+                
+                        <button class="styledButton" id="taskCreateButton">Create Task</button>
+                    </div>
+                </div>`
+                        );
+                $("#modalCloseButton").click(() => {
+                    $("#mainModal").fadeOut(500);
+                });
+
+                $("#mainModal").fadeIn(200);
+            });
+        });
+
     });
+
+
 }
 
 function showSprintForm() {
-    $("#sprintForm").slideDown(100);
-    $("#newSprintButton").hide();
+    $("#mainModal").html(
+            `<div id="modalBox" class="modalContent">
+                <span id="modalCloseButton" class="closeButton">&times;</span>
+                <div id="modalContent">
+                    <h2>Add A Sprint</h2><br>
+
+                    <label for="sprintNumber">Sprint #: </label>
+                    <select name="sprintNumber" id="sprintNumber">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                    </select><br><br>
+
+                    <label for="sprintName">Sprint Name: </label>
+                    <input type="text" name="sprintName" id="sprintName"><br><br>
+
+                    <label for="sprintStartDate">Sprint Start Date: </label>
+                    <input type="date" id="sprintStartDate" name="sprintStartDate"><br><br>
+
+                    <label for="sprintEndDate">Sprint End Date: </label>
+                    <input type="date" id="sprintEndDate" name="sprintEndDate"><br><br>
+
+                    <button class="styledButton" id="sprintCreateButton">Create Sprint</button>
+                </div>
+            </div>`);
 
     var today = new Date();
     var dd = today.getDate();
@@ -129,14 +196,12 @@ function showSprintForm() {
 
     $("#sprintStartDate").val(today);
     $("#sprintEndDate").val(today);
-}
 
-function hideSprintForm() {
-    $("#sprintNumber").val(1);
-    $("#sprintName").val("");
+    $("#modalCloseButton").click(() => {
+        $("#mainModal").fadeOut(500);
+    });
 
-    $("#sprintForm").slideUp(100);
-    $("#newSprintButton").fadeIn(100);
+    $("#mainModal").fadeIn(200);
 }
 
 function createSprint() {
