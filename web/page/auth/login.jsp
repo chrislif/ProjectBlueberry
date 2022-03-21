@@ -12,8 +12,7 @@
     <div class="mainContent">
         <h1>Login Here</h1>
         <div class="subContent">
-            <form action="public" method="post">
-                <input type="hidden" name="action" value="authorize">
+            <form action="Authorize" method="post">
 
                 <label for="email">Email: </label>
                 <br>

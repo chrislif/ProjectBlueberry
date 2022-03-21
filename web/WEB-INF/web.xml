@@ -8,13 +8,21 @@
         <servlet-name>Controller</servlet-name>
         <url-pattern>/public</url-pattern>
     </servlet-mapping>
-       <servlet>
+    <servlet>
         <servlet-name>PrivateController</servlet-name>
         <servlet-class>controller.Private</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>PrivateController</servlet-name>
         <url-pattern>/private</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>Authorize</servlet-name>
+        <servlet-class>controller.Authorize</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Authorize</servlet-name>
+        <url-pattern>/Authorize</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
