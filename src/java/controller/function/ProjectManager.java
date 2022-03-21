@@ -2,6 +2,7 @@ package controller.function;
 
 import data.BlueDB;
 import data.ProjectDB;
+import data.SprintDB;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -47,7 +48,7 @@ public class ProjectManager {
         Sprint newSprint = new Sprint(0, sprintNum, sprintName, startDate, endDate);
         
         try {
-            ProjectDB.createSprint(newSprint, projectID);
+            SprintDB.createSprint(newSprint, projectID);
         } catch (SQLException ex) {
             errorList.add(ex.getMessage());
         }

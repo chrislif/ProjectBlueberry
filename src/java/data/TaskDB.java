@@ -1,0 +1,225 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package data;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import model.StoryTask;
+
+/**
+ *
+ * @author al725845
+ */
+public class TaskDB {
+
+    public static void createTask(StoryTask task, int storyID) throws SQLException {
+        ConnectionPool pool = ConnectionPool.getInstance();
+        Connection connection = pool.getConnection();
+        PreparedStatement statement = null;
+
+        String query = "INSERT INTO tasks (taskName, storyID, taskPriority, taskTime, taskDetails, taskCompleted)"
+                + "VALUES (?, ?, ?, ?, ?, ?)";
+
+        try {
+            statement = connection.prepareStatement(query);
+            statement.setString(1, task.getTaskName());
+            statement.setInt(2, storyID);
+            statement.setInt(3, task.getTaskPriority());
+            statement.setInt(4, task.getTaskTime());
+            statement.setString(5, task.getTaskDetails());
+            statement.setBoolean(6, task.getTaskCompleted());
+
+            statement.executeUpdate();
+        } catch (SQLException ex) {
+            throw ex;
+        } finally {
+            try {
+                if (statement != null) {
+                    statement.close();
+                }
+                pool.freeConnection(connection);
+            } catch (SQLException ex) {
+                throw ex;
+            }
+        }
+    }
+
+    public static int updateTaskName(int taskID, String name) throws SQLException {
+        ConnectionPool pool = ConnectionPool.getInstance();
+        Connection connection = pool.getConnection();
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+
+        String query = "UPDATE tasks SET taskName = ? WHERE taskID = ?";
+
+        try {
+            statement = connection.prepareStatement(query);
+            statement.setInt(1, taskID);
+            statement.setString(2, name);
+
+            return statement.executeUpdate();
+        } catch (SQLException ex) {
+            throw ex;
+        } finally {
+            try {
+                if (resultSet != null && statement != null) {
+                    resultSet.close();
+                    statement.close();
+                }
+                pool.freeConnection(connection);
+            } catch (SQLException e) {
+                throw e;
+            }
+        }
+    }
+
+    public static int updateTaskDetails(int taskID, String details) throws SQLException {
+        ConnectionPool pool = ConnectionPool.getInstance();
+        Connection connection = pool.getConnection();
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+
+        String query = "UPDATE tasks SET taskDetails = ? WHERE taskID = ?";
+
+        try {
+            statement = connection.prepareStatement(query);
+            statement.setInt(1, taskID);
+            statement.setString(2, details);
+
+            return statement.executeUpdate();
+        } catch (SQLException ex) {
+            throw ex;
+        } finally {
+            try {
+                if (resultSet != null && statement != null) {
+                    resultSet.close();
+                    statement.close();
+                }
+                pool.freeConnection(connection);
+            } catch (SQLException e) {
+                throw e;
+            }
+        }
+    }
+
+    public static int updateTaskPriority(int taskID, int priority) throws SQLException {
+        ConnectionPool pool = ConnectionPool.getInstance();
+        Connection connection = pool.getConnection();
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+
+        String query = "UPDATE tasks SET taskPriority = ? WHERE taskID = ?";
+
+        try {
+            statement = connection.prepareStatement(query);
+            statement.setInt(1, taskID);
+            statement.setInt(2, priority);
+
+            return statement.executeUpdate();
+        } catch (SQLException ex) {
+            throw ex;
+        } finally {
+            try {
+                if (resultSet != null && statement != null) {
+                    resultSet.close();
+                    statement.close();
+                }
+                pool.freeConnection(connection);
+            } catch (SQLException e) {
+                throw e;
+            }
+        }
+    }
+
+    public static int updateTaskTime(int taskID, int time) throws SQLException {
+        ConnectionPool pool = ConnectionPool.getInstance();
+        Connection connection = pool.getConnection();
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+
+        String query = "UPDATE tasks SET taskTime = ? WHERE taskID = ?";
+
+        try {
+            statement = connection.prepareStatement(query);
+            statement.setInt(1, taskID);
+            statement.setInt(2, time);
+
+            return statement.executeUpdate();
+        } catch (SQLException ex) {
+            throw ex;
+        } finally {
+            try {
+                if (resultSet != null && statement != null) {
+                    resultSet.close();
+                    statement.close();
+                }
+                pool.freeConnection(connection);
+            } catch (SQLException e) {
+                throw e;
+            }
+        }
+    }
+
+    public static int updateTaskCompleted(int taskID, Boolean completed) throws SQLException {
+        ConnectionPool pool = ConnectionPool.getInstance();
+        Connection connection = pool.getConnection();
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+
+        String query = "UPDATE tasks SET taskCompleted = ? WHERE taskID = ?";
+
+        try {
+            statement = connection.prepareStatement(query);
+            statement.setInt(1, taskID);
+            statement.setBoolean(2, completed);
+
+            return statement.executeUpdate();
+        } catch (SQLException ex) {
+            throw ex;
+        } finally {
+            try {
+                if (resultSet != null && statement != null) {
+                    resultSet.close();
+                    statement.close();
+                }
+                pool.freeConnection(connection);
+            } catch (SQLException e) {
+                throw e;
+            }
+        }
+    }
+
+    public static int updateTaskCompleted(int taskID, int storyID) throws SQLException {
+        ConnectionPool pool = ConnectionPool.getInstance();
+        Connection connection = pool.getConnection();
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+
+        String query = "UPDATE tasks SET soryID = ? WHERE taskID = ?";
+
+        try {
+            statement = connection.prepareStatement(query);
+            statement.setInt(1, taskID);
+            statement.setInt(2, storyID);
+
+            return statement.executeUpdate();
+        } catch (SQLException ex) {
+            throw ex;
+        } finally {
+            try {
+                if (resultSet != null && statement != null) {
+                    resultSet.close();
+                    statement.close();
+                }
+                pool.freeConnection(connection);
+            } catch (SQLException e) {
+                throw e;
+            }
+        }
+    }
+}
