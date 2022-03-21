@@ -98,6 +98,8 @@ function displaySprints(sprintList) {
                         </div>
                     </div>`);
             
+            $("#storyCreateButton").click(createStory);
+            
             $("#modalCloseButton").click(() => {
                 $("#mainModal").fadeOut(500);
             });
