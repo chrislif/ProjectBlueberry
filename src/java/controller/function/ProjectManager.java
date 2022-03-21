@@ -1,6 +1,5 @@
 package controller.function;
 
-import data.BlueDB;
 import data.ProjectDB;
 import data.SprintDB;
 import data.StoryDB;
