@@ -6,13 +6,18 @@ $(document).ready(() => {
 
 function createStory() {
     ajaxGet('private', {'action': 'createStory',
-                        'projectID': project.projectID,
                         'storyName': $("#newStoryName").val(),
-                        'sprintNum': $("#storySprintNum option:selected").val(),
+                        'sprintID': $(this).attr("data-sprintid"),
                         'storyPriority': $("#storyPriorityLevel option:selected").val()},
                             (result) => {
-        hideStoryForm();
+        $("#mainModal").fadeOut(500);
+        updateStories($(this).attr("data-sprintid"), result);
     });
+}
+
+function updateStories(sprintID, storyList) {
+    console.log(sprintID);
+    console.log(storyList);
 }
 
 var ajaxGet = (url, data, callback) => {

@@ -11,6 +11,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import model.Sprint;
+import model.Story;
 
 /**
  *
@@ -98,6 +99,35 @@ public class ProjectDB {
             statement.setString(3, sprint.getSprintName());
             statement.setString(4, sprint.getSprintStartDate());
             statement.setString(5, sprint.getSprintEndDate());
+            
+            statement.executeUpdate();
+        } catch (SQLException ex){
+            throw ex;
+        } finally {
+            try {
+                if (statement != null) {
+                    statement.close();
+                }
+                pool.freeConnection(connection);
+            } catch (SQLException ex) {
+                throw ex;
+            }
+        }
+    }
+    
+    public static void createStory (Story story, int sprintID) throws SQLException {
+        ConnectionPool pool = ConnectionPool.getInstance();
+        Connection connection = pool.getConnection();
+        PreparedStatement statement = null;
+        
+        String query = "INSERT INTO stories (sprintID, storyName, storyPriority)"
+                     + "VALUES (?, ?, ?)";
+        
+        try {
+            statement = connection.prepareStatement(query);
+            statement.setInt(1, sprintID);
+            statement.setString(2, story.getStoryName());
+            statement.setInt(3, story.getStoryPriority());
             
             statement.executeUpdate();
         } catch (SQLException ex){

@@ -20,7 +20,6 @@ function displaySprints(sprintList) {
         </h2>`;
 
     sprintList.forEach((sprint) => {
-        console.log(sprint);
         sprintHtml += `
             <div class="sprintCard">
                 <div class="sprintCardHeader">
@@ -69,14 +68,12 @@ function displaySprints(sprintList) {
         sprintHtml += `
                 <button class="styledButton" id="newStoryButton` + sprint.sprintID + `" data-sprintid="` + sprint.sprintID + `">New Story</button>
             </div>`;
-
     });
 
     $("#sprintOverview").empty().append(sprintHtml);
 
     sprintList.forEach((sprint) => {
         $("#newStoryButton" + sprint.sprintID).click(function () {
-            console.log($(this).attr("data-sprintid"));
 
             $("#mainModal").html(
                     `<div id="modalBox" class="modalContent">
@@ -96,10 +93,10 @@ function displaySprints(sprintList) {
                                 <option value="5">5</option>
                             </select> <br> <br>
 
-                            <button class="styledButton" id="storyCreateButton">Create Story</button>
+                            <button class="styledButton" id="storyCreateButton" data-sprintid="` + $(this).attr("data-sprintid") + `">Create Story</button>
                         </div>
                     </div>`);
-
+            
             $("#modalCloseButton").click(() => {
                 $("#mainModal").fadeOut(500);
             });
@@ -146,10 +143,7 @@ function displaySprints(sprintList) {
                 $("#mainModal").fadeIn(200);
             });
         });
-
     });
-
-
 }
 
 function showSprintForm() {
