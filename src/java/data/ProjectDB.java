@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import model.Account;
 import model.Project;
 import model.Sprint;
+import model.Story;
 import model.StoryTask;
 
 /**

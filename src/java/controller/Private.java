@@ -14,6 +14,7 @@ import javax.servlet.http.HttpSession;
 import model.Account;
 import model.Project;
 import model.Sprint;
+import model.Story;
 
 /**
  *
@@ -34,7 +35,9 @@ public class Private extends HttpServlet {
         String errorListJSON;
         int projectID;
         ArrayList<Sprint> sprintList;
+        ArrayList<Story> storyList;
         String sprintListJSON;
+        String storyListJSON;
         Gson gson = new GsonBuilder().setDateFormat("yyyy-Mm-dd").create();
         String action = request.getParameter("action");
         
@@ -84,11 +87,19 @@ public class Private extends HttpServlet {
                 break;
                
             case "getStories":
-            
+                
                 break;
                 
             case "createStory":
+                int sprintID = Integer.parseInt(request.getParameter("sprintID"));
+                String storyName = request.getParameter("storyName");
+                int storyPriority = Integer.parseInt(request.getParameter("storyPriority"));
                 
+                storyList = ProjectManager.createStory(sprintID, storyName, storyPriority, errorList);
+                
+                storyListJSON = gson.toJson(storyList);
+                
+                responseOut.println(storyListJSON);
                 break;
                 
             default:
