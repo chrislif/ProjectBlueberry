@@ -9,6 +9,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import model.StoryTask;
 
 /**
@@ -221,5 +222,51 @@ public class TaskDB {
                 throw e;
             }
         }
+    }
+
+    public static ArrayList<StoryTask> getTasks(int storyID) throws SQLException {
+        ConnectionPool pool = ConnectionPool.getInstance();
+        Connection connection = pool.getConnection();
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+        ArrayList<StoryTask> tasks = new ArrayList();
+
+        String query = "SELECT * FROM tasks WHERE storyID = ?";
+        try {
+            statement = connection.prepareStatement(query);
+            statement.setString(1, Integer.toString(storyID));
+            resultSet = statement.executeQuery();
+
+            StoryTask task;
+            while (resultSet.next()) {
+                task = new StoryTask();
+                task.setTaskID(resultSet.getInt("taskID"));
+                task.setTaskName(resultSet.getString("taskName"));
+                task.setTaskPriority(resultSet.getInt("taskPriority"));
+                task.setTaskTime(resultSet.getInt("taskTime"));
+                task.setTaskDetails(resultSet.getString("taskDetails"));
+                int completedInt = resultSet.getInt("taskCompleted");
+                if (completedInt > 0) {
+                    task.setTaskCompleted(true);
+                } else {
+                    task.setTaskCompleted(false);
+                }
+
+                tasks.add(task);
+            }
+        } catch (SQLException ex) {
+            throw ex;
+        } finally {
+            try {
+                if (resultSet != null && statement != null) {
+                    resultSet.close();
+                    statement.close();
+                }
+                pool.freeConnection(connection);
+            } catch (SQLException ex) {
+                throw ex;
+            }
+        }
+        return tasks;
     }
 }
