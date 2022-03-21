@@ -128,7 +128,7 @@ public class ProjectDB {
             statement = connection.prepareStatement(query);
             statement.setInt(1, sprintID);
             statement.setString(2, name);
-            
+
             return statement.executeUpdate();
         } catch (SQLException ex) {
             throw ex;
@@ -157,7 +157,7 @@ public class ProjectDB {
             statement = connection.prepareStatement(query);
             statement.setInt(1, sprintID);
             statement.setDate(2, endDate);
-            
+
             return statement.executeUpdate();
         } catch (SQLException ex) {
             throw ex;
@@ -173,6 +173,62 @@ public class ProjectDB {
             }
         }
     }
-    
-    
+
+    public static int updateSprintStart(int sprintID, Date startDate) throws SQLException {
+        ConnectionPool pool = ConnectionPool.getInstance();
+        Connection connection = pool.getConnection();
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+
+        String query = "UPDATE sprint SET sprintStart = ? WHERE sprintID = ?";
+
+        try {
+            statement = connection.prepareStatement(query);
+            statement.setInt(1, sprintID);
+            statement.setDate(2, startDate);
+
+            return statement.executeUpdate();
+        } catch (SQLException ex) {
+            throw ex;
+        } finally {
+            try {
+                if (resultSet != null && statement != null) {
+                    resultSet.close();
+                    statement.close();
+                }
+                pool.freeConnection(connection);
+            } catch (SQLException e) {
+                throw e;
+            }
+        }
+    }
+
+    public static int updateSprintNum(int sprintID, int num) throws SQLException {
+        ConnectionPool pool = ConnectionPool.getInstance();
+        Connection connection = pool.getConnection();
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+
+        String query = "UPDATE sprint SET sprintNum = ? WHERE sprintID = ?";
+
+        try {
+            statement = connection.prepareStatement(query);
+            statement.setInt(1, sprintID);
+            statement.setInt(2, num);
+
+            return statement.executeUpdate();
+        } catch (SQLException ex) {
+            throw ex;
+        } finally {
+            try {
+                if (resultSet != null && statement != null) {
+                    resultSet.close();
+                    statement.close();
+                }
+                pool.freeConnection(connection);
+            } catch (SQLException e) {
+                throw e;
+            }
+        }
+    }
 }
