@@ -60,8 +60,8 @@ public class TaskDB {
 
         try {
             statement = connection.prepareStatement(query);
-            statement.setInt(1, taskID);
-            statement.setString(2, name);
+            statement.setString(1, name);            
+            statement.setInt(2, taskID);
 
             return statement.executeUpdate();
         } catch (SQLException ex) {
@@ -89,8 +89,8 @@ public class TaskDB {
 
         try {
             statement = connection.prepareStatement(query);
-            statement.setInt(1, taskID);
-            statement.setString(2, details);
+            statement.setString(1, details);            
+            statement.setInt(2, taskID);
 
             return statement.executeUpdate();
         } catch (SQLException ex) {
@@ -118,8 +118,8 @@ public class TaskDB {
 
         try {
             statement = connection.prepareStatement(query);
-            statement.setInt(1, taskID);
-            statement.setInt(2, priority);
+            statement.setInt(1, priority);            
+            statement.setInt(2, taskID);
 
             return statement.executeUpdate();
         } catch (SQLException ex) {
@@ -147,8 +147,8 @@ public class TaskDB {
 
         try {
             statement = connection.prepareStatement(query);
-            statement.setInt(1, taskID);
-            statement.setInt(2, time);
+            statement.setInt(1, time);            
+            statement.setInt(2, taskID);
 
             return statement.executeUpdate();
         } catch (SQLException ex) {
@@ -176,8 +176,8 @@ public class TaskDB {
 
         try {
             statement = connection.prepareStatement(query);
-            statement.setInt(1, taskID);
-            statement.setBoolean(2, completed);
+            statement.setBoolean(1, completed);            
+            statement.setInt(2, taskID);
 
             return statement.executeUpdate();
         } catch (SQLException ex) {
@@ -205,8 +205,8 @@ public class TaskDB {
 
         try {
             statement = connection.prepareStatement(query);
-            statement.setInt(1, taskID);
-            statement.setInt(2, storyID);
+            statement.setInt(1, storyID);            
+            statement.setInt(2, taskID);
 
             return statement.executeUpdate();
         } catch (SQLException ex) {
