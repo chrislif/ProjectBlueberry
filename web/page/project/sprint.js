@@ -25,7 +25,8 @@ function displaySprints(sprintList) {
                 <div class="sprintCardHeader">
                     <h2 class="sprintName">` + sprint.sprintName + ` </h2>
                     <p class="sprintDate">` + sprint.sprintStartDate + ` to ` + sprint.sprintEndDate + `</p>
-                    <span><img src="resources/editIcon.png"  class="editIcon" id="editSprintButton`+sprint.sprintID+`" data-currentsprint="`+sprint+`" alt="Icon to edit sprint information"></span> 
+                    <span id="editSprintButton`+sprint.sprintID+`"><img src="resources/editIcon.png"  class="editIcon" alt="Icon to edit sprint information"></span> 
+                    <span id="deleteSprintButton`+sprint.sprintID+`"><img src="resources/deleteIcon.png" class="deleteIcon" alt="Icon to delete sprint information"></span>
                 </div>`;
 
         sprint.stories.forEach((story) => {
@@ -153,16 +154,15 @@ function displaySprints(sprintList) {
 
     sprintList.forEach((sprint) => {
         $("#editSprintButton" + sprint.sprintID).click(function() {
-            var currentSprint = $(this).attr("data-currentsprint");
-            console.log(currentSprint);
             $("#mainModal").html(
                 `<div id="modalBox" class="modalContent">
                     <span id="modalCloseButton" class="closeButton">&times;</span>
                     <div id="modalContent">
-                        <h2>Edit `+currentSprint.sprintname+`</h2><br>
+                        <h2>Edit `+sprint.sprintName+`</h2><br>
 
-                        <label for="sprintNumber">Sprint #: </label>
-                        <select name="sprintNumber" id="sprintNumber">
+                        <label for="editedSprintNumber">Sprint #: </label>
+                        <select name="editedSprintNumber" id="editedSprintName">
+                            <option value="`+sprint.sprintNum+`">`+sprint.sprintNum+`</option>
                             <option value="1">1</option>
                             <option value="2">2</option>
                             <option value="3">3</option>
@@ -170,16 +170,16 @@ function displaySprints(sprintList) {
                             <option value="5">5</option>
                         </select><br><br>
 
-                        <label for="sprintName">Sprint Name: </label>
-                        <input type="text" name="sprintName" id="sprintName"><br><br>
+                        <label for="editedSprintName">Sprint Name: </label>
+                        <input type="text" name="editedSprintName" id="editedSprintName" value="`+sprint.sprintName+`"><br><br>
 
-                        <label for="sprintStartDate">Sprint Start Date: </label>
-                        <input type="date" id="sprintStartDate" name="sprintStartDate"><br><br>
+                        <label for="editedSprintStartDate">Sprint Start Date: </label>
+                        <input type="date" id="editedSprintStartDate" name="editedSprintStartDate" value="`+sprint.sprintStartDate+`"><br><br>
 
-                        <label for="sprintEndDate">Sprint End Date: </label>
-                        <input type="date" id="sprintEndDate" name="sprintEndDate"><br><br>
+                        <label for="editedSprintEndDate">Sprint End Date: </label>
+                        <input type="date" id="editedSprintEndDate" name="editedSprintEndDate" value="`+sprint.sprintEndDate+`"><br><br>
 
-                        <button class="styledButton" id="sprintCreateButton">Create Sprint</button>
+                        <button class="styledButton" id="completeSprintEditButton">Edit Sprint</button>
                     </div>
                 </div>`
             );
