@@ -7,7 +7,9 @@ package data;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import model.Story;
 
 /**
@@ -30,7 +32,6 @@ public class StoryDB {
             statement.setString(2, story.getStoryName());
             statement.setInt(3, story.getStoryPriority());
 
-
             statement.executeUpdate();
         } catch (SQLException ex) {
             throw ex;
@@ -44,5 +45,44 @@ public class StoryDB {
                 throw ex;
             }
         }
+    }
+
+    public static ArrayList<Story> getStories(int sprintID) throws SQLException {
+        ConnectionPool pool = ConnectionPool.getInstance();
+        Connection connection = pool.getConnection();
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+        ArrayList<Story> stories = new ArrayList();
+
+        String query = "SELECT * FROM stories WHERE sprintID = ?";
+        try {
+            statement = connection.prepareStatement(query);
+            statement.setString(1, Integer.toString(sprintID));
+            resultSet = statement.executeQuery();
+
+            Story story;
+            while (resultSet.next()) {
+                story = new Story();
+                story.setStoryID(resultSet.getInt("storyID"));
+                story.setStoryName(resultSet.getString("storyName"));
+                story.setStoryPriority(resultSet.getInt("storyPriority"));
+                story.tasks = TaskDB.getTasks(story.getStoryID());
+
+                stories.add(story);
+            }
+        } catch (SQLException ex) {
+            throw ex;
+        } finally {
+            try {
+                if (resultSet != null && statement != null) {
+                    resultSet.close();
+                    statement.close();
+                }
+                pool.freeConnection(connection);
+            } catch (SQLException ex) {
+                throw ex;
+            }
+        }
+        return stories;
     }
 }

@@ -1,8 +1,8 @@
 package controller.function;
 
-import data.BlueDB;
 import data.ProjectDB;
 import data.SprintDB;
+import data.StoryDB;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -19,7 +19,7 @@ public class ProjectManager {
     
     public static ArrayList<Project> retrieveProjects(Account user, ArrayList<String> errorList) {
         try {
-            return BlueDB.generateProjectList(user);
+            return ProjectDB.generateProjectList(user);
         } catch (SQLException ex) {
             errorList.add(ex.getMessage());
             return null;
@@ -38,7 +38,7 @@ public class ProjectManager {
     
     public static Project getProject(int projectID, ArrayList<String> errorList) {
         try {
-            return BlueDB.getProject(projectID);
+            return ProjectDB.getProject(projectID);
         } catch (SQLException ex) {
             errorList.add(ex.getMessage());
             return null;
@@ -57,7 +57,7 @@ public class ProjectManager {
     
     public static ArrayList<Sprint> retrieveSprints(int projectID, ArrayList<String> errorList) {
         try {
-            return BlueDB.getSprints(projectID);
+            return SprintDB.getSprints(projectID);
         } catch (SQLException ex) {
             errorList.add(ex.getMessage());
             return null;
@@ -68,7 +68,7 @@ public class ProjectManager {
         Story newStory = new Story(0, storyName, storyPriority);
         
         try {
-            ProjectDB.createStory(newStory, sprintID);
+            StoryDB.createStory(newStory, sprintID);
             
             return retrieveStories(sprintID, errorList);
         } catch (SQLException ex) {
@@ -80,7 +80,7 @@ public class ProjectManager {
     public static ArrayList<Story> retrieveStories(int sprintID, ArrayList<String> errorList) {
         
         try {
-            return BlueDB.getStories(sprintID);
+            return StoryDB.getStories(sprintID);
         } catch (SQLException ex) {
             errorList.add(ex.getMessage());
             return null;

@@ -11,6 +11,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Date;
+import java.util.ArrayList;
+import model.Account;
+import model.Project;
 import model.Sprint;
 import model.Story;
 import model.StoryTask;
@@ -87,26 +90,40 @@ public class ProjectDB {
         }
     }
     
-    public static void createStory (Story story, int sprintID) throws SQLException {
+    public static ArrayList<Project> generateProjectList(Account user) throws SQLException {
         ConnectionPool pool = ConnectionPool.getInstance();
         Connection connection = pool.getConnection();
         PreparedStatement statement = null;
+        ResultSet resultSet = null;
         
-        String query = "INSERT INTO stories (sprintID, storyName, storyPriority)"
-                     + "VALUES (?, ?, ?)";
+        ArrayList<Project> projectList = new ArrayList();
+        
+        String query = "SELECT account.accountID, projectPeople.tag, project.projectID, project.projectName, project.creationDate FROM project "
+                     + "INNER JOIN projectPeople ON project.projectID = projectPeople.projectID "
+                     + "INNER JOIN account ON account.accountID = projectPeople.accountID "
+                     + "WHERE account.accountID = ? ";
         
         try {
             statement = connection.prepareStatement(query);
-            statement.setInt(1, sprintID);
-            statement.setString(2, story.getStoryName());
-            statement.setInt(3, story.getStoryPriority());
+            statement.setString(1, Integer.toString(user.getAccountID()));
             
-            statement.executeUpdate();
+            resultSet = statement.executeQuery();
+            
+            Project project;
+            while(resultSet.next()){
+                project = new Project();
+                project.setProjectID(resultSet.getInt("projectID"));
+                project.setProjectName(resultSet.getString("projectName"));
+                project.setProjectCreationDate(resultSet.getString("creationDate"));
+                
+                projectList.add(project);
+            }
         } catch (SQLException ex){
             throw ex;
         } finally {
             try {
-                if (statement != null) {
+                if (resultSet != null && statement != null) {
+                    resultSet.close();
                     statement.close();
                 }
                 pool.freeConnection(connection);
@@ -114,5 +131,129 @@ public class ProjectDB {
                 throw ex;
             }
         }
+        return projectList;
     }
+    
+    public static Project getProject(int projectID) throws SQLException {
+        ConnectionPool pool = ConnectionPool.getInstance();
+        Connection connection = pool.getConnection();
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+        Project project = new Project();
+        
+        String query = "SELECT account.accountID, projectPeople.tag, project.projectID, project.projectName, project.creationDate FROM project "
+                     + "INNER JOIN projectPeople ON project.projectID = projectPeople.projectID "
+                     + "INNER JOIN account ON account.accountID = projectPeople.accountID "
+                     + "WHERE project.projectID = ? ";
+        
+        try {
+            statement = connection.prepareStatement(query);
+            statement.setString(1, Integer.toString(projectID));
+            
+            resultSet = statement.executeQuery();
+            
+            while(resultSet.next()){
+                project = new Project();
+                project.setProjectID(resultSet.getInt("projectID"));
+                project.setProjectName(resultSet.getString("projectName"));
+                project.setProjectCreationDate(resultSet.getString("creationDate"));
+                project.contributors = getContributers(project);
+                project.managers = getManagers(project);
+                project.sprints = SprintDB.getSprints(project.getProjectID());
+            }
+        } catch (SQLException ex){
+            throw ex;
+        } finally {
+            try {
+                if (resultSet != null && statement != null) {
+                    resultSet.close();
+                    statement.close();
+                }
+                pool.freeConnection(connection);
+            } catch (SQLException ex) {
+                throw ex;
+            }
+        }
+        return project;
+    }
+    
+    public static ArrayList<Account> getContributers(Project project) throws SQLException {
+        ConnectionPool pool = ConnectionPool.getInstance();
+        Connection connection = pool.getConnection();
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+        ArrayList<Account> contributers = new ArrayList();
+        
+        String query = "SELECT account.accountID, account.accountName, projectPeople.tag, project.projectID FROM project "
+                     + "INNER JOIN projectPeople ON project.projectID = projectPeople.projectID "
+                     + "INNER JOIN account ON account.accountID = projectPeople.accountID "
+                     + "WHERE project.projectID = ? AND tag = 'contributor' ";
+        try {
+            statement = connection.prepareStatement(query);
+            statement.setString(1, Integer.toString(project.getProjectID()));
+            resultSet = statement.executeQuery();
+            
+            Account account;
+            while (resultSet.next()){
+                account = new Account();
+                account.setAccountID(resultSet.getInt("accountID"));
+                account.setAccountName(resultSet.getString("accountName"));
+                
+                contributers.add(account);
+            }
+        } catch (SQLException ex) {
+            throw ex;
+        } finally {
+            try {
+                if (resultSet != null && statement != null) {
+                    resultSet.close();
+                    statement.close();
+                }
+                pool.freeConnection(connection);
+            } catch (SQLException ex) {
+                throw ex;
+            }
+        }
+        return contributers;
+    }
+    
+    public static ArrayList<Account> getManagers(Project project) throws SQLException {
+        ConnectionPool pool = ConnectionPool.getInstance();
+        Connection connection = pool.getConnection();
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+        ArrayList<Account> managers = new ArrayList();
+        
+        String query = "SELECT account.accountID, account.accountName, projectPeople.tag, project.projectID FROM project "
+                     + "INNER JOIN projectPeople ON project.projectID = projectPeople.projectID "
+                     + "INNER JOIN account ON account.accountID = projectPeople.accountID "
+                     + "WHERE project.projectID = ? AND tag = 'manager' ";
+        try {
+            statement = connection.prepareStatement(query);
+            statement.setString(1, Integer.toString(project.getProjectID()));
+            resultSet = statement.executeQuery();
+            
+            Account account;
+            while (resultSet.next()){
+                account = new Account();
+                account.setAccountID(resultSet.getInt("accountID"));
+                account.setAccountName(resultSet.getString("accountName"));
+                
+                managers.add(account);
+            }
+        } catch (SQLException ex) {
+            throw ex;
+        } finally {
+            try {
+                if (resultSet != null && statement != null) {
+                    resultSet.close();
+                    statement.close();
+                }
+                pool.freeConnection(connection);
+            } catch (SQLException ex) {
+                throw ex;
+            }
+        }
+        return managers;
+    }    
 }

@@ -159,7 +159,7 @@ function displaySprints(sprintList) {
                 `<div id="modalBox" class="modalContent">
                     <span id="modalCloseButton" class="closeButton">&times;</span>
                     <div id="modalContent">
-                        <h2>Add A Sprint</h2><br>
+                        <h2>Edit `+currentSprint.sprintname+`</h2><br>
 
                         <label for="sprintNumber">Sprint #: </label>
                         <select name="sprintNumber" id="sprintNumber">
@@ -183,6 +183,12 @@ function displaySprints(sprintList) {
                     </div>
                 </div>`
             );
+    
+            $("#modalCloseButton").click(() => {
+                        $("#mainModal").fadeOut(500);
+            });
+
+            $("#mainModal").fadeIn(200);
         });
     });
 }
