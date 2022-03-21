@@ -119,7 +119,7 @@ function displaySprints(sprintList) {
                         <h2>Add a Task to ` + story.storyName + `</h2><br>
                 
                         <label for="taskName">Task Name: </label>
-                        <input type="text" name="taskName" id="newTaskNAme"> <br> <br>
+                        <input type="text" name="taskName" id="newTaskName"> <br> <br>
                 
                         <label for="taskDetails">Task Details: </label>
                         <input type="text" name="taskDetails" id="newTaskDetails"> <br> <br>
@@ -141,7 +141,7 @@ function displaySprints(sprintList) {
                 </div>`
                         );
                 
-                $("#storyCreateButton").click(createStory());
+                $("#taskCreateButton").click(createTask());
                 
                 $("#modalCloseButton").click(() => {
                     $("#mainModal").fadeOut(500);
@@ -245,13 +245,22 @@ function showSprintForm() {
     $("#mainModal").fadeIn(200);
 }
 
-function showEditSprintForm() {
-    
+function createTask() {
+    ajaxGet('private', {'action' : 'createTask',
+        'taskName' : $("#newTaskName").val(),
+        'taskDetails' : $("#newTaskDetails").val(),
+        'taskTime' : $("#newTaskTime").val(),
+        'taskPriority' : $("#taskPriorityLevel option:selected").val()},
+            (result) => {
+        $("#mainModal").fadeOut(500);
+        console.log(result);
+    });
 }
 
 function createSprint() {
     ajaxGet('private', {'action': 'createSprint',
         'projectID': project.projectID,
+        'storyID' : $(this).attr("data-storyid"),
         'sprintNum': $("#sprintNumber option:selected").val(),
         'sprintName': $("#sprintName").val(),
         'sprintStartDate': $("#sprintStartDate").val(),
