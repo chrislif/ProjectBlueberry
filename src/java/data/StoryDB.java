@@ -47,6 +47,36 @@ public class StoryDB {
         }
     }
     
+    public static int updateStorySprintID(int storyID, int sprintID) throws SQLException {
+        ConnectionPool pool = ConnectionPool.getInstance();
+        Connection connection = pool.getConnection();
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+
+        String query = "UPDATE sprint SET sprintID = ? WHERE storyID = ?";
+
+        try {
+            statement = connection.prepareStatement(query);
+            statement.setInt(1, sprintID);            
+            statement.setInt(2, storyID);
+
+
+            return statement.executeUpdate();
+        } catch (SQLException ex) {
+            throw ex;
+        } finally {
+            try {
+                if (resultSet != null && statement != null) {
+                    resultSet.close();
+                    statement.close();
+                }
+                pool.freeConnection(connection);
+            } catch (SQLException e) {
+                throw e;
+            }
+        }
+    }
+    
     public static int updateStoryName(int storyID, String name) throws SQLException {
         ConnectionPool pool = ConnectionPool.getInstance();
         Connection connection = pool.getConnection();
@@ -58,6 +88,36 @@ public class StoryDB {
         try {
             statement = connection.prepareStatement(query);
             statement.setString(1, name);            
+            statement.setInt(2, storyID);
+
+
+            return statement.executeUpdate();
+        } catch (SQLException ex) {
+            throw ex;
+        } finally {
+            try {
+                if (resultSet != null && statement != null) {
+                    resultSet.close();
+                    statement.close();
+                }
+                pool.freeConnection(connection);
+            } catch (SQLException e) {
+                throw e;
+            }
+        }
+    }
+    
+    public static int updateStoryPriority(int storyID, int priority) throws SQLException {
+        ConnectionPool pool = ConnectionPool.getInstance();
+        Connection connection = pool.getConnection();
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+
+        String query = "UPDATE sprint SET storyPriority = ? WHERE storyID = ?";
+
+        try {
+            statement = connection.prepareStatement(query);
+            statement.setInt(1, priority);            
             statement.setInt(2, storyID);
 
 
