@@ -60,8 +60,9 @@ public class SprintDB {
 
         try {
             statement = connection.prepareStatement(query);
-            statement.setInt(1, sprintID);
-            statement.setString(2, name);
+            statement.setString(1, name);            
+            statement.setInt(2, sprintID);
+
 
             return statement.executeUpdate();
         } catch (SQLException ex) {
@@ -89,8 +90,8 @@ public class SprintDB {
 
         try {
             statement = connection.prepareStatement(query);
-            statement.setInt(1, sprintID);
-            statement.setDate(2, endDate);
+            statement.setDate(1, endDate);            
+            statement.setInt(2, sprintID);
 
             return statement.executeUpdate();
         } catch (SQLException ex) {
@@ -118,8 +119,8 @@ public class SprintDB {
 
         try {
             statement = connection.prepareStatement(query);
-            statement.setInt(1, sprintID);
-            statement.setDate(2, startDate);
+            statement.setDate(1, startDate);            
+            statement.setInt(2, sprintID);
 
             return statement.executeUpdate();
         } catch (SQLException ex) {
@@ -147,8 +148,8 @@ public class SprintDB {
 
         try {
             statement = connection.prepareStatement(query);
-            statement.setInt(1, sprintID);
-            statement.setInt(2, num);
+            statement.setInt(1, num);            
+            statement.setInt(2, sprintID);
 
             return statement.executeUpdate();
         } catch (SQLException ex) {

@@ -46,6 +46,36 @@ public class StoryDB {
             }
         }
     }
+    
+    public static int updateStoryName(int storyID, String name) throws SQLException {
+        ConnectionPool pool = ConnectionPool.getInstance();
+        Connection connection = pool.getConnection();
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+
+        String query = "UPDATE sprint SET storyName = ? WHERE storyID = ?";
+
+        try {
+            statement = connection.prepareStatement(query);
+            statement.setString(1, name);            
+            statement.setInt(2, storyID);
+
+
+            return statement.executeUpdate();
+        } catch (SQLException ex) {
+            throw ex;
+        } finally {
+            try {
+                if (resultSet != null && statement != null) {
+                    resultSet.close();
+                    statement.close();
+                }
+                pool.freeConnection(connection);
+            } catch (SQLException e) {
+                throw e;
+            }
+        }
+    }
 
     public static ArrayList<Story> getStories(int sprintID) throws SQLException {
         ConnectionPool pool = ConnectionPool.getInstance();
