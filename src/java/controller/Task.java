@@ -25,15 +25,9 @@ public class Task extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         PrintWriter responseOut = response.getWriter();
-        response.setContentType("application/json");
-        response.setCharacterEncoding("UTF-8");
-        
-        HttpSession session = request.getSession();
-        Account currentUser = (Account)session.getAttribute("currentUser");
-        ArrayList<String> errorList = new ArrayList();
         Gson gson = new Gson();
         
-        String projectName = request.getParameter("projectName");
+        
 
         
 
