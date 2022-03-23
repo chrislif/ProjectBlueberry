@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
     <servlet>
-        <servlet-name>Controller</servlet-name>
+        <servlet-name>Public</servlet-name>
         <servlet-class>controller.Public</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>Controller</servlet-name>
-        <url-pattern>/public</url-pattern>
+        <servlet-name>Public</servlet-name>
+        <url-pattern>/Public</url-pattern>
     </servlet-mapping>
     <servlet>
-        <servlet-name>PrivateController</servlet-name>
+        <servlet-name>Private</servlet-name>
         <servlet-class>controller.Private</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>PrivateController</servlet-name>
-        <url-pattern>/private</url-pattern>
+        <servlet-name>Private</servlet-name>
+        <url-pattern>/Private</url-pattern>
     </servlet-mapping>
     <servlet>
         <servlet-name>Authorize</servlet-name>
@@ -25,6 +25,20 @@
         <url-pattern>/Authorize</url-pattern>
     </servlet-mapping>
     <servlet>
+        <servlet-name>Task</servlet-name>
+        <servlet-class>controller.Task</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Task</servlet-name>
+        <url-pattern>/Task</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>Sprint</servlet-name>
+        <servlet-class>controller.Sprint</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Sprint</servlet-name>
+        <url-pattern>/Sprint</url-pattern>
         <servlet-name>Navigation</servlet-name>
         <servlet-class>controller.Navigation</servlet-class>
     </servlet>

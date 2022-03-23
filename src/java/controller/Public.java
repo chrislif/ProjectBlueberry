@@ -14,10 +14,6 @@ import javax.servlet.http.HttpSession;
 import model.Account;
 import model.Project;
 
-/**
- *
- * @author chris
- */
 public class Public extends HttpServlet {
     
     @Override

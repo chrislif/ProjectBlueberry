@@ -40,7 +40,7 @@
                     <div class="navSection">
                         <c:if test="${currentUser != null}">
                             <li>
-                                <form action="private" method="post">
+                                <form action="Private" method="post">
                                     <input type="hidden" name="action" value="logout">
                                     <input type="submit" value="Logout" class="navbutton">
                                 </form>
