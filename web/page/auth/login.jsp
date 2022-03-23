@@ -12,8 +12,7 @@
     <div class="mainContent">
         <h1>Login Here</h1>
         <div class="subContent">
-            <form action="Authorize" method="post">
-
+            <form action="Authorize" method="POST">
                 <label for="email">Email: </label>
                 <br>
                 <input type="text" name="email">
@@ -27,7 +26,7 @@
                 <input type="submit" class="styledButton" value="Login">
             </form>
 
-            <form action="navigation" method="post">
+            <form action="Navigation" method="POST">
                 <input type="hidden" name="url" value="/page/auth/register.jsp">
                 <input type="submit" class="styledButton" value="Register Here">
             </form>

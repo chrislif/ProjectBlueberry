@@ -22,17 +22,15 @@ public class Project extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        PrintWriter responseOut = response.getWriter();
         Gson gson = new Gson();
+        int projectID = Integer.parseInt(request.getParameter("projectID"));
         
-        HttpSession session = request.getSession();
-        Account currentUser = (Account)session.getAttribute("currentUser");
+        model.Project project = ProjectManager.getProject(projectID);
         
-        ArrayList<model.Project> projectList = ProjectManager.retrieveProjects(currentUser);
-
-        String projectListJSON = gson.toJson(projectList);
-
-        responseOut.println(projectListJSON);
+        request.setAttribute("project", gson.toJson(project));
+        
+        String url = "/page/project/projectHome.jsp";
+        getServletContext().getRequestDispatcher(url).forward(request, response);
     }
 
     @Override

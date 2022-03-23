@@ -13,9 +13,7 @@
     <h1>Register Here!</h1>
     
     <div class="subContent">
-        <form action="public" method="post">
-            <input type="hidden" name="action" value="register">
-
+        <form action="Register" method="POST">
             <label for="email">Email: </label>
             <input type="text" name="email">
             <br>

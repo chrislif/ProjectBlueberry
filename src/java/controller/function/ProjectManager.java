@@ -35,11 +35,10 @@ public class ProjectManager {
         }
     }
     
-    public static Project getProject(int projectID, ArrayList<String> errorList) {
+    public static Project getProject(int projectID) {
         try {
             return ProjectDB.getProject(projectID);
         } catch (SQLException ex) {
-            errorList.add(ex.getMessage());
             return null;
         }
     }

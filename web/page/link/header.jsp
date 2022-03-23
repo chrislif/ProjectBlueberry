@@ -23,14 +23,14 @@
                 <ul class="navlist">
                     <div class="navSection">
                         <li>
-                            <form action="navigation" method="post">
+                            <form action="Navigation" method="POST">
                                     <input type="hidden" name="url" value="/index.jsp">
                                 <input type="submit" value="Home" class="navbutton primaryColor">
                             </form>
                         </li>
                         <c:if test="${currentUser != null}">
                             <li>
-                                <form action="navigation" method="post">
+                                <form action="Navigation" method="POST">
                                     <input type="hidden" name="url" value="/page/project/overview.jsp">
                                     <input type="submit" value="Overview" class="navbutton primaryColor">
                                 </form>
@@ -40,15 +40,14 @@
                     <div class="navSection">
                         <c:if test="${currentUser != null}">
                             <li>
-                                <form action="Private" method="post">
-                                    <input type="hidden" name="action" value="logout">
+                                <form action="Authorize" method="GET">
                                     <input type="submit" value="Logout" class="navbutton">
                                 </form>
                             </li>
                         </c:if>
                         <c:if test="${currentUser == null}">
                             <li>
-                                <form action="navigation" method="post">
+                                <form action="Navigation" method="POST">
                                     <input type="hidden" name="url" value="/page/auth/login.jsp">
                                     <input type="submit" value="Login" class="navbutton">
                                 </form>

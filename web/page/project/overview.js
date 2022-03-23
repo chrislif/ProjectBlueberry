@@ -16,21 +16,20 @@ function showProjectForm() {
 }
 
 function createProject() {
-    ajaxGet("Private", {'action': 'createProject','projectName': $("#projectNameText").val()}, (result) => {
+    ajaxPost("Project", {'projectName': $("#projectNameText").val()}, (result) => {
         hideProjectForm();      
         retrieveProjects();
     });
 }
 
 function retrieveProjects() {
-    ajaxGet("Private", {'action': 'getProjects'}, (result) => {
+    ajaxGet("ProjectList", {}, (result) => {
         projectList = JSON.parse(result);
         
         $("#projectTable").html("");
         projectList.forEach(element => (
             $("#projectTable").append(
-                `<form action="Private" method="post">
-                    <input type="hidden" name="action" value="toProject">
+                `<form action="Project" method="GET">
                     <input type="hidden" name="projectID" value="` + element.projectID + `">
                     <button type="submit" class="gridSubContent gridButton">
                         <div class="gridButtonText">
@@ -54,6 +53,19 @@ function hideProjectForm() {
 var ajaxGet = (url, data, callback) => {
     $.ajax({
         type: "GET",
+        url: url,
+        data: data,
+        dataType: "JSON",
+        success: callback,
+        error: function (jqXHR, ex) {
+            console.log(jqXHR);
+        }
+    });
+};
+
+var ajaxPost = (url, data, callback) => {
+    $.ajax({
+        type: "POST",
         url: url,
         data: data,
         dataType: "JSON",
