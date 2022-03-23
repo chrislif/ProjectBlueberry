@@ -23,7 +23,7 @@ public class Navigation extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String url;
+        String url = "/index.jsp";
     }
 
     @Override
