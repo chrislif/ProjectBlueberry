@@ -32,6 +32,14 @@
         <servlet-name>Task</servlet-name>
         <url-pattern>/Task</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>Sprint</servlet-name>
+        <servlet-class>controller.Sprint</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Sprint</servlet-name>
+        <url-pattern>/Sprint</url-pattern>
+    </servlet-mapping>
     <session-config>
         <session-timeout>
             50
