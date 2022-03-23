@@ -23,8 +23,8 @@ function displayProject(sprintList) {
         sprintHtml += `
             <div class="sprintCard">
                 <div class="sprintCardHeader">
-                    <h2 class="sprintName"> ${sprint.sprintName} </h2>
-                    <p class="sprintDate"> ${sprint.sprintStartDate} to ${sprint.sprintEndDate} </p>
+                    <h2 class="sprintName" id="sprintName${sprint.sprintID}"> ${sprint.sprintName} </h2>
+                    <p class="sprintDate" id="sprintDates${sprint.sprintID}"> ${sprint.sprintStartDate} to ${sprint.sprintEndDate} </p>
                     <span id="editSprintButton${sprint.sprintID}"><img src="resources/editIcon.png"  class="editIcon" alt="Icon to edit sprint information"></span> 
                     <span id="deleteSprintButton${sprint.sprintID}"><img src="resources/deleteIcon.png" class="deleteIcon" alt="Icon to delete sprint information"></span>
                 </div>`;
@@ -72,125 +72,13 @@ function displayProject(sprintList) {
     });
 
     $("#sprintOverview").empty().append(sprintHtml);
-
-    sprintList.forEach((sprint) => {
-        //Creates the click event for the create user story form
-        $("#newStoryButton" + sprint.sprintID).click(function () {
-
-            $("#mainModal").html(
-                    `<div id="modalBox" class="modalContent">
-                        <span id="modalCloseButton" class="closeButton">&times;</span>
-                        <div id="modalContent">
-                            <h2>Add A Story to ${sprint.sprintName}</h2><br>
-
-                            <label for="storyName">User Story Name: </label>
-                            <input type="text" name="storyName" id="newStoryName"> <br> <br>
-
-                            <label for="priorityLevel">Priority: </label>
-                            <select name="priorityLevel" id="storyPriorityLevel">
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
-                                <option value="4">4</option>
-                                <option value="5">5</option>
-                            </select> <br> <br>
-
-                            <button class="styledButton" id="storyCreateButton" data-sprintid="${$(this).attr("data-sprintid")}">Create Story</button>
-                        </div>
-                    </div>`);
-            
-            $("#storyCreateButton").click(createStory);
-            
-            $("#modalCloseButton").click(() => {
-                $("#mainModal").fadeOut(500);
-            });
-
-            $("#mainModal").fadeIn(200);
-        });
-
-        // Creates the click event for the create task form
-        sprint.stories.forEach((story) => {
-            $("#newTaskButton" + story.storyID).click(function () {
-
-                $("#mainModal").html(
-                        `<div id="modalBox" class="modalContent">
-                    <span id="modalCloseButton" class="closeButton">&times;</span>
-                    <div id="modalContent">
-                        <h2>Add a Task to ${story.storyName}</h2><br>
-                
-                        <label for="taskName">Task Name: </label>
-                        <input type="text" name="taskName" id="newTaskName"> <br> <br>
-                
-                        <label for="taskDetails">Task Details: </label>
-                        <input type="text" name="taskDetails" id="newTaskDetails"> <br> <br>
-                
-                        <label for="taskTime">Task Time (In Hours): </label>
-                        <input type="text" name="taskTime" id="newTaskTime"> <br> <br>
-                
-                        <label for="taskPriorityLevel">Priority: </label>
-                        <select name="taskPriorityLevel" id="taskPriorityLevel">
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                            <option value="5">5</option>
-                        </select> <br> <br>
-                
-                        <button class="styledButton" id="taskCreateButton">Create Task</button>
-                    </div>
-                </div>`
-                        );
-                
-                $("#taskCreateButton").click(createTask);
-                
-                $("#modalCloseButton").click(() => {
-                    $("#mainModal").fadeOut(500);
-                });
-
-                $("#mainModal").fadeIn(200);
-            });
-        });
-    });
-
-    sprintList.forEach((sprint) => {
-        $("#editSprintButton" + sprint.sprintID).click(function() {
-            $("#mainModal").html(
-                `<div id="modalBox" class="modalContent">
-                    <span id="modalCloseButton" class="closeButton">&times;</span>
-                    <div id="modalContent">
-                        <h2>Edit ${sprint.sprintName}</h2><br>
-
-                        <label for="editedSprintNumber">Sprint #: </label>
-                        <select name="editedSprintNumber" id="editedSprintName">
-                            <option value="${sprint.sprintNum}">${sprint.sprintNum}</option>
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                            <option value="5">5</option>
-                        </select><br><br>
-
-                        <label for="editedSprintName">Sprint Name: </label>
-                        <input type="text" name="editedSprintName" id="editedSprintName" value="${sprint.sprintName}"><br><br>
-
-                        <label for="editedSprintStartDate">Sprint Start Date: </label>
-                        <input type="date" id="editedSprintStartDate" name="editedSprintStartDate" value="${sprint.sprintStartDate}"><br><br>
-
-                        <label for="editedSprintEndDate">Sprint End Date: </label>
-                        <input type="date" id="editedSprintEndDate" name="editedSprintEndDate" value="${sprint.sprintEndDate}"><br><br>
-
-                        <button class="styledButton" id="completeSprintEditButton">Edit Sprint</button>
-                    </div>
-                </div>`
-            );
     
-            $("#modalCloseButton").click(() => {
-                $("#mainModal").fadeOut(500);
-            });
-
-            $("#mainModal").fadeIn(200);
-        });
-    });
+    showStoryForm(sprintList);
+    
+    showTaskForm(sprintList);
+    
+    showEditSprintForm(sprintList);
+    
 }
 
 function showSprintForm() {
@@ -245,7 +133,139 @@ function showSprintForm() {
     $("#mainModal").fadeIn(200);
 }
 
-function createTask() {
+function showStoryForm(sprintList) {
+    sprintList.forEach((sprint) => {
+        //Creates the click event for the create user story form
+        $("#newStoryButton" + sprint.sprintID).click(function () {
+
+            $("#mainModal").html(
+                    `<div id="modalBox" class="modalContent">
+                        <span id="modalCloseButton" class="closeButton">&times;</span>
+                        <div id="modalContent">
+                            <h2>Add A Story to ${sprint.sprintName}</h2><br>
+
+                            <label for="storyName">User Story Name: </label>
+                            <input type="text" name="storyName" id="newStoryName"> <br> <br>
+
+                            <label for="priorityLevel">Priority: </label>
+                            <select name="priorityLevel" id="storyPriorityLevel">
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                            </select> <br> <br>
+
+                            <button class="styledButton" id="storyCreateButton" data-sprintid="${$(this).attr("data-sprintid")}">Create Story</button>
+                        </div>
+                    </div>`);
+            
+            $("#storyCreateButton").click(createStory);
+            
+            $("#modalCloseButton").click(() => {
+                $("#mainModal").fadeOut(500);
+            });
+
+            $("#mainModal").fadeIn(200);
+        });
+    });
+}
+
+function showTaskForm(sprintList){
+    sprintList.forEach((sprint) => {
+        // Creates the click event for the create task form
+        sprint.stories.forEach((story) => {
+            $("#newTaskButton" + story.storyID).click(function () {
+
+                $("#mainModal").html(
+                        `<div id="modalBox" class="modalContent">
+                    <span id="modalCloseButton" class="closeButton">&times;</span>
+                    <div id="modalContent">
+                        <h2>Add a Task to ${story.storyName}</h2><br>
+                
+                        <label for="taskName">Task Name: </label>
+                        <input type="text" name="taskName" id="newTaskName"> <br> <br>
+                
+                        <label for="taskDetails">Task Details: </label>
+                        <input type="text" name="taskDetails" id="newTaskDetails"> <br> <br>
+                
+                        <label for="taskTime">Task Time (In Hours): </label>
+                        <input type="text" name="taskTime" id="newTaskTime"> <br> <br>
+                
+                        <label for="taskPriorityLevel">Priority: </label>
+                        <select name="taskPriorityLevel" id="taskPriorityLevel">
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                        </select> <br> <br>
+                
+                        <button class="styledButton" id="taskCreateButton">Create Task</button>
+                    </div>
+                </div>`
+                        );
+                
+                $("#taskCreateButton").click(createTask);
+                
+                $("#modalCloseButton").click(() => {
+                    $("#mainModal").fadeOut(500);
+                });
+
+                $("#mainModal").fadeIn(200);
+            });
+        });
+    });
+}
+
+function showEditSprintForm(sprintList) {
+    sprintList.forEach((sprint) => {
+        $("#editSprintButton" + sprint.sprintID).click(function() {
+            $("#mainModal").html(
+                `<div id="modalBox" class="modalContent">
+                    <span id="modalCloseButton" class="closeButton">&times;</span>
+                    <div id="modalContent">
+                        <h2>Edit ${sprint.sprintName}</h2><br>
+
+                        <label for="editedSprintNumber">Sprint #: </label>
+                        <select name="editedSprintNumber" id="editedSprintNumber">
+                            <option value="${sprint.sprintNum}">${sprint.sprintNum}</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                        </select><br><br>
+
+                        <label for="editedSprintName">Sprint Name: </label>
+                        <input type="text" name="editedSprintName" id="editedSprintName" value="${sprint.sprintName}"><br><br>
+
+                        <label for="editedSprintStartDate">Sprint Start Date: </label>
+                        <input type="date" id="editedSprintStartDate" name="editedSprintStartDate" value="${sprint.sprintStartDate}"><br><br>
+
+                        <label for="editedSprintEndDate">Sprint End Date: </label>
+                        <input type="date" id="editedSprintEndDate" name="editedSprintEndDate" value="${sprint.sprintEndDate}"><br><br>
+
+                        <button class="styledButton" id="completeSprintEditButton">Edit Sprint</button>
+                    </div>
+                </div>`
+            );
+    
+            $("#modalCloseButton").click(() => {
+                $("#mainModal").fadeOut(500);
+            });
+
+            $("#mainModal").fadeIn(200);
+        });
+    });
+}
+
+function updateSprint(updatedSprint) {
+    $("#sprintName"+updatedSprint.sprintID).val(updatedSprint.sprintName);
+    $("#sprintDates"+updatedSprint.sprintID).val(updatedSprint.sprintStartDate + " to " + updatedSprint.sprintEndDate);
+}
+
+function createTask(){
     ajaxGet('private', {'action' : 'createTask',
         'taskName' : $("#newTaskName").val(),
         'taskDetails' : $("#newTaskDetails").val(),
@@ -267,8 +287,35 @@ function createSprint() {
         'sprintEndDate': $("#sprintEndDate").val()},
             (result) => {
         hideSprintForm();
-        displaySprints(JSON.parse(result));
+        displayProject(JSON.parse(result));
     });
+}
+
+function editSprint() {
+    ajaxPost('Sprint', {'sprintNumber' : $("#editedSprintNumber").val(),
+        'sprintName': $("#editedSprintName").val(),
+        'sprintStartDate' : $("#editedSprintStartDate").val(),
+        'sprintEndDate' : $("#editedSprintEndDate").val()}),
+            (result) => {
+                $("#mainModal").fadeOut(500);
+                updateSprint(result);
+            };
+}
+
+function createStory() {
+    ajaxGet('private', {'action': 'createStory',
+                        'storyName': $("#newStoryName").val(),
+                        'sprintID': $(this).attr("data-sprintid"),
+                        'storyPriority': $("#storyPriorityLevel option:selected").val()},
+                            (result) => {
+        $("#mainModal").fadeOut(500);
+        updateStories($(this).attr("data-sprintid"), result);
+    });
+}
+
+function updateStories(sprintID, storyList) {
+    console.log(sprintID);
+    console.log(storyList);
 }
 
 var ajaxGet = (url, data, callback) => {
