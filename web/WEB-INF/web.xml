@@ -24,6 +24,14 @@
         <servlet-name>Authorize</servlet-name>
         <url-pattern>/Authorize</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>Navigation</servlet-name>
+        <servlet-class>controller.Navigation</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Navigation</servlet-name>
+        <url-pattern>/navigation</url-pattern>
+    </servlet-mapping>
     <session-config>
         <session-timeout>
             50
