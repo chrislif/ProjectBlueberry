@@ -36,7 +36,7 @@ function displayProject(sprintList) {
                         <h3 class="storyName">Story: ${story.storyName} </h3>
                         <button class="styledButton" id="newTaskButton${story.storyID}" data-storyid="${story.storyID}">New Task</button>
                     </div>
-                    <table class="stylizedTable">
+                    <table class="stylizedTable" id="taskTable${story.storyID}">
                         <tr>
                             <th>Task Name</th>
                             <th>Task Priority</th>
@@ -266,6 +266,33 @@ function updateSprint(updatedSprint) {
     $("#sprintDates"+updatedSprint.sprintID).val(updatedSprint.sprintStartDate + " to " + updatedSprint.sprintEndDate);
 }
 
+function updateTasks(taskList, storyID){
+    $("#taskTable"+storyID).empty();
+    
+    var taskTableHTML = 
+            `
+            <tr>
+                <th>Task Name</th>
+                <th>Task Priority</th>
+                <th>Task Details</th>
+            </tr>
+            `;
+    
+    taskList.forEach((task) => {
+       taskTableHTML += 
+               `
+                <tr>
+                    <td> ${task.taskName} </td>
+                    <td> ${task.taskPriority} </td>
+                    <td> ${task.taskDetails} </td>
+                </tr>
+               `; 
+    });
+    
+    $("#taskTable"+storyID).append(taskTableHTML);
+            
+}
+
 function createTask(){
     ajaxPost('Task', {
         'storyID': $(this).attr("data-storyid"),
@@ -275,7 +302,8 @@ function createTask(){
         'taskPriority' : $("#taskPriorityLevel option:selected").val()},
             (result) => {
         $("#mainModal").fadeOut(500);
-        console.log(result);
+        var taskList = JSON.parse(result);
+        updateTasks(taskList, $(this).attr("data-storyid"));
     });
 }
 
