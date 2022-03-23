@@ -308,7 +308,7 @@ function createTask(){
 }
 
 function createSprint() {
-    ajaxGet('private', {'action': 'createSprint',
+    ajaxPost('Sprint', {
         'projectID': project.projectID,
         'storyID' : $(this).attr("data-storyid"),
         'sprintNum': $("#sprintNumber option:selected").val(),
@@ -333,8 +333,7 @@ function editSprint() {
 }
 
 function createStory() {
-    ajaxGet('private', {'action': 'createStory',
-                        'storyName': $("#newStoryName").val(),
+    ajaxPost('Story', {  'storyName': $("#newStoryName").val(),
                         'sprintID': $(this).attr("data-sprintid"),
                         'storyPriority': $("#storyPriorityLevel option:selected").val()},
                             (result) => {
