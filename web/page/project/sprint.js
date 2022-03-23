@@ -83,32 +83,32 @@ function displayProject(sprintList) {
 
 function showSprintForm() {
     $("#mainModal").html(
-            `<div id="modalBox" class="modalContent">
-                <span id="modalCloseButton" class="closeButton">&times;</span>
-                <div id="modalContent">
-                    <h2>Add A Sprint</h2><br>
+        `<div id="modalBox" class="modalContent">
+            <span id="modalCloseButton" class="closeButton">&times;</span>
+            <div id="modalContent">
+                <h2>Add A Sprint</h2><br>
 
-                    <label for="sprintNumber">Sprint #: </label>
-                    <select name="sprintNumber" id="sprintNumber">
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                    </select><br><br>
+                <label for="sprintNumber">Sprint #: </label>
+                <select name="sprintNumber" id="sprintNumber">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                </select><br><br>
 
-                    <label for="sprintName">Sprint Name: </label>
-                    <input type="text" name="sprintName" id="sprintName"><br><br>
+                <label for="sprintName">Sprint Name: </label>
+                <input type="text" name="sprintName" id="sprintName"><br><br>
 
-                    <label for="sprintStartDate">Sprint Start Date: </label>
-                    <input type="date" id="sprintStartDate" name="sprintStartDate"><br><br>
+                <label for="sprintStartDate">Sprint Start Date: </label>
+                <input type="date" id="sprintStartDate" name="sprintStartDate"><br><br>
 
-                    <label for="sprintEndDate">Sprint End Date: </label>
-                    <input type="date" id="sprintEndDate" name="sprintEndDate"><br><br>
+                <label for="sprintEndDate">Sprint End Date: </label>
+                <input type="date" id="sprintEndDate" name="sprintEndDate"><br><br>
 
-                    <button class="styledButton" id="sprintCreateButton">Create Sprint</button>
-                </div>
-            </div>`);
+                <button class="styledButton" id="sprintCreateButton">Create Sprint</button>
+            </div>
+        </div>`);
 
     var today = new Date();
     var dd = today.getDate();

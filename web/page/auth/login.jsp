@@ -27,8 +27,8 @@
                 <input type="submit" class="styledButton" value="Login">
             </form>
 
-            <form action="public" method="post">
-                <input type="hidden" name="action" value="toRegister">
+            <form action="navigation" method="post">
+                <input type="hidden" name="url" value="/page/auth/register.jsp">
                 <input type="submit" class="styledButton" value="Register Here">
             </form>
         </div>

@@ -14,10 +14,6 @@ import javax.servlet.http.HttpSession;
 import model.Account;
 import model.Project;
 
-/**
- *
- * @author chris
- */
 public class Public extends HttpServlet {
     
     @Override
@@ -54,19 +50,6 @@ public class Public extends HttpServlet {
         ArrayList<String> errorList = new ArrayList();
         
         switch (action) {
-            
-            case "toHome":
-                url = "/index.jsp";
-                break;
-            case "toLogin":
-                url = "/page/auth/login.jsp";
-                break;
-            case "toOverview":
-                url ="/page/project/overview.jsp";
-                break;
-            case "toRegister":
-                url = "/page/auth/register.jsp";
-                break;
             case "register":
                 String accountName = request.getParameter("accountName");
                 password = request.getParameter("password");

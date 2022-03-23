@@ -120,11 +120,7 @@ public class Private extends HttpServlet {
         
         Account currentUser = (Account) session.getAttribute("currentUser");
         
-        switch (action) {
-            case "toOverview":
-                url = "/page/project/overview.jsp";
-                break;
-                
+        switch (action) {  
             case "toProject":
                 String projectID = request.getParameter("projectID");
                 Project selectedProject = ProjectManager.getProject(Integer.parseInt(projectID), errorList);

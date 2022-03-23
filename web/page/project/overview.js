@@ -16,20 +16,20 @@ function showProjectForm() {
 }
 
 function createProject() {
-    ajaxGet("private", {'action': 'createProject','projectName': $("#projectNameText").val()}, (result) => {
+    ajaxGet("Private", {'action': 'createProject','projectName': $("#projectNameText").val()}, (result) => {
         hideProjectForm();      
         retrieveProjects();
     });
 }
 
 function retrieveProjects() {
-    ajaxGet("private", {'action': 'getProjects'}, (result) => {
+    ajaxGet("Private", {'action': 'getProjects'}, (result) => {
         projectList = JSON.parse(result);
         
         $("#projectTable").html("");
         projectList.forEach(element => (
             $("#projectTable").append(
-                `<form action="private" method="post">
+                `<form action="Private" method="post">
                     <input type="hidden" name="action" value="toProject">
                     <input type="hidden" name="projectID" value="` + element.projectID + `">
                     <button type="submit" class="gridSubContent gridButton">
