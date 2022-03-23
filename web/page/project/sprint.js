@@ -175,6 +175,7 @@ function showTaskForm(sprintList){
     sprintList.forEach((sprint) => {
         // Creates the click event for the create task form
         sprint.stories.forEach((story) => {
+            console.log(story);
             $("#newTaskButton" + story.storyID).click(function () {
 
                 $("#mainModal").html(
@@ -201,7 +202,7 @@ function showTaskForm(sprintList){
                             <option value="5">5</option>
                         </select> <br> <br>
                 
-                        <button class="styledButton" id="taskCreateButton" data-storyid=${story.storyid}>Create Task</button>
+                        <button class="styledButton" id="taskCreateButton" data-storyid=${story.storyID}>Create Task</button>
                     </div>
                 </div>`
                         );
@@ -266,7 +267,8 @@ function updateSprint(updatedSprint) {
 }
 
 function createTask(){
-    ajaxGet('private', {'storyID': $(this).attr("data-storyid"),
+    ajaxPost('Task', {
+        'storyID': $(this).attr("data-storyid"),
         'taskName' : $("#newTaskName").val(),
         'taskDetails' : $("#newTaskDetails").val(),
         'taskTime' : $("#newTaskTime").val(),
