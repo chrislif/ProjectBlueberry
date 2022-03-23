@@ -40,72 +40,7 @@ public class Private extends HttpServlet {
         String storyListJSON;
         Gson gson = new GsonBuilder().setDateFormat("yyyy-Mm-dd").create();
         String action = request.getParameter("action");
-        
-        switch (action) {
-            case "getProjects":
-                ArrayList<Project> projectList = ProjectManager.retrieveProjects(currentUser, errorList);
-                
-                String projectListJSON = gson.toJson(projectList);
-                
-                responseOut.println(projectListJSON);
-                break;
-            
-            case "createProject":
-                String projectName = request.getParameter("projectName");
-                
-                ProjectManager.createProject(currentUser, projectName, errorList);
-                
-                errorListJSON = gson.toJson(errorList);
-                
-                responseOut.println(errorListJSON);
-                break;
-                
-            case "getSprints":
-                projectID = Integer.parseInt(request.getParameter("projectID"));
-                
-                sprintList = ProjectManager.retrieveSprints(projectID, errorList);
-                
-                sprintListJSON = gson.toJson(sprintList);
-                
-                responseOut.println(sprintListJSON);
-                break;
-                
-            case "createSprint":
-                projectID = Integer.parseInt(request.getParameter("projectID"));
-                int sprintNum = Integer.parseInt(request.getParameter("sprintNum"));
-                String sprintName = request.getParameter("sprintName");
-                String sprintStartDate = request.getParameter("sprintStartDate");
-                String sprintEndDate = request.getParameter("sprintEndDate");
-                
-                ProjectManager.createSprint(projectID, sprintNum, sprintName, sprintStartDate, sprintEndDate, errorList);
-                
-                sprintList = ProjectManager.retrieveSprints(projectID, errorList);
-                
-                sprintListJSON = gson.toJson(sprintList);
-                
-                responseOut.println(sprintListJSON);
-                break;
-               
-            case "getStories":
-                
-                break;
-                
-            case "createStory":
-                int sprintID = Integer.parseInt(request.getParameter("sprintID"));
-                String storyName = request.getParameter("storyName");
-                int storyPriority = Integer.parseInt(request.getParameter("storyPriority"));
-                
-                storyList = ProjectManager.createStory(sprintID, storyName, storyPriority, errorList);
-                
-                storyListJSON = gson.toJson(storyList);
-                
-                responseOut.println(storyListJSON);
-                break;
-                
-            default:
-                responseOut.println("default response, something went wrong");
-                break;
-        }
+
         
         responseOut.flush();
     }
@@ -117,32 +52,9 @@ public class Private extends HttpServlet {
         HttpSession session = request.getSession();
         ArrayList<String> errorList = new ArrayList();
         Gson gson = new Gson();
-        
-        Account currentUser = (Account) session.getAttribute("currentUser");
-        
-        switch (action) {  
-            case "toProject":
-                String projectID = request.getParameter("projectID");
-                Project selectedProject = ProjectManager.getProject(Integer.parseInt(projectID), errorList);
-                
-                String projectJSON = gson.toJson(selectedProject);
-                request.setAttribute("project", projectJSON);
-                
-                url = "/page/project/projectHome.jsp";
-                break;
-            
-            case "logout":
-                url = "/page/auth/login.jsp";
-                currentUser = null;
-                session.setAttribute("currentUser", currentUser);
-                break;
-            default:
-                url = "/index.jsp";
-                break;
-        }
+
         
         request.setAttribute("errorList", errorList);
-        getServletContext().getRequestDispatcher(url).forward(request, response);
     }
     
     public Private() {}

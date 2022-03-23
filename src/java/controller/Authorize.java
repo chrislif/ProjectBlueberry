@@ -17,13 +17,19 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import model.Account;
 
-@WebServlet(name = "Authorize", urlPatterns = {"/Authorize"})
 public class Authorize extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
+        HttpSession session = request.getSession();
+        
+        String url = "/page/auth/login.jsp";
+        
+        Account currentUser = null;
+        session.setAttribute("currentUser", currentUser);
+        
+        getServletContext().getRequestDispatcher(url).forward(request, response);
     }
 
     @Override
@@ -53,6 +59,5 @@ public class Authorize extends HttpServlet {
     @Override
     public String getServletInfo() {
         return "Short description";
-    }// </editor-fold>
-
+    }
 }

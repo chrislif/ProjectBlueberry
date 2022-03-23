@@ -280,7 +280,7 @@ function createTask(){
 }
 
 function createSprint() {
-    ajaxGet('private', {'action': 'createSprint',
+    ajaxPost('Sprint', {
         'projectID': project.projectID,
         'storyID' : $(this).attr("data-storyid"),
         'sprintNum': $("#sprintNumber option:selected").val(),
