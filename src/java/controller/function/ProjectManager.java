@@ -3,6 +3,7 @@ package controller.function;
 import data.ProjectDB;
 import data.SprintDB;
 import data.StoryDB;
+import data.TaskDB;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -10,6 +11,7 @@ import model.Account;
 import model.Project;
 import model.Sprint;
 import model.Story;
+import model.StoryTask;
 
 /**
  *
@@ -83,6 +85,18 @@ public class ProjectManager {
             return StoryDB.getStories(sprintID);
         } catch (SQLException ex) {
             errorList.add(ex.getMessage());
+            return null;
+        }
+    }
+    
+    public static ArrayList<StoryTask> createTask(int storyID, String taskName, String taskDetails, int taskPriority, int taskTime) {
+        StoryTask newTask = new StoryTask(0, taskName, taskPriority, taskTime, taskDetails, false);
+        
+        try {
+            TaskDB.createTask(newTask, storyID);
+            
+            return TaskDB.getTasks(storyID);
+        } catch (SQLException ex) {
             return null;
         }
     }
