@@ -23,25 +23,25 @@ function displaySprints(sprintList) {
         sprintHtml += `
             <div class="sprintCard">
                 <div class="sprintCardHeader">
-                    <h2 class="sprintName">` + sprint.sprintName + ` </h2>
-                    <p class="sprintDate">` + sprint.sprintStartDate + ` to ` + sprint.sprintEndDate + `</p>
-                    <span id="editSprintButton`+sprint.sprintID+`"><img src="resources/editIcon.png"  class="editIcon" alt="Icon to edit sprint information"></span> 
-                    <span id="deleteSprintButton`+sprint.sprintID+`"><img src="resources/deleteIcon.png" class="deleteIcon" alt="Icon to delete sprint information"></span>
+                    <h2 class="sprintName"> ${sprint.sprintName} </h2>
+                    <p class="sprintDate"> ${sprint.sprintStartDate} to ${sprint.sprintEndDate} </p>
+                    <span id="editSprintButton${sprint.sprintID}"><img src="resources/editIcon.png"  class="editIcon" alt="Icon to edit sprint information"></span> 
+                    <span id="deleteSprintButton${sprint.sprintID}"><img src="resources/deleteIcon.png" class="deleteIcon" alt="Icon to delete sprint information"></span>
                 </div>`;
 
         sprint.stories.forEach((story) => {
             sprintHtml += `
                 <div class="storyCard">
                     <div class="storyCardHeader">
-                        <h3 class="storyName">Story: ` + story.storyName + `</h3>
-                        <button class="styledButton" id="newTaskButton` + story.storyID + `" data-storyid="` + story.storyID + `">New Task</button>
+                        <h3 class="storyName">Story: ${story.storyName} </h3>
+                        <button class="styledButton" id="newTaskButton${story.storyID}" data-storyid="${story.storyID}">New Task</button>
                     </div>
                     <table class="stylizedTable">
                         <tr>
                             <th>Task Name</th>
                             <th>Task Priority</th>
                             <th>Task Details</th>
-                        </tr>`;
+                        </tr>`
 
             story.tasks.forEach((task) => {
                 sprintHtml += `
@@ -141,7 +141,7 @@ function displaySprints(sprintList) {
                 </div>`
                         );
                 
-                $("#taskCreateButton").click(createTask());
+                $("#taskCreateButton").click(createTask);
                 
                 $("#modalCloseButton").click(() => {
                     $("#mainModal").fadeOut(500);
