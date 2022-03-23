@@ -23,14 +23,14 @@
                 <ul class="navlist">
                     <div class="navSection">
                         <li>
-                            <form action="public" method="post">
+                            <form action="Public" method="post">
                                 <input type="hidden" name="action" value="toHome">
                                 <input type="submit" value="Home" class="navbutton primaryColor">
                             </form>
                         </li>
                         <c:if test="${currentUser != null}">
                             <li>
-                                <form action="private" method="post">
+                                <form action="Private" method="post">
                                     <input type="hidden" name="action" value="toOverview">
                                     <input type="submit" value="Overview" class="navbutton primaryColor">
                                 </form>
@@ -40,7 +40,7 @@
                     <div class="navSection">
                         <c:if test="${currentUser != null}">
                             <li>
-                                <form action="private" method="post">
+                                <form action="Private" method="post">
                                     <input type="hidden" name="action" value="logout">
                                     <input type="submit" value="Logout" class="navbutton">
                                 </form>
@@ -48,7 +48,7 @@
                         </c:if>
                         <c:if test="${currentUser == null}">
                             <li>
-                                <form action="public" method="post">
+                                <form action="Public" method="post">
                                     <input type="hidden" name="action" value="toLogin">
                                     <input type="submit" value="Login" class="navbutton">
                                 </form>
