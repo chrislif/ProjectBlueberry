@@ -39,6 +39,8 @@
     <servlet-mapping>
         <servlet-name>Sprint</servlet-name>
         <url-pattern>/Sprint</url-pattern>
+    </servlet-mapping>
+    <servlet>
         <servlet-name>Navigation</servlet-name>
         <servlet-class>controller.Navigation</servlet-class>
     </servlet>

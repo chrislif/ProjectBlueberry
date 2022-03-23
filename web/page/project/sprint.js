@@ -201,7 +201,7 @@ function showTaskForm(sprintList){
                             <option value="5">5</option>
                         </select> <br> <br>
                 
-                        <button class="styledButton" id="taskCreateButton">Create Task</button>
+                        <button class="styledButton" id="taskCreateButton" data-storyid=${story.storyid}>Create Task</button>
                     </div>
                 </div>`
                         );
@@ -266,7 +266,7 @@ function updateSprint(updatedSprint) {
 }
 
 function createTask(){
-    ajaxGet('private', {'action' : 'createTask',
+    ajaxGet('private', {'storyID': $(this).attr("data-storyid"),
         'taskName' : $("#newTaskName").val(),
         'taskDetails' : $("#newTaskDetails").val(),
         'taskTime' : $("#newTaskTime").val(),
