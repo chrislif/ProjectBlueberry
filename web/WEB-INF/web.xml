@@ -39,6 +39,12 @@
     <servlet-mapping>
         <servlet-name>Sprint</servlet-name>
         <url-pattern>/Sprint</url-pattern>
+        <servlet-name>Navigation</servlet-name>
+        <servlet-class>controller.Navigation</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Navigation</servlet-name>
+        <url-pattern>/navigation</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
