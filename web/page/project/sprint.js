@@ -10,10 +10,10 @@ $(document).ready(() => {
         }
     });
 
-    displaySprints(project.sprints);
+    displayProject(project.sprints);
 });
 
-function displaySprints(sprintList) {
+function displayProject(sprintList) {
     var sprintHtml = `
         <h2>
             Sprint Overview
@@ -23,18 +23,18 @@ function displaySprints(sprintList) {
         sprintHtml += `
             <div class="sprintCard">
                 <div class="sprintCardHeader">
-                    <h2 class="sprintName">` + sprint.sprintName + ` </h2>
-                    <p class="sprintDate">` + sprint.sprintStartDate + ` to ` + sprint.sprintEndDate + `</p>
-                    <span id="editSprintButton`+sprint.sprintID+`"><img src="resources/editIcon.png"  class="editIcon" alt="Icon to edit sprint information"></span> 
-                    <span id="deleteSprintButton`+sprint.sprintID+`"><img src="resources/deleteIcon.png" class="deleteIcon" alt="Icon to delete sprint information"></span>
+                    <h2 class="sprintName"> ${sprint.sprintName} </h2>
+                    <p class="sprintDate"> ${sprint.sprintStartDate} to ${sprint.sprintEndDate} </p>
+                    <span id="editSprintButton${sprint.sprintID}"><img src="resources/editIcon.png"  class="editIcon" alt="Icon to edit sprint information"></span> 
+                    <span id="deleteSprintButton${sprint.sprintID}"><img src="resources/deleteIcon.png" class="deleteIcon" alt="Icon to delete sprint information"></span>
                 </div>`;
 
         sprint.stories.forEach((story) => {
             sprintHtml += `
                 <div class="storyCard">
                     <div class="storyCardHeader">
-                        <h3 class="storyName">Story: ` + story.storyName + `</h3>
-                        <button class="styledButton" id="newTaskButton` + story.storyID + `" data-storyid="` + story.storyID + `">New Task</button>
+                        <h3 class="storyName">Story: ${story.storyName} </h3>
+                        <button class="styledButton" id="newTaskButton${story.storyID}" data-storyid="${story.storyID}">New Task</button>
                     </div>
                     <table class="stylizedTable">
                         <tr>
@@ -46,9 +46,9 @@ function displaySprints(sprintList) {
             story.tasks.forEach((task) => {
                 sprintHtml += `
                         <tr>
-                            <td>` + task.taskName + `</td>
-                            <td>` + task.taskPriority + `</td>
-                            <td>` + task.taskDetails + `</td>
+                            <td> ${task.taskName} </td>
+                            <td> ${task.taskPriority} </td>
+                            <td> ${task.taskDetails} </td>
                         </tr>`;
             });
 
@@ -67,7 +67,7 @@ function displaySprints(sprintList) {
         });
 
         sprintHtml += `
-                <button class="styledButton" id="newStoryButton` + sprint.sprintID + `" data-sprintid="` + sprint.sprintID + `">New Story</button>
+                <button class="styledButton" id="newStoryButton${sprint.sprintID}" data-sprintid="${sprint.sprintID}">New Story</button>
             </div>`;
     });
 
@@ -81,7 +81,7 @@ function displaySprints(sprintList) {
                     `<div id="modalBox" class="modalContent">
                         <span id="modalCloseButton" class="closeButton">&times;</span>
                         <div id="modalContent">
-                            <h2>Add A Story</h2><br>
+                            <h2>Add A Story to ${sprint.sprintName}</h2><br>
 
                             <label for="storyName">User Story Name: </label>
                             <input type="text" name="storyName" id="newStoryName"> <br> <br>
@@ -95,7 +95,7 @@ function displaySprints(sprintList) {
                                 <option value="5">5</option>
                             </select> <br> <br>
 
-                            <button class="styledButton" id="storyCreateButton" data-sprintid="` + $(this).attr("data-sprintid") + `">Create Story</button>
+                            <button class="styledButton" id="storyCreateButton" data-sprintid="${$(this).attr("data-sprintid")}">Create Story</button>
                         </div>
                     </div>`);
             
@@ -116,7 +116,7 @@ function displaySprints(sprintList) {
                         `<div id="modalBox" class="modalContent">
                     <span id="modalCloseButton" class="closeButton">&times;</span>
                     <div id="modalContent">
-                        <h2>Add a Task to ` + story.storyName + `</h2><br>
+                        <h2>Add a Task to ${story.storyName}</h2><br>
                 
                         <label for="taskName">Task Name: </label>
                         <input type="text" name="taskName" id="newTaskName"> <br> <br>
@@ -141,7 +141,7 @@ function displaySprints(sprintList) {
                 </div>`
                         );
                 
-                $("#taskCreateButton").click(createTask());
+                $("#taskCreateButton").click(createTask);
                 
                 $("#modalCloseButton").click(() => {
                     $("#mainModal").fadeOut(500);
@@ -158,11 +158,11 @@ function displaySprints(sprintList) {
                 `<div id="modalBox" class="modalContent">
                     <span id="modalCloseButton" class="closeButton">&times;</span>
                     <div id="modalContent">
-                        <h2>Edit `+sprint.sprintName+`</h2><br>
+                        <h2>Edit ${sprint.sprintName}</h2><br>
 
                         <label for="editedSprintNumber">Sprint #: </label>
                         <select name="editedSprintNumber" id="editedSprintName">
-                            <option value="`+sprint.sprintNum+`">`+sprint.sprintNum+`</option>
+                            <option value="${sprint.sprintNum}">${sprint.sprintNum}</option>
                             <option value="1">1</option>
                             <option value="2">2</option>
                             <option value="3">3</option>
@@ -171,13 +171,13 @@ function displaySprints(sprintList) {
                         </select><br><br>
 
                         <label for="editedSprintName">Sprint Name: </label>
-                        <input type="text" name="editedSprintName" id="editedSprintName" value="`+sprint.sprintName+`"><br><br>
+                        <input type="text" name="editedSprintName" id="editedSprintName" value="${sprint.sprintName}"><br><br>
 
                         <label for="editedSprintStartDate">Sprint Start Date: </label>
-                        <input type="date" id="editedSprintStartDate" name="editedSprintStartDate" value="`+sprint.sprintStartDate+`"><br><br>
+                        <input type="date" id="editedSprintStartDate" name="editedSprintStartDate" value="${sprint.sprintStartDate}"><br><br>
 
                         <label for="editedSprintEndDate">Sprint End Date: </label>
-                        <input type="date" id="editedSprintEndDate" name="editedSprintEndDate" value="`+sprint.sprintEndDate+`"><br><br>
+                        <input type="date" id="editedSprintEndDate" name="editedSprintEndDate" value="${sprint.sprintEndDate}"><br><br>
 
                         <button class="styledButton" id="completeSprintEditButton">Edit Sprint</button>
                     </div>
@@ -185,7 +185,7 @@ function displaySprints(sprintList) {
             );
     
             $("#modalCloseButton").click(() => {
-                        $("#mainModal").fadeOut(500);
+                $("#mainModal").fadeOut(500);
             });
 
             $("#mainModal").fadeIn(200);
@@ -274,6 +274,19 @@ function createSprint() {
 var ajaxGet = (url, data, callback) => {
     $.ajax({
         type: "GET",
+        url: url,
+        data: data,
+        dataType: "JSON",
+        success: callback,
+        error: function (jqXHR, ex) {
+            console.log(jqXHR);
+        }
+    });
+};
+
+var ajaxPost = (url, data, callback) => {
+    $.ajax({
+        type: "POST",
         url: url,
         data: data,
         dataType: "JSON",
