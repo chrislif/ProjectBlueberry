@@ -47,5 +47,7 @@ function displayProjectDetails() {
             Project ID: ` + project.projectID + `
         </p>
          <button class="styledButton" id="newSprintButton">New Sprint</button>
+         <button class="styledButton" id="AddContributerButton">Add Contributer</button>
+    
         ` + contributorHtml);
 }

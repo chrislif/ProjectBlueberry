@@ -4,6 +4,9 @@ $(document).ready(() => {
     $("#newSprintButton").click(showSprintForm);
     $("#sprintCreateButton").click(createSprint);
 
+    $("AddContributerButton").click(showContributerForm);
+    $("#contributerAddButton").click(addContributer);
+    
     $(window).click(function (e) {
         if (e.target.id === "mainModal") {
             $("#mainModal").fadeOut(100);
@@ -134,6 +137,18 @@ function showSprintForm() {
     });
 
     $("#mainModal").fadeIn(200);
+}
+
+function showContributerForm() {
+        $("#mainModal").html(
+        `<div id="modalBox" class="modalContent">
+            <span id="modalCloseButton" class="closeButton">&times;</span>
+            <div id="modalContent">
+                <h2>Add A Contributer</h2><br>
+
+                <button class="styledButton" id="contributerAddButton">Add Contributer</button>
+            </div>
+        </div>`);
 }
 
 function showStoryForm(sprintList) {

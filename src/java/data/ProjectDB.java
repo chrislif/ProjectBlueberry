@@ -256,4 +256,33 @@ public class ProjectDB {
         }
         return managers;
     }    
+    
+    public static void updateProjectName(Project project, String name) throws SQLException{
+        ConnectionPool pool = ConnectionPool.getInstance();
+        Connection connection = pool.getConnection();
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+        
+        String query = "UPDATE project SET projectName = ? where projectID = ?";
+        
+        try{
+            statement = connection.prepareStatement(query);
+            statement.setString(1, name);
+            statement.setInt(2, project.getProjectID());
+            
+            statement.executeUpdate();
+        } catch (SQLException ex) {
+            throw ex;
+        } finally {
+            try {
+                if (resultSet != null && statement != null) {
+                    resultSet.close();
+                    statement.close();
+                }
+                pool.freeConnection(connection);
+            } catch (SQLException e) {
+                throw e;
+            }
+        }
+    }
 }

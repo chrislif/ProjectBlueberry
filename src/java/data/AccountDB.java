@@ -57,7 +57,7 @@ public class AccountDB {
         return accountList;
     }
 
-    public static int updateAccountName(Account account, String name) throws SQLException {
+    public static void updateAccountName(Account account, String name) throws SQLException {
         ConnectionPool pool = ConnectionPool.getInstance();
         Connection connection = pool.getConnection();
         PreparedStatement statement = null;
@@ -70,7 +70,7 @@ public class AccountDB {
             statement.setString(1, name);
             statement.setInt(2, account.getAccountID());
 
-            return statement.executeUpdate();
+            statement.executeUpdate();
         } catch (SQLException ex) {
             throw ex;
         } finally {
@@ -86,7 +86,7 @@ public class AccountDB {
         }
     }
     
-    public static int updateAccountEmail(Account account, String email) throws SQLException {
+    public static void updateAccountEmail(Account account, String email) throws SQLException {
         ConnectionPool pool = ConnectionPool.getInstance();
         Connection connection = pool.getConnection();
         PreparedStatement statement = null;
@@ -99,7 +99,7 @@ public class AccountDB {
             statement.setString(1, email);
             statement.setInt(2, account.getAccountID());
 
-            return statement.executeUpdate();
+            statement.executeUpdate();
         } catch (SQLException ex) {
             throw ex;
         } finally {
@@ -115,7 +115,7 @@ public class AccountDB {
         }
     }  
     
-    public static int updateAccountPassword(Account account, String hash, String salt) throws SQLException {
+    public static void updateAccountPassword(Account account, String hash, String salt) throws SQLException {
         ConnectionPool pool = ConnectionPool.getInstance();
         Connection connection = pool.getConnection();
         PreparedStatement statement = null;
@@ -130,7 +130,7 @@ public class AccountDB {
             statement.setString(2, hash);
             statement.setInt(3, account.getAccountID());
 
-            return statement.executeUpdate();
+            statement.executeUpdate();
         } catch (SQLException ex) {
             throw ex;
         } finally {
@@ -177,7 +177,7 @@ public class AccountDB {
         }
     }
     
-    public static int updateAccountXP(int xp, Account account) throws SQLException{
+    public static void updateAccountXP(int xp, Account account) throws SQLException{
         ConnectionPool pool = ConnectionPool.getInstance();
         Connection connection = pool.getConnection();
         PreparedStatement statement = null; 
@@ -192,7 +192,7 @@ public class AccountDB {
             statement.setInt(1, newXP);
             statement.setInt(2, account.getAccountXP());
             
-            return statement.executeUpdate();
+            statement.executeUpdate();
         } catch (SQLException ex) {
             throw ex;
         } finally {

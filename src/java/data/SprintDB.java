@@ -50,7 +50,7 @@ public class SprintDB {
         }
     }
 
-    public static int updateSprintName(int sprintID, String name) throws SQLException {
+    public static void updateSprintName(int sprintID, String name) throws SQLException {
         ConnectionPool pool = ConnectionPool.getInstance();
         Connection connection = pool.getConnection();
         PreparedStatement statement = null;
@@ -64,7 +64,7 @@ public class SprintDB {
             statement.setInt(2, sprintID);
 
 
-            return statement.executeUpdate();
+            statement.executeUpdate();
         } catch (SQLException ex) {
             throw ex;
         } finally {
@@ -80,7 +80,7 @@ public class SprintDB {
         }
     }
 
-    public static int updateSprintEnd(int sprintID, Date endDate) throws SQLException {
+    public static void updateSprintEnd(int sprintID, Date endDate) throws SQLException {
         ConnectionPool pool = ConnectionPool.getInstance();
         Connection connection = pool.getConnection();
         PreparedStatement statement = null;
@@ -93,7 +93,7 @@ public class SprintDB {
             statement.setDate(1, endDate);            
             statement.setInt(2, sprintID);
 
-            return statement.executeUpdate();
+            statement.executeUpdate();
         } catch (SQLException ex) {
             throw ex;
         } finally {
@@ -109,7 +109,7 @@ public class SprintDB {
         }
     }
 
-    public static int updateSprintStart(int sprintID, Date startDate) throws SQLException {
+    public static void updateSprintStart(int sprintID, Date startDate) throws SQLException {
         ConnectionPool pool = ConnectionPool.getInstance();
         Connection connection = pool.getConnection();
         PreparedStatement statement = null;
@@ -122,7 +122,7 @@ public class SprintDB {
             statement.setDate(1, startDate);            
             statement.setInt(2, sprintID);
 
-            return statement.executeUpdate();
+            statement.executeUpdate();
         } catch (SQLException ex) {
             throw ex;
         } finally {
@@ -138,7 +138,7 @@ public class SprintDB {
         }
     }
 
-    public static int updateSprintNum(int sprintID, int num) throws SQLException {
+    public static void updateSprintNum(int sprintID, int num) throws SQLException {
         ConnectionPool pool = ConnectionPool.getInstance();
         Connection connection = pool.getConnection();
         PreparedStatement statement = null;
@@ -151,7 +151,7 @@ public class SprintDB {
             statement.setInt(1, num);            
             statement.setInt(2, sprintID);
 
-            return statement.executeUpdate();
+            statement.executeUpdate();
         } catch (SQLException ex) {
             throw ex;
         } finally {
