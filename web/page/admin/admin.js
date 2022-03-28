@@ -38,6 +38,8 @@ $(document).ready(() => {
                 
                             <label for="accountXP">Account XP: </label>
                             <input type="text" name="accountXP" value="${element.accountXP}"id="accountXP" readonly><br><br>
+                
+                            <button class="styledButton" id="accountEditButton">Confirm Changes</button>
                         </div>
                         
                     </div>`);
