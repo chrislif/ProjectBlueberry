@@ -4,9 +4,9 @@ $(document).ready(() => {
     $("#newSprintButton").click(showSprintForm);
     
 
-    $("#AddContributerButton").click(showContributerForm);
-    //$("#contributerAddButton").click(addContributer);
-
+    $("AddContributerButton").click(showContributerForm);
+//    $("#contributerAddButton").click(addContributer);
+    
     $(window).click(function (e) {
         if (e.target.id === "mainModal") {
             $("#mainModal").fadeOut(100);
