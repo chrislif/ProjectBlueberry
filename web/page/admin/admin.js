@@ -29,10 +29,15 @@ $(document).ready(() => {
                             <h2>Account</h2>
                             <label for="accountID">Account ID: </label>
                             <input type="text" name="accountID" value="${element.accountID}"id="accountID" readonly><br><br>
-                            <p>ID:${element.accountID}<p>
-                            <p>Name:${element.accountName}<p>
-                            <p>Email:${element.email}<p>
-                            <p>XP:${element.accountXP}<p>
+                
+                            <label for="accountName">Name: </label>
+                            <input type="text" name="accountName" value="${element.accountName}"id="accountName"><br><br>
+                
+                            <label for="email">Email: </label>
+                            <input type="text" name="email" value="${element.email}"id="email"><br><br>
+                
+                            <label for="accountXP">Account XP: </label>
+                            <input type="text" name="accountXP" value="${element.accountXP}"id="accountXP" readonly><br><br>
                         </div>
                         
                     </div>`);
