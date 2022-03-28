@@ -53,7 +53,7 @@ public class StoryDB {
         PreparedStatement statement = null;
         ResultSet resultSet = null;
 
-        String query = "UPDATE sprint SET sprintID = ? WHERE storyID = ?";
+        String query = "UPDATE stories SET sprintID = ? WHERE storyID = ?";
 
         try {
             statement = connection.prepareStatement(query);
@@ -83,7 +83,7 @@ public class StoryDB {
         PreparedStatement statement = null;
         ResultSet resultSet = null;
 
-        String query = "UPDATE sprint SET storyName = ? WHERE storyID = ?";
+        String query = "UPDATE stories SET storyName = ? WHERE storyID = ?";
 
         try {
             statement = connection.prepareStatement(query);
@@ -113,7 +113,7 @@ public class StoryDB {
         PreparedStatement statement = null;
         ResultSet resultSet = null;
 
-        String query = "UPDATE sprint SET storyPriority = ? WHERE storyID = ?";
+        String query = "UPDATE stories SET storyPriority = ? WHERE storyID = ?";
 
         try {
             statement = connection.prepareStatement(query);

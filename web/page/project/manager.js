@@ -5,7 +5,7 @@ $(document).ready(() => {
     $("#sprintCreateButton").click(createSprint);
 
     $("AddContributerButton").click(showContributerForm);
-    $("#contributerAddButton").click(addContributer);
+//    $("#contributerAddButton").click(addContributer);
     
     $(window).click(function (e) {
         if (e.target.id === "mainModal") {
