@@ -24,7 +24,7 @@
                     <div class="navSection">
                         <li>
                             <form action="Navigation" method="POST">
-                                    <input type="hidden" name="url" value="/index.jsp">
+                                <input type="hidden" name="url" value="/index.jsp">
                                 <input type="submit" value="Home" class="navbutton primaryColor">
                             </form>
                         </li>
@@ -33,6 +33,13 @@
                                 <form action="Navigation" method="POST">
                                     <input type="hidden" name="url" value="/page/project/overview.jsp">
                                     <input type="submit" value="Overview" class="navbutton primaryColor">
+                                </form>
+                            </li>
+
+                            <li>
+                                <form action="Navigation" method="POST">
+                                    <input type="hidden" name="url" value="/page/admin/admin.jsp">
+                                    <input type="submit" value="Admin Controls" class="navbutton primaryColor">
                                 </form>
                             </li>
                         </c:if>
