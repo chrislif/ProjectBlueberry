@@ -1,9 +1,11 @@
 package controller.function;
 
+import com.google.gson.Gson;
 import data.ProjectDB;
 import data.SprintDB;
 import data.StoryDB;
 import data.TaskDB;
+import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -79,6 +81,23 @@ public class ProjectManager {
         try {
             return StoryDB.getStories(sprintID);
         } catch (SQLException ex) {
+            return null;
+        }
+    }
+    
+    public static Story updateStories(int sprintID, int storyID, String storyName, int storyPriorityLevel, ArrayList<String> errorList){
+        try {
+            StoryDB.updateStorySprintID(storyID, sprintID);
+            StoryDB.updateStoryName(storyID, storyName);
+            StoryDB.updateStoryPriority(storyID, storyPriorityLevel);
+            
+            model.Story updatedStory = new Story(storyID, storyName, storyPriorityLevel);
+            
+            ArrayList <StoryTask> tasks = TaskDB.getTasks(storyID);
+            
+            return updatedStory;
+        } catch(SQLException ex) {
+            errorList.add(ex.getMessage());
             return null;
         }
     }

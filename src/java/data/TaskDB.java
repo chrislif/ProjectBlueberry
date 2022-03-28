@@ -50,7 +50,7 @@ public class TaskDB {
         }
     }
 
-    public static int updateTaskName(int taskID, String name) throws SQLException {
+    public static void updateTaskName(int taskID, String name) throws SQLException {
         ConnectionPool pool = ConnectionPool.getInstance();
         Connection connection = pool.getConnection();
         PreparedStatement statement = null;
@@ -63,7 +63,7 @@ public class TaskDB {
             statement.setString(1, name);            
             statement.setInt(2, taskID);
 
-            return statement.executeUpdate();
+            statement.executeUpdate();
         } catch (SQLException ex) {
             throw ex;
         } finally {
@@ -79,7 +79,7 @@ public class TaskDB {
         }
     }
 
-    public static int updateTaskDetails(int taskID, String details) throws SQLException {
+    public static void updateTaskDetails(int taskID, String details) throws SQLException {
         ConnectionPool pool = ConnectionPool.getInstance();
         Connection connection = pool.getConnection();
         PreparedStatement statement = null;
@@ -92,7 +92,7 @@ public class TaskDB {
             statement.setString(1, details);            
             statement.setInt(2, taskID);
 
-            return statement.executeUpdate();
+            statement.executeUpdate();
         } catch (SQLException ex) {
             throw ex;
         } finally {
@@ -108,7 +108,7 @@ public class TaskDB {
         }
     }
 
-    public static int updateTaskPriority(int taskID, int priority) throws SQLException {
+    public static void updateTaskPriority(int taskID, int priority) throws SQLException {
         ConnectionPool pool = ConnectionPool.getInstance();
         Connection connection = pool.getConnection();
         PreparedStatement statement = null;
@@ -121,7 +121,7 @@ public class TaskDB {
             statement.setInt(1, priority);            
             statement.setInt(2, taskID);
 
-            return statement.executeUpdate();
+            statement.executeUpdate();
         } catch (SQLException ex) {
             throw ex;
         } finally {
@@ -137,7 +137,7 @@ public class TaskDB {
         }
     }
 
-    public static int updateTaskTime(int taskID, int time) throws SQLException {
+    public static void updateTaskTime(int taskID, int time) throws SQLException {
         ConnectionPool pool = ConnectionPool.getInstance();
         Connection connection = pool.getConnection();
         PreparedStatement statement = null;
@@ -150,7 +150,7 @@ public class TaskDB {
             statement.setInt(1, time);            
             statement.setInt(2, taskID);
 
-            return statement.executeUpdate();
+            statement.executeUpdate();
         } catch (SQLException ex) {
             throw ex;
         } finally {
@@ -166,7 +166,7 @@ public class TaskDB {
         }
     }
 
-    public static int updateTaskCompleted(int taskID, Boolean completed) throws SQLException {
+    public static void updateTaskCompleted(int taskID, Boolean completed) throws SQLException {
         ConnectionPool pool = ConnectionPool.getInstance();
         Connection connection = pool.getConnection();
         PreparedStatement statement = null;
@@ -179,7 +179,7 @@ public class TaskDB {
             statement.setBoolean(1, completed);            
             statement.setInt(2, taskID);
 
-            return statement.executeUpdate();
+            statement.executeUpdate();
         } catch (SQLException ex) {
             throw ex;
         } finally {
@@ -195,7 +195,7 @@ public class TaskDB {
         }
     }
 
-    public static int updateTaskCompleted(int taskID, int storyID) throws SQLException {
+    public static void updateTaskCompleted(int taskID, int storyID) throws SQLException {
         ConnectionPool pool = ConnectionPool.getInstance();
         Connection connection = pool.getConnection();
         PreparedStatement statement = null;
@@ -208,7 +208,7 @@ public class TaskDB {
             statement.setInt(1, storyID);            
             statement.setInt(2, taskID);
 
-            return statement.executeUpdate();
+            statement.executeUpdate();
         } catch (SQLException ex) {
             throw ex;
         } finally {

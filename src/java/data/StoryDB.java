@@ -47,13 +47,13 @@ public class StoryDB {
         }
     }
     
-    public static int updateStorySprintID(int storyID, int sprintID) throws SQLException {
+    public static void updateStorySprintID(int storyID, int sprintID) throws SQLException {
         ConnectionPool pool = ConnectionPool.getInstance();
         Connection connection = pool.getConnection();
         PreparedStatement statement = null;
         ResultSet resultSet = null;
 
-        String query = "UPDATE sprint SET sprintID = ? WHERE storyID = ?";
+        String query = "UPDATE stories SET sprintID = ? WHERE storyID = ?";
 
         try {
             statement = connection.prepareStatement(query);
@@ -61,7 +61,7 @@ public class StoryDB {
             statement.setInt(2, storyID);
 
 
-            return statement.executeUpdate();
+            statement.executeUpdate();
         } catch (SQLException ex) {
             throw ex;
         } finally {
@@ -77,13 +77,13 @@ public class StoryDB {
         }
     }
     
-    public static int updateStoryName(int storyID, String name) throws SQLException {
+    public static void updateStoryName(int storyID, String name) throws SQLException {
         ConnectionPool pool = ConnectionPool.getInstance();
         Connection connection = pool.getConnection();
         PreparedStatement statement = null;
         ResultSet resultSet = null;
 
-        String query = "UPDATE sprint SET storyName = ? WHERE storyID = ?";
+        String query = "UPDATE stories SET storyName = ? WHERE storyID = ?";
 
         try {
             statement = connection.prepareStatement(query);
@@ -91,7 +91,7 @@ public class StoryDB {
             statement.setInt(2, storyID);
 
 
-            return statement.executeUpdate();
+            statement.executeUpdate();
         } catch (SQLException ex) {
             throw ex;
         } finally {
@@ -107,13 +107,13 @@ public class StoryDB {
         }
     }
     
-    public static int updateStoryPriority(int storyID, int priority) throws SQLException {
+    public static void updateStoryPriority(int storyID, int priority) throws SQLException {
         ConnectionPool pool = ConnectionPool.getInstance();
         Connection connection = pool.getConnection();
         PreparedStatement statement = null;
         ResultSet resultSet = null;
 
-        String query = "UPDATE sprint SET storyPriority = ? WHERE storyID = ?";
+        String query = "UPDATE stories SET storyPriority = ? WHERE storyID = ?";
 
         try {
             statement = connection.prepareStatement(query);
@@ -121,7 +121,7 @@ public class StoryDB {
             statement.setInt(2, storyID);
 
 
-            return statement.executeUpdate();
+            statement.executeUpdate();
         } catch (SQLException ex) {
             throw ex;
         } finally {
