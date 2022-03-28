@@ -28,6 +28,10 @@
         <servlet-name>ProjectList</servlet-name>
         <servlet-class>controller.ProjectList</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>StoryEdit</servlet-name>
+        <servlet-class>controller.StoryEdit</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Authorize</servlet-name>
         <url-pattern>/Authorize</url-pattern>
@@ -55,6 +59,10 @@
     <servlet-mapping>
         <servlet-name>ProjectList</servlet-name>
         <url-pattern>/ProjectList</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>StoryEdit</servlet-name>
+        <url-pattern>/StoryEdit</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>50</session-timeout>

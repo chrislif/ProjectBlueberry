@@ -35,6 +35,8 @@ function displayProject(sprintList) {
                     <div class="storyCardHeader">
                         <h3 class="storyName">Story: ${story.storyName} </h3>
                         <button class="styledButton" id="newTaskButton${story.storyID}" data-storyid="${story.storyID}">New Task</button>
+                        <span id="editStoryButton${story.storyID}"><img src="resources/editIcon.png"  class="editIcon" alt="Icon to edit story information"></span> 
+                        <span id="deleteStoryButton${story.storyID}"><img src="resources/deleteIcon.png" class="deleteIcon" alt="Icon to delete story information"></span>
                     </div>
                     <table class="stylizedTable" id="taskTable${story.storyID}">
                         <tr>
@@ -79,6 +81,7 @@ function displayProject(sprintList) {
     
     showEditSprintForm(sprintList);
     
+    showEditStoryForm(sprintList);
 }
 
 function showSprintForm() {
@@ -261,6 +264,54 @@ function showEditSprintForm(sprintList) {
     });
 }
 
+function showEditStoryForm(sprintList) {
+    sprintList.forEach((sprint) => {
+
+        sprint.stories.forEach((story) => {
+            $("#editStoryButton"+story.storyID).click(function () {
+                $("#mainModal").html(
+                `<div id="modalBox" class="modalContent">
+                    <span id="modalCloseButton" class="closeButton">&times;</span>
+                    <div id="modalContent">
+                        <h2>Edit ${story.storyName}</h2><br>
+                        
+                        <input type="hidden" id="editStoryID" value="${story.storyID}">
+                
+                        <label for="editStorySprintRelation">Sprint that this Story is linked to:</label>
+                        <select name="editStorySprintRelation" id="editStorySprintRelation">
+                            <option value="${sprint.sprintID}">${sprint.sprintName}</option>
+                        </select><br><br>
+                        
+                        <label for="editedStoryName">Story Name: </label>
+                        <input type="text" name="editedStoryName" id="editedStoryName" value="${story.storyName}"><br><br>
+
+                        <label for="editedStoryPriority">Story Priority: </label>
+                        <select name="editedStoryPriority" id="editedStoryPriority">
+                            <option value="${story.storyPriority}">${story.storyPriority}</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                        </select><br><br>
+
+                        <button class="styledButton" id="completeStoryEdit">Edit Story</button>
+                    </div>
+                </div>`
+            );
+            
+            appendStorySprintOptions(sprintList);
+            
+            $("#modalCloseButton").click(() => {
+                $("#mainModal").fadeOut(500);
+            });
+
+            $("#mainModal").fadeIn(200);
+            });
+        });
+    });
+}
+
 function updateSprint(updatedSprint) {
     $("#sprintName"+updatedSprint.sprintID).val(updatedSprint.sprintName);
     $("#sprintDates"+updatedSprint.sprintID).val(updatedSprint.sprintStartDate + " to " + updatedSprint.sprintEndDate);
@@ -342,9 +393,30 @@ function createStory() {
     });
 }
 
+function editStory() {
+    ajaxPost('StoryEdit', {'editedSprint' : $("#editStorySprintRelation").val(),
+                        'editStoryID' : $("#editStoryID").val(),
+                        'editedStoryName' : $("#editedStoryName").val(),
+                        'editedStoryPriorityLevel' : $("#editedStoryPriority option:selected").val()},
+                        (result => {
+                            $("#mainModal").fadeOut(500);
+                        })
+    );
+}
+
 function updateStories(sprintID, storyList) {
     console.log(sprintID);
     console.log(storyList);
+}
+
+function appendStorySprintOptions (sprintList) {
+    sprintList.forEach((sprint) => {
+       var o = new Option(sprint.sprintName, sprint.sprintID);
+        
+       $(o).html(sprint.sprintName); 
+       
+       $("#editStorySprintRelation").append(o);
+    });
 }
 
 var ajaxGet = (url, data, callback) => {
