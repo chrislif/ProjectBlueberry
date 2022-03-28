@@ -31,6 +31,8 @@
     <servlet>
         <servlet-name>StoryEdit</servlet-name>
         <servlet-class>controller.StoryEdit</servlet-class>
+        <servlet-name>AdminAccounts</servlet-name>
+        <servlet-class> controller.AdminAccounts</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>Authorize</servlet-name>
@@ -63,6 +65,8 @@
     <servlet-mapping>
         <servlet-name>StoryEdit</servlet-name>
         <url-pattern>/StoryEdit</url-pattern>
+        <servlet-name>AdminAccounts</servlet-name>
+        <url-pattern>/AdminAccounts</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>50</session-timeout>
