@@ -257,7 +257,7 @@ public class ProjectDB {
         return managers;
     }    
     
-    public static int updateProjectName(Project project, String name) throws SQLException{
+    public static void updateProjectName(Project project, String name) throws SQLException{
         ConnectionPool pool = ConnectionPool.getInstance();
         Connection connection = pool.getConnection();
         PreparedStatement statement = null;
@@ -270,7 +270,7 @@ public class ProjectDB {
             statement.setString(1, name);
             statement.setInt(2, project.getProjectID());
             
-            return statement.executeUpdate();
+            statement.executeUpdate();
         } catch (SQLException ex) {
             throw ex;
         } finally {
