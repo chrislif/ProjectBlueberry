@@ -2,7 +2,7 @@
 
 $(document).ready(() => {
     $("#newSprintButton").click(showSprintForm);
-    $("#sprintCreateButton").click(createSprint);
+    
 
     $("#AddContributerButton").click(showContributerForm);
     //$("#contributerAddButton").click(addContributer);
@@ -131,6 +131,8 @@ function showSprintForm() {
 
     $("#sprintStartDate").val(today);
     $("#sprintEndDate").val(today);
+
+    $("#sprintCreateButton").click(createSprint);
 
     $("#modalCloseButton").click(() => {
         $("#mainModal").fadeOut(500);
@@ -399,7 +401,7 @@ function createSprint() {
         'sprintStartDate': $("#sprintStartDate").val(),
         'sprintEndDate': $("#sprintEndDate").val()},
             (result) => {
-        hideSprintForm();
+        $("#mainModal").fadeOut(500);
         displayProject(JSON.parse(result));
     });
 }
