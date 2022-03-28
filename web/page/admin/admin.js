@@ -31,15 +31,15 @@ $(document).ready(() => {
                             <input type="text" name="accountID" value="${element.accountID}"id="accountID" readonly><br><br>
                 
                             <label for="accountName">Name: </label>
-                            <input type="text" name="accountName" value="${element.accountName}"id="accountName"><br><br>
+                            <input type="text" name="accountName" value="${element.accountName}"id="accountName" readonly><br><br>
                 
                             <label for="email">Email: </label>
-                            <input type="text" name="email" value="${element.email}"id="email"><br><br>
+                            <input type="text" name="email" value="${element.email}"id="email" readonly><br><br>
                 
                             <label for="accountXP">Account XP: </label>
                             <input type="text" name="accountXP" value="${element.accountXP}"id="accountXP" readonly><br><br>
                 
-                            <button class="styledButton" id="accountEditButton">Confirm Changes</button>
+                            <button class="styledButton" id="accountEditButton">Edit</button>
                         </div>
                         
                     </div>`);
