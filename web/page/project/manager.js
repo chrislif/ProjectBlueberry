@@ -77,19 +77,19 @@ function displayProject(sprintList) {
     });
 
     $("#sprintOverview").empty().append(sprintHtml);
-    
+
     showStoryForm(sprintList);
-    
+
     showTaskForm(sprintList);
-    
+
     showEditSprintForm(sprintList);
-    
+
     showEditStoryForm(sprintList);
 }
 
 function showSprintForm() {
     $("#mainModal").html(
-        `<div id="modalBox" class="modalContent">
+            `<div id="modalBox" class="modalContent">
             <span id="modalCloseButton" class="closeButton">&times;</span>
             <div id="modalContent">
                 <h2>Add A Sprint</h2><br>
@@ -140,15 +140,24 @@ function showSprintForm() {
 }
 
 function showContributerForm() {
-        $("#mainModal").html(
-        `<div id="modalBox" class="modalContent">
+    $("#mainModal").html(
+            `<div id="modalBox" class="modalContent">
             <span id="modalCloseButton" class="closeButton">&times;</span>
             <div id="modalContent">
                 <h2>Add A Contributer</h2><br>
+    
+                <label for="contributerName">Contributer Name: </label>
+                <input type="text" name="contributerName" id="contributerName"><br><br>
 
                 <button class="styledButton" id="contributerAddButton">Add Contributer</button>
             </div>
         </div>`);
+
+    $("#modalCloseButton").click(() => {
+        $("#mainModal").fadeOut(500);
+    });
+
+    $("#mainModal").fadeIn(200);
 }
 
 function showStoryForm(sprintList) {
@@ -177,9 +186,9 @@ function showStoryForm(sprintList) {
                             <button class="styledButton" id="storyCreateButton" data-sprintid="${$(this).attr("data-sprintid")}">Create Story</button>
                         </div>
                     </div>`);
-            
+
             $("#storyCreateButton").click(createStory);
-            
+
             $("#modalCloseButton").click(() => {
                 $("#mainModal").fadeOut(500);
             });
@@ -189,7 +198,7 @@ function showStoryForm(sprintList) {
     });
 }
 
-function showTaskForm(sprintList){
+function showTaskForm(sprintList) {
     sprintList.forEach((sprint) => {
         // Creates the click event for the create task form
         sprint.stories.forEach((story) => {
@@ -224,9 +233,9 @@ function showTaskForm(sprintList){
                     </div>
                 </div>`
                         );
-                
+
                 $("#taskCreateButton").click(createTask);
-                
+
                 $("#modalCloseButton").click(() => {
                     $("#mainModal").fadeOut(500);
                 });
@@ -239,9 +248,9 @@ function showTaskForm(sprintList){
 
 function showEditSprintForm(sprintList) {
     sprintList.forEach((sprint) => {
-        $("#editSprintButton" + sprint.sprintID).click(function() {
+        $("#editSprintButton" + sprint.sprintID).click(function () {
             $("#mainModal").html(
-                `<div id="modalBox" class="modalContent">
+                    `<div id="modalBox" class="modalContent">
                     <span id="modalCloseButton" class="closeButton">&times;</span>
                     <div id="modalContent">
                         <h2>Edit ${sprint.sprintName}</h2><br>
@@ -268,8 +277,8 @@ function showEditSprintForm(sprintList) {
                         <button class="styledButton" id="completeSprintEditButton">Edit Sprint</button>
                     </div>
                 </div>`
-            );
-    
+                    );
+
             $("#modalCloseButton").click(() => {
                 $("#mainModal").fadeOut(500);
             });
@@ -283,9 +292,9 @@ function showEditStoryForm(sprintList) {
     sprintList.forEach((sprint) => {
 
         sprint.stories.forEach((story) => {
-            $("#editStoryButton"+story.storyID).click(function () {
+            $("#editStoryButton" + story.storyID).click(function () {
                 $("#mainModal").html(
-                `<div id="modalBox" class="modalContent">
+                        `<div id="modalBox" class="modalContent">
                     <span id="modalCloseButton" class="closeButton">&times;</span>
                     <div id="modalContent">
                         <h2>Edit ${story.storyName}</h2><br>
@@ -323,21 +332,27 @@ function showEditStoryForm(sprintList) {
                 $("#mainModal").fadeOut(500);
             });
 
-            $("#mainModal").fadeIn(200);
+                appendStorySprintOptions(sprintList);
+
+                $("#modalCloseButton").click(() => {
+                    $("#mainModal").fadeOut(500);
+                });
+
+                $("#mainModal").fadeIn(200);
             });
         });
     });
 }
 
 function updateSprint(updatedSprint) {
-    $("#sprintName"+updatedSprint.sprintID).val(updatedSprint.sprintName);
-    $("#sprintDates"+updatedSprint.sprintID).val(updatedSprint.sprintStartDate + " to " + updatedSprint.sprintEndDate);
+    $("#sprintName" + updatedSprint.sprintID).val(updatedSprint.sprintName);
+    $("#sprintDates" + updatedSprint.sprintID).val(updatedSprint.sprintStartDate + " to " + updatedSprint.sprintEndDate);
 }
 
-function updateTasks(taskList, storyID){
-    $("#taskTable"+storyID).empty();
-    
-    var taskTableHTML = 
+function updateTasks(taskList, storyID) {
+    $("#taskTable" + storyID).empty();
+
+    var taskTableHTML =
             `
             <tr>
                 <th>Task Name</th>
@@ -345,29 +360,29 @@ function updateTasks(taskList, storyID){
                 <th>Task Details</th>
             </tr>
             `;
-    
+
     taskList.forEach((task) => {
-       taskTableHTML += 
-               `
+        taskTableHTML +=
+                `
                 <tr>
                     <td> ${task.taskName} </td>
                     <td> ${task.taskPriority} </td>
                     <td> ${task.taskDetails} </td>
                 </tr>
-               `; 
+               `;
     });
-    
-    $("#taskTable"+storyID).append(taskTableHTML);
-            
+
+    $("#taskTable" + storyID).append(taskTableHTML);
+
 }
 
-function createTask(){
+function createTask() {
     ajaxPost('Task', {
         'storyID': $(this).attr("data-storyid"),
-        'taskName' : $("#newTaskName").val(),
-        'taskDetails' : $("#newTaskDetails").val(),
-        'taskTime' : $("#newTaskTime").val(),
-        'taskPriority' : $("#taskPriorityLevel option:selected").val()},
+        'taskName': $("#newTaskName").val(),
+        'taskDetails': $("#newTaskDetails").val(),
+        'taskTime': $("#newTaskTime").val(),
+        'taskPriority': $("#taskPriorityLevel option:selected").val()},
             (result) => {
         $("#mainModal").fadeOut(500);
         var taskList = JSON.parse(result);
@@ -378,7 +393,7 @@ function createTask(){
 function createSprint() {
     ajaxPost('Sprint', {
         'projectID': project.projectID,
-        'storyID' : $(this).attr("data-storyid"),
+        'storyID': $(this).attr("data-storyid"),
         'sprintNum': $("#sprintNumber option:selected").val(),
         'sprintName': $("#sprintName").val(),
         'sprintStartDate': $("#sprintStartDate").val(),
@@ -390,21 +405,21 @@ function createSprint() {
 }
 
 function editSprint() {
-    ajaxPost('Sprint', {'sprintNumber' : $("#editedSprintNumber").val(),
+    ajaxPost('Sprint', {'sprintNumber': $("#editedSprintNumber").val(),
         'sprintName': $("#editedSprintName").val(),
-        'sprintStartDate' : $("#editedSprintStartDate").val(),
-        'sprintEndDate' : $("#editedSprintEndDate").val()}),
+        'sprintStartDate': $("#editedSprintStartDate").val(),
+        'sprintEndDate': $("#editedSprintEndDate").val()}),
             (result) => {
-                $("#mainModal").fadeOut(500);
-                updateSprint(result);
-            };
+        $("#mainModal").fadeOut(500);
+        updateSprint(result);
+    };
 }
 
 function createStory() {
-    ajaxPost('Story', {  'storyName': $("#newStoryName").val(),
-                        'sprintID': $(this).attr("data-sprintid"),
-                        'storyPriority': $("#storyPriorityLevel option:selected").val()},
-                            (result) => {
+    ajaxPost('Story', {'storyName': $("#newStoryName").val(),
+        'sprintID': $(this).attr("data-sprintid"),
+        'storyPriority': $("#storyPriorityLevel option:selected").val()},
+            (result) => {
         $("#mainModal").fadeOut(500);
         updateStories($(this).attr("data-sprintid"), result);
     });
@@ -427,13 +442,13 @@ function updateStories(sprintID, storyList) {
     console.log(storyList);
 }
 
-function appendStorySprintOptions (sprintList) {
+function appendStorySprintOptions(sprintList) {
     sprintList.forEach((sprint) => {
-       var o = new Option(sprint.sprintName, sprint.sprintID);
-        
-       $(o).html(sprint.sprintName); 
-       
-       $("#editStorySprintRelation").append(o);
+        var o = new Option(sprint.sprintName, sprint.sprintID);
+
+        $(o).html(sprint.sprintName);
+
+        $("#editStorySprintRelation").append(o);
     });
 }
 
