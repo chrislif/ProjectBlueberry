@@ -302,6 +302,8 @@ function showEditStoryForm(sprintList) {
             
             appendStorySprintOptions(sprintList);
             
+            $("#completeStoryEdit").click(editStory);
+            
             $("#modalCloseButton").click(() => {
                 $("#mainModal").fadeOut(500);
             });
@@ -400,6 +402,7 @@ function editStory() {
                         'editedStoryPriorityLevel' : $("#editedStoryPriority option:selected").val()},
                         (result => {
                             $("#mainModal").fadeOut(500);
+                            console.log(result);
                         })
     );
 }
