@@ -322,7 +322,15 @@ function showEditStoryForm(sprintList) {
                         <button class="styledButton" id="completeStoryEdit">Edit Story</button>
                     </div>
                 </div>`
-                        );
+            );
+            
+            appendStorySprintOptions(sprintList);
+            
+            $("#completeStoryEdit").click(editStory);
+            
+            $("#modalCloseButton").click(() => {
+                $("#mainModal").fadeOut(500);
+            });
 
                 appendStorySprintOptions(sprintList);
 
@@ -418,14 +426,15 @@ function createStory() {
 }
 
 function editStory() {
-    ajaxPost('StoryEdit', {'editedSprint': $("#editStorySprintRelation").val(),
-        'editStoryID': $("#editStoryID").val(),
-        'editedStoryName': $("#editedStoryName").val(),
-        'editedStoryPriorityLevel': $("#editedStoryPriority option:selected").val()},
-            (result => {
-                $("#mainModal").fadeOut(500);
-            })
-            );
+    ajaxPost('StoryEdit', {'editedSprint' : $("#editStorySprintRelation").val(),
+                        'editStoryID' : $("#editStoryID").val(),
+                        'editedStoryName' : $("#editedStoryName").val(),
+                        'editedStoryPriorityLevel' : $("#editedStoryPriority option:selected").val()},
+                        (result => {
+                            $("#mainModal").fadeOut(500);
+                            console.log(result);
+                        })
+    );
 }
 
 function updateStories(sprintID, storyList) {

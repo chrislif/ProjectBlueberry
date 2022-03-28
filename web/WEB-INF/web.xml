@@ -31,6 +31,8 @@
     <servlet>
         <servlet-name>StoryEdit</servlet-name>
         <servlet-class>controller.StoryEdit</servlet-class>
+    </servlet>
+    <servlet>
         <servlet-name>AdminAccounts</servlet-name>
         <servlet-class> controller.AdminAccounts</servlet-class>
     </servlet>
@@ -65,6 +67,8 @@
     <servlet-mapping>
         <servlet-name>StoryEdit</servlet-name>
         <url-pattern>/StoryEdit</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
         <servlet-name>AdminAccounts</servlet-name>
         <url-pattern>/AdminAccounts</url-pattern>
     </servlet-mapping>
