@@ -140,4 +140,19 @@ public class ProjectManager {
             return null;
         }
     }
+    
+    public static ArrayList<Account> addContributer(int projectID, int accountID){
+        
+        try{
+            ProjectDB.insertContributer(projectID, accountID, "contributor");
+            Project project = new Project();
+            project.setProjectID(projectID);
+            return ProjectDB.getContributers(project);
+        } catch (SQLException ex){
+            String message = ex.getMessage();
+            int i = 0;
+            return null;
+        }
+        
+    }
 }

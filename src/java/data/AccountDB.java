@@ -10,6 +10,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Set;
 import model.Account;
 
 /**
@@ -55,6 +56,40 @@ public class AccountDB {
             }
         }
         return accountList;
+    }
+    
+    public static Account getAccount(String accountName) throws SQLException{
+        ConnectionPool pool = ConnectionPool.getInstance();
+        Connection connection = pool.getConnection();
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+        Account account = new Account();
+        
+        String query = "SELECT accountID from account where accountName = ?";
+        
+        try{
+            statement = connection.prepareStatement(query);
+            statement.setString(1, accountName);
+            resultSet = statement.executeQuery();          
+            
+            resultSet.next();
+            
+            account.setAccountID(resultSet.getInt("accountID"));
+            
+            return account;
+        } catch (SQLException ex) {
+            throw ex;
+        } finally {
+            try {
+                if (resultSet != null && statement != null) {
+                    resultSet.close();
+                    statement.close();
+                }
+                pool.freeConnection(connection);
+            } catch (SQLException ex) {
+                throw ex;
+            }
+        }
     }
 
     public static void updateAccountName(Account account, String name) throws SQLException {

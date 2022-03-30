@@ -2,10 +2,8 @@
 
 $(document).ready(() => {
     $("#newSprintButton").click(showSprintForm);
-
     
-    $("AddContributerButton").click(showContributerForm);
-//    $("#contributerAddButton").click(addContributer);
+    $("#newContributorButton").click(showContributorForm);
     
     $(window).click(function (e) {
         if (e.target.id === "mainModal") {
@@ -125,13 +123,25 @@ function showSprintForm() {
     $("#mainModal").fadeIn(200);
 }
 
-function showContributerForm() {
-    $("#mainModal").html(contributorFormModal);
+function showContributorForm() {
+    $("#mainModal").html(
+            `<div id="modalBox" class="modalContent">
+            <span id="modalCloseButton" class="closeButton">&times;</span>
+            <div id="modalContent">
+                <h2>Add A Contributer</h2><br>
+    
+                <label for="contributerName">Contributer Name: </label>
+                <input type="text" name="contributerName" id="contributerName"><br><br>
 
+                <button class="styledButton" id="contributorAddButton">Add Contributer</button>
+            </div>
+        </div>`);
+
+    $("#contributorAddButton").click(addContributor);
     $("#modalCloseButton").click(() => {
         $("#mainModal").fadeOut(500);
     });
-
+    
     $("#mainModal").fadeIn(200);
 }
 
@@ -355,6 +365,23 @@ function createSprint() {
             $("#mainModal").fadeOut(500);
             displayProject(JSON.parse(result));
         });
+}
+
+function addContributor(){
+    ajaxPost('Contributor', {
+        'projectID': project.projectID,
+        'contributerName': $("#contributerName").val()},
+        (result) => {
+        $("#mainModal").fadeOut(500);
+        var contributorList = JSON.parse(result);
+        $("#contributor").empty();
+        $("#contributor").append("<tr><th>Contributors</th></tr>");
+        console.log(result);
+        contributorList.forEach((contributor) => {
+            $("#contributor").append(`<tr><td>${contributor.accountName}</td></tr>`);
+            
+        });
+    });
 }
 
 function editSprint() {
