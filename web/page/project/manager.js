@@ -368,18 +368,16 @@ function createSprint() {
 }
 
 function addContributor(){
-    ajaxPost('Contributor', {
+    ajaxCall('Contributor', {
         'projectID': project.projectID,
-        'contributerName': $("#contributerName").val()},
-        (result) => {
-        $("#mainModal").fadeOut(500);
-        var contributorList = JSON.parse(result);
-        $("#contributor").empty();
-        $("#contributor").append("<tr><th>Contributors</th></tr>");
-        console.log(result);
-        contributorList.forEach((contributor) => {
-            $("#contributor").append(`<tr><td>${contributor.accountName}</td></tr>`);
-            
+        'contributerName': $("#contributerName").val()}, 
+        'POST', (result) => {
+            $("#mainModal").fadeOut(500);
+            var contributorList = JSON.parse(result);
+            $("#contributor").empty();
+            $("#contributor").append("<tr><th>Contributors</th></tr>");
+            contributorList.forEach((contributor) => {
+                $("#contributor").append(`<tr><td>${contributor.accountName}</td></tr>`);
         });
     });
 }

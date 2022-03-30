@@ -39,6 +39,8 @@
     <servlet>
         <servlet-name>Contributor</servlet-name>
         <servlet-class>controller.Contributor</servlet-class>
+    </servlet>
+    <servlet>
         <servlet-name>SprintEdit</servlet-name>
         <servlet-class>controller.SprintEdit</servlet-class>
     </servlet>
@@ -85,6 +87,8 @@
     <servlet-mapping>
         <servlet-name>Contributor</servlet-name>
         <url-pattern>/Contributor</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
         <servlet-name>SprintEdit</servlet-name>
         <url-pattern>/SprintEdit</url-pattern>
     </servlet-mapping>
