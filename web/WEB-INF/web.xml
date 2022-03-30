@@ -39,6 +39,12 @@
     <servlet>
         <servlet-name>Contributor</servlet-name>
         <servlet-class>controller.Contributor</servlet-class>
+        <servlet-name>SprintEdit</servlet-name>
+        <servlet-class>controller.SprintEdit</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>TaskEdit</servlet-name>
+        <servlet-class>controller.TaskEdit</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>Authorize</servlet-name>
@@ -79,6 +85,12 @@
     <servlet-mapping>
         <servlet-name>Contributor</servlet-name>
         <url-pattern>/Contributor</url-pattern>
+        <servlet-name>SprintEdit</servlet-name>
+        <url-pattern>/SprintEdit</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>TaskEdit</servlet-name>
+        <url-pattern>/TaskEdit</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>50</session-timeout>

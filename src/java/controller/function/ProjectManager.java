@@ -9,6 +9,7 @@ import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import model.Account;
 import model.Project;
 import model.Sprint;
@@ -65,6 +66,28 @@ public class ProjectManager {
         }
     }
     
+    public static Project updateSprint(int projectID, int sprintID, int sprintNum, String sprintName, String sprintStartDate, String sprintEndDate, ArrayList<String> errorList) {
+        try {
+            SprintDB.updateSprintName(sprintID, sprintName);
+            SprintDB.updateSprintNum(sprintID, sprintNum);
+            SprintDB.updateSprintStart(sprintID, sprintStartDate);
+            SprintDB.updateSprintEnd(sprintID, sprintEndDate);
+            
+            model.Sprint updatedSprint = new Sprint(sprintID, sprintNum, sprintName, sprintStartDate, sprintEndDate);
+            
+            ArrayList<Story> sprintStories = retrieveStories(sprintID);
+            
+            updatedSprint.stories = sprintStories;
+            
+            model.Project project = getProject(projectID);
+            
+            return project;
+        } catch (SQLException ex) {
+            errorList.add(ex.getMessage());
+            return null;
+        }
+    }
+    
     public static ArrayList<Story> createStory(int sprintID, String storyName, int storyPriority) {
         Story newStory = new Story(0, storyName, storyPriority);
         
@@ -85,7 +108,7 @@ public class ProjectManager {
         }
     }
     
-    public static Story updateStories(int sprintID, int storyID, String storyName, int storyPriorityLevel, ArrayList<String> errorList){
+    public static Project updateStories(int projectID, int sprintID, int storyID, String storyName, int storyPriorityLevel, ArrayList<String> errorList){
         try {
             StoryDB.updateStorySprintID(storyID, sprintID);
             StoryDB.updateStoryName(storyID, storyName);
@@ -95,7 +118,11 @@ public class ProjectManager {
             
             ArrayList <StoryTask> tasks = TaskDB.getTasks(storyID);
             
-            return updatedStory;
+            updatedStory.tasks = tasks;
+            
+            model.Project project = getProject(projectID);
+            
+            return project;
         } catch(SQLException ex) {
             errorList.add(ex.getMessage());
             return null;

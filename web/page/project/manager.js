@@ -10,7 +10,6 @@ $(document).ready(() => {
             $("#mainModal").fadeOut(100);
         }
     });
-
     displayProject(project.sprints);
 });
 
@@ -255,7 +254,9 @@ function showEditSprintForm(sprintList) {
                     <span id="modalCloseButton" class="closeButton">&times;</span>
                     <div id="modalContent">
                         <h2>Edit ${sprint.sprintName}</h2><br>
-
+                        
+                        <input type="hidden" name="sprintID" id="editSprintID" value="${sprint.sprintID}">
+                        
                         <label for="editedSprintNumber">Sprint #: </label>
                         <select name="editedSprintNumber" id="editedSprintNumber">
                             <option value="${sprint.sprintNum}">${sprint.sprintNum}</option>
@@ -279,6 +280,8 @@ function showEditSprintForm(sprintList) {
                     </div>
                 </div>`
                     );
+
+            $("#completeSprintEditButton").click(editSprint);
 
             $("#modalCloseButton").click(() => {
                 $("#mainModal").fadeOut(500);
@@ -333,13 +336,7 @@ function showEditStoryForm(sprintList) {
                 $("#mainModal").fadeOut(500);
             });
 
-                appendStorySprintOptions(sprintList);
-
-                $("#modalCloseButton").click(() => {
-                    $("#mainModal").fadeOut(500);
-                });
-
-                $("#mainModal").fadeIn(200);
+            $("#mainModal").fadeIn(200);
             });
         });
     });
@@ -423,14 +420,18 @@ function addContributor(){
 }
 
 function editSprint() {
-    ajaxPost('Sprint', {'sprintNumber': $("#editedSprintNumber").val(),
+    ajaxPost('SprintEdit', {'projectID': project.projectID,
+        'sprintID' : $("#editSprintID").val(),
+        'sprintNumber': $("#editedSprintNumber").val(),
         'sprintName': $("#editedSprintName").val(),
         'sprintStartDate': $("#editedSprintStartDate").val(),
-        'sprintEndDate': $("#editedSprintEndDate").val()}),
-            (result) => {
-        $("#mainModal").fadeOut(500);
-        updateSprint(result);
-    };
+        'sprintEndDate': $("#editedSprintEndDate").val()},
+        (result) => {
+            var editedProject = JSON.parse(result);
+            console.log(editedProject);
+            $("#mainModal").fadeOut(500);
+            displayProject(editedProject.sprints);
+        });
 }
 
 function createStory() {
@@ -444,13 +445,15 @@ function createStory() {
 }
 
 function editStory() {
-    ajaxPost('StoryEdit', {'editedSprint' : $("#editStorySprintRelation").val(),
+    ajaxPost('StoryEdit', {'projectID': project.projectID,
+                        'editedSprint' : $("#editStorySprintRelation").val(),
                         'editStoryID' : $("#editStoryID").val(),
                         'editedStoryName' : $("#editedStoryName").val(),
                         'editedStoryPriorityLevel' : $("#editedStoryPriority option:selected").val()},
                         (result => {
+                            var editedProject = JSON.parse(result);
                             $("#mainModal").fadeOut(500);
-                            console.log(result);
+                            displayProject(editedProject.sprints);
                         })
     );
 }
