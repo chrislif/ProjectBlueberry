@@ -2,8 +2,8 @@
 
 $(document).ready(() => {
     $("#newSprintButton").click(showSprintForm);
-    
 
+    
     $("AddContributerButton").click(showContributerForm);
 //    $("#contributerAddButton").click(addContributer);
     
@@ -22,99 +22,84 @@ function displayProject(sprintList) {
             Sprint Overview
         </h2>`;
 
-    sprintList.forEach((sprint) => {
-        sprintHtml += `
-            <div class="sprintCard">
-                <div class="sprintCardHeader">
-                    <h2 class="sprintName" id="sprintName${sprint.sprintID}"> ${sprint.sprintName} </h2>
-                    <p class="sprintDate" id="sprintDates${sprint.sprintID}"> ${sprint.sprintStartDate} to ${sprint.sprintEndDate} </p>
-                    <span id="editSprintButton${sprint.sprintID}"><img src="resources/editIcon.png"  class="editIcon" alt="Icon to edit sprint information"></span> 
-                    <span id="deleteSprintButton${sprint.sprintID}"><img src="resources/deleteIcon.png" class="deleteIcon" alt="Icon to delete sprint information"></span>
-                </div>`;
-
-        sprint.stories.forEach((story) => {
-            sprintHtml += `
-                <div class="storyCard">
-                    <div class="storyCardHeader">
-                        <h3 class="storyName">Story: ${story.storyName} </h3>
-                        <button class="styledButton" id="newTaskButton${story.storyID}" data-storyid="${story.storyID}">New Task</button>
-                        <span id="editStoryButton${story.storyID}"><img src="resources/editIcon.png"  class="editIcon" alt="Icon to edit story information"></span> 
-                        <span id="deleteStoryButton${story.storyID}"><img src="resources/deleteIcon.png" class="deleteIcon" alt="Icon to delete story information"></span>
-                    </div>
-                    <table class="stylizedTable" id="taskTable${story.storyID}">
-                        <tr>
-                            <th>Task Name</th>
-                            <th>Task Priority</th>
-                            <th>Task Details</th>
-                        </tr>`;
-
-            story.tasks.forEach((task) => {
-                sprintHtml += `
-                        <tr>
-                            <td> ${task.taskName} </td>
-                            <td> ${task.taskPriority} </td>
-                            <td> ${task.taskDetails} </td>
-                        </tr>`;
-            });
-
-            sprintHtml += `
-                    </table>
-                    <div>
-                        <table class="stylizedTable">
-                            <tr>
-                                <th>To-Do</th>
-                                <th>Doing</th>
-                                <th>Done</th>
-                            </tr>
-                        </table>
-                    </div>
-                </div>`;
-        });
-
-        sprintHtml += `
-                <button class="styledButton" id="newStoryButton${sprint.sprintID}" data-sprintid="${sprint.sprintID}">New Story</button>
-            </div>`;
-    });
-
-    $("#sprintOverview").empty().append(sprintHtml);
+    $("#sprintOverview").append(sprintHtml);
+    sprintList.forEach(displaySprint);
 
     showStoryForm(sprintList);
-
     showTaskForm(sprintList);
-
     showEditSprintForm(sprintList);
-
     showEditStoryForm(sprintList);
 }
 
-function showSprintForm() {
-    $("#mainModal").html(
-            `<div id="modalBox" class="modalContent">
-            <span id="modalCloseButton" class="closeButton">&times;</span>
-            <div id="modalContent">
-                <h2>Add A Sprint</h2><br>
-
-                <label for="sprintNumber">Sprint #: </label>
-                <select name="sprintNumber" id="sprintNumber">
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                </select><br><br>
-
-                <label for="sprintName">Sprint Name: </label>
-                <input type="text" name="sprintName" id="sprintName"><br><br>
-
-                <label for="sprintStartDate">Sprint Start Date: </label>
-                <input type="date" id="sprintStartDate" name="sprintStartDate"><br><br>
-
-                <label for="sprintEndDate">Sprint End Date: </label>
-                <input type="date" id="sprintEndDate" name="sprintEndDate"><br><br>
-
-                <button class="styledButton" id="sprintCreateButton">Create Sprint</button>
+function displaySprint(element) {
+    var html = `
+        <div class="sprintCard" id="sprintCard${element.sprintID}">
+            <div class="sprintCardHeader">
+                <h2 class="sprintName" id="sprintName${element.sprintID}"> ${element.sprintName} </h2>
+                <p class="sprintDate" id="sprintDates${element.sprintID}"> ${element.sprintStartDate} to ${element.sprintEndDate} </p>
+                <span id="editSprintButton${element.sprintID}"><img src="resources/editIcon.png"  class="editIcon" alt="Icon to edit sprint information"></span> 
+                <span id="deleteSprintButton${element.sprintID}"><img src="resources/deleteIcon.png" class="deleteIcon" alt="Icon to delete sprint information"></span>
             </div>
-        </div>`);
+        </div>`;
+    $("#sprintOverview").append(html);
+    
+    var sprintCard = $(`#sprintCard${element.sprintID}`);
+    element.stories.forEach(function(element) {
+            displayStory(element, sprintCard);
+    });
+    
+    html = `<button class="styledButton" id="newStoryButton${element.sprintID}" data-sprintid="${element.sprintID}">New Story</button>`;
+    sprintCard.append(html);
+}
+
+function displayStory(element, sprintCard) {
+    var html = `
+        <div class="storyCard">
+            <div class="storyCardHeader">
+                <h3 class="storyName">Story: ${element.storyName} </h3>
+                <button class="styledButton" id="newTaskButton${element.storyID}" data-storyid="${element.storyID}">New Task</button>
+                <span id="editStoryButton${element.storyID}"><img src="resources/editIcon.png"  class="editIcon" alt="Icon to edit story information"></span> 
+                <span id="deleteStoryButton${element.storyID}"><img src="resources/deleteIcon.png" class="deleteIcon" alt="Icon to delete story information"></span>
+            </div>
+            <table class="stylizedTable" id="taskTable${element.storyID}">
+                <tr>
+                    <th>Task Name</th>
+                    <th>Task Priority</th>
+                    <th>Task Details</th>
+                </tr>
+            </table>
+            <div>
+                <table class="stylizedTable">
+                    <tr>
+                        <th>To-Do</th>
+                        <th>Doing</th>
+                        <th>Done</th>
+                    </tr>
+                </table>
+            </div>
+        </div>`;
+
+    sprintCard.append(html);
+    
+    var taskTable = $(`#taskTable${element.storyID}`);
+    element.tasks.forEach(function(element) {
+        displayTask(element, taskTable);
+    });
+}
+
+function displayTask(element, taskTable) {
+    var html = `
+        <tr>
+            <td> ${element.taskName} </td>
+            <td> ${element.taskPriority} </td>
+            <td> ${element.taskDetails} </td>
+        </tr>`;
+    
+    taskTable.append(html);
+}
+
+function showSprintForm() {
+    $("#mainModal").html(sprintFormModal);
 
     var today = new Date();
     var dd = today.getDate();
@@ -142,18 +127,7 @@ function showSprintForm() {
 }
 
 function showContributerForm() {
-    $("#mainModal").html(
-            `<div id="modalBox" class="modalContent">
-            <span id="modalCloseButton" class="closeButton">&times;</span>
-            <div id="modalContent">
-                <h2>Add A Contributer</h2><br>
-    
-                <label for="contributerName">Contributer Name: </label>
-                <input type="text" name="contributerName" id="contributerName"><br><br>
-
-                <button class="styledButton" id="contributerAddButton">Add Contributer</button>
-            </div>
-        </div>`);
+    $("#mainModal").html(contributorFormModal);
 
     $("#modalCloseButton").click(() => {
         $("#mainModal").fadeOut(500);
@@ -204,7 +178,6 @@ function showTaskForm(sprintList) {
     sprintList.forEach((sprint) => {
         // Creates the click event for the create task form
         sprint.stories.forEach((story) => {
-            console.log(story);
             $("#newTaskButton" + story.storyID).click(function () {
 
                 $("#mainModal").html(
@@ -379,60 +352,60 @@ function updateTasks(taskList, storyID) {
 }
 
 function createTask() {
-    ajaxPost('Task', {
+    ajaxCall('Task', {
         'storyID': $(this).attr("data-storyid"),
         'taskName': $("#newTaskName").val(),
         'taskDetails': $("#newTaskDetails").val(),
         'taskTime': $("#newTaskTime").val(),
-        'taskPriority': $("#taskPriorityLevel option:selected").val()},
-            (result) => {
-        $("#mainModal").fadeOut(500);
-        var taskList = JSON.parse(result);
-        updateTasks(taskList, $(this).attr("data-storyid"));
-    });
+        'taskPriority': $("#taskPriorityLevel option:selected").val()}, 
+        'POST', (result) => {
+            $("#mainModal").fadeOut(500);
+            var taskList = JSON.parse(result);
+            updateTasks(taskList, $(this).attr("data-storyid"));
+        });
 }
 
 function createSprint() {
-    ajaxPost('Sprint', {
+    ajaxCall('Sprint', {
         'projectID': project.projectID,
         'storyID': $(this).attr("data-storyid"),
         'sprintNum': $("#sprintNumber option:selected").val(),
         'sprintName': $("#sprintName").val(),
         'sprintStartDate': $("#sprintStartDate").val(),
-        'sprintEndDate': $("#sprintEndDate").val()},
-            (result) => {
-        $("#mainModal").fadeOut(500);
-        displayProject(JSON.parse(result));
-    });
+        'sprintEndDate': $("#sprintEndDate").val()}, 
+        'POST', (result) => {
+            $("#mainModal").fadeOut(500);
+            displayProject(JSON.parse(result));
+        });
 }
 
 function editSprint() {
-    ajaxPost('Sprint', {'sprintNumber': $("#editedSprintNumber").val(),
+    ajaxCall('Sprint', {'sprintNumber': $("#editedSprintNumber").val(),
         'sprintName': $("#editedSprintName").val(),
         'sprintStartDate': $("#editedSprintStartDate").val(),
-        'sprintEndDate': $("#editedSprintEndDate").val()}),
-            (result) => {
-        $("#mainModal").fadeOut(500);
-        updateSprint(result);
-    };
+        'sprintEndDate': $("#editedSprintEndDate").val()}), 
+        'POST', (result) => {
+            $("#mainModal").fadeOut(500);
+            updateSprint(result);
+        };
 }
 
 function createStory() {
-    ajaxPost('Story', {'storyName': $("#newStoryName").val(),
+    ajaxCall('Story', {'storyName': $("#newStoryName").val(),
         'sprintID': $(this).attr("data-sprintid"),
-        'storyPriority': $("#storyPriorityLevel option:selected").val()},
-            (result) => {
-        $("#mainModal").fadeOut(500);
-        updateStories($(this).attr("data-sprintid"), result);
-    });
+        'storyPriority': $("#storyPriorityLevel option:selected").val()}, 
+        'POST', (result) => {
+            $("#mainModal").fadeOut(500);
+            updateStories($(this).attr("data-sprintid"), result);
+        });
 }
 
 function editStory() {
-    ajaxPost('StoryEdit', {'editedSprint' : $("#editStorySprintRelation").val(),
+    ajaxCall('StoryEdit', {'editedSprint' : $("#editStorySprintRelation").val(),
                         'editStoryID' : $("#editStoryID").val(),
                         'editedStoryName' : $("#editedStoryName").val(),
                         'editedStoryPriorityLevel' : $("#editedStoryPriority option:selected").val()},
-                        (result => {
+                        'POST', (result => {
                             $("#mainModal").fadeOut(500);
                             console.log(result);
                         })
@@ -454,9 +427,9 @@ function appendStorySprintOptions(sprintList) {
     });
 }
 
-var ajaxGet = (url, data, callback) => {
+var ajaxCall = (url, data, type, callback) => {
     $.ajax({
-        type: "GET",
+        type: type,
         url: url,
         data: data,
         dataType: "JSON",
@@ -467,15 +440,43 @@ var ajaxGet = (url, data, callback) => {
     });
 };
 
-var ajaxPost = (url, data, callback) => {
-    $.ajax({
-        type: "POST",
-        url: url,
-        data: data,
-        dataType: "JSON",
-        success: callback,
-        error: function (jqXHR, ex) {
-            console.log(jqXHR);
-        }
-    });
-};
+var contributorFormModal = `
+    <div id="modalBox" class="modalContent">
+        <span id="modalCloseButton" class="closeButton">&times;</span>
+        <div id="modalContent">
+            <h2>Add A Contributer</h2><br>
+
+            <label for="contributerName">Contributer Name: </label>
+            <input type="text" name="contributerName" id="contributerName"><br><br>
+
+            <button class="styledButton" id="contributerAddButton">Add Contributer</button>
+        </div>
+    </div>`;
+
+var sprintFormModal = `
+    <div id="modalBox" class="modalContent">
+        <span id="modalCloseButton" class="closeButton">&times;</span>
+        <div id="modalContent">
+            <h2>Add A Sprint</h2><br>
+
+            <label for="sprintNumber">Sprint #: </label>
+            <select name="sprintNumber" id="sprintNumber">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+            </select><br><br>
+
+            <label for="sprintName">Sprint Name: </label>
+            <input type="text" name="sprintName" id="sprintName"><br><br>
+
+            <label for="sprintStartDate">Sprint Start Date: </label>
+            <input type="date" id="sprintStartDate" name="sprintStartDate"><br><br>
+
+            <label for="sprintEndDate">Sprint End Date: </label>
+            <input type="date" id="sprintEndDate" name="sprintEndDate"><br><br>
+
+            <button class="styledButton" id="sprintCreateButton">Create Sprint</button>
+        </div>
+    </div>`;
