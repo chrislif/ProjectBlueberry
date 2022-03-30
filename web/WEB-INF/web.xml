@@ -36,6 +36,14 @@
         <servlet-name>AdminAccounts</servlet-name>
         <servlet-class> controller.AdminAccounts</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>SprintEdit</servlet-name>
+        <servlet-class>controller.SprintEdit</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>TaskEdit</servlet-name>
+        <servlet-class>controller.TaskEdit</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Authorize</servlet-name>
         <url-pattern>/Authorize</url-pattern>
@@ -71,6 +79,14 @@
     <servlet-mapping>
         <servlet-name>AdminAccounts</servlet-name>
         <url-pattern>/AdminAccounts</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SprintEdit</servlet-name>
+        <url-pattern>/SprintEdit</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>TaskEdit</servlet-name>
+        <url-pattern>/TaskEdit</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>50</session-timeout>

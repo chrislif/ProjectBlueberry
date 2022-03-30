@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package controller;
 
 import com.google.gson.Gson;
@@ -15,18 +10,14 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/**
- *
- * @author dh687287
- */
-public class StoryEdit extends HttpServlet {
-    
+public class SprintEdit extends HttpServlet {
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-       
+        
     }
-    
+
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -35,12 +26,13 @@ public class StoryEdit extends HttpServlet {
         Gson gson = new Gson();
         
         int projectID = Integer.parseInt(request.getParameter("projectID"));
-        int editedSprintID = Integer.parseInt(request.getParameter("editedSprint"));
-        int editStoryID = Integer.parseInt(request.getParameter("editStoryID"));
-        String editedStoryName = request.getParameter("editedStoryName");
-        int editStoryPriorityLevel = Integer.parseInt(request.getParameter("editedStoryPriorityLevel"));
+        int sprintID = Integer.parseInt(request.getParameter("sprintID"));
+        int sprintNum = Integer.parseInt(request.getParameter("sprintNumber"));
+        String sprintName = request.getParameter("sprintName");
+        String sprintStartDate = request.getParameter("sprintStartDate");
+        String sprintEndDate = request.getParameter("sprintEndDate");
         
-        model.Project project = ProjectManager.updateStories(projectID,editedSprintID, editStoryID, editedStoryName, editStoryPriorityLevel, errorList);
+        model.Project project = ProjectManager.updateSprint(projectID, sprintID, sprintNum, sprintName, sprintStartDate, sprintEndDate, errorList);
         
         String editedProjectJSON = gson.toJson(project);
         
