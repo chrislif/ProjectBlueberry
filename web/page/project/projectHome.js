@@ -25,7 +25,7 @@ function displayProjectDetails() {
                 </table>
             </div>
             <div class="dualTableContent"> 
-                <table class="stylizedTable">
+                <table class="stylizedTable" id="contributor">
                     <tr>
                         <th>Contributors</th>
                     </tr>`;
@@ -47,7 +47,7 @@ function displayProjectDetails() {
             Project ID: ` + project.projectID + `
         </p>
          <button class="styledButton" id="newSprintButton">New Sprint</button>
-         <button class="styledButton" id="AddContributerButton">Add Contributer</button>
+         <button class="styledButton" id="newContributorButton">Add Contributor</button>
     
         ` + contributorHtml);
 }

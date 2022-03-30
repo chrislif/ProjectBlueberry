@@ -61,18 +61,30 @@ public class ProjectDB {
         return keyValue;
     }
     
-    public static void getContributer(String name) throws SQLException {
+    public static ArrayList<Account> getContributer(int projectID) throws SQLException {
         ConnectionPool pool = ConnectionPool.getInstance();
         Connection connection = pool.getConnection();
         PreparedStatement statement = null;
+        ResultSet resultSet = null;
+        ArrayList<Account> accounts = new ArrayList();
         
-        String query = "SELECT accountID from account WHERE accountName = ?";
+        String query = "SELECT projectPeople.accountID, account.accountName "
+                + "from projectPeople "
+                + "inner join account on account.accountID = projectPeople.accountID"
+                + "WHERE projectID = ? and tag='contributor'";
         
         try {
             statement = connection.prepareStatement(query);
-            statement.setString(1, name);
+            statement.setInt(1, projectID);
+            resultSet = statement.executeQuery();
             
-            statement.executeQuery();
+            Account account;
+            while (resultSet.next()){
+                account = new Account();
+                account.setAccountID(resultSet.getInt("accountID"));
+                account.setAccountName(resultSet.getString("accountName"));
+                accounts.add(account);
+            }
         } catch (SQLException ex) {
             throw ex;
         } finally {
@@ -85,6 +97,7 @@ public class ProjectDB {
                 throw ex;
             }
         }
+        return accounts;
     }
 
     public static void insertContributer(int projectID, int accountID, String tag) throws SQLException {
