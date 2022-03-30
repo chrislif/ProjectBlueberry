@@ -140,28 +140,9 @@ function showStoryForm(sprintList) {
         //Creates the click event for the create user story form
         $("#newStoryButton" + sprint.sprintID).click(function () {
 
-            $("#mainModal").html(
-                    `<div id="modalBox" class="modalContent">
-                        <span id="modalCloseButton" class="closeButton">&times;</span>
-                        <div id="modalContent">
-                            <h2>Add A Story to ${sprint.sprintName}</h2><br>
+            $("#mainModal").html(storyFormModal);
 
-                            <label for="storyName">User Story Name: </label>
-                            <input type="text" name="storyName" id="newStoryName"> <br> <br>
-
-                            <label for="priorityLevel">Priority: </label>
-                            <select name="priorityLevel" id="storyPriorityLevel">
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
-                                <option value="4">4</option>
-                                <option value="5">5</option>
-                            </select> <br> <br>
-
-                            <button class="styledButton" id="storyCreateButton" data-sprintid="${$(this).attr("data-sprintid")}">Create Story</button>
-                        </div>
-                    </div>`);
-
+            $("#storyCreateButton").attr('', $(this).attr("data-sprintid"));
             $("#storyCreateButton").click(createStory);
 
             $("#modalCloseButton").click(() => {
@@ -486,3 +467,25 @@ var sprintFormModal = `
             <button class="styledButton" id="sprintCreateButton">Create Sprint</button>
         </div>
     </div>`;
+
+var storyFormModal = `
+    <div id="modalBox" class="modalContent">
+            <span id="modalCloseButton" class="closeButton">&times;</span>
+            <div id="modalContent">
+                <h2>Add Story</h2><br>
+
+                <label for="storyName">User Story Name: </label>
+                <input type="text" name="storyName" id="newStoryName"> <br> <br>
+
+                <label for="priorityLevel">Priority: </label>
+                <select name="priorityLevel" id="storyPriorityLevel">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                </select> <br> <br>
+
+                <button class="styledButton" id="storyCreateButton" data-sprintid="${$(this).attr("data-sprintid")}">Create Story</button>
+            </div>
+        </div>`;
