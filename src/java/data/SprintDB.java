@@ -80,7 +80,7 @@ public class SprintDB {
         }
     }
 
-    public static void updateSprintEnd(int sprintID, Date endDate) throws SQLException {
+    public static void updateSprintEnd(int sprintID, String endDate) throws SQLException {
         ConnectionPool pool = ConnectionPool.getInstance();
         Connection connection = pool.getConnection();
         PreparedStatement statement = null;
@@ -90,7 +90,7 @@ public class SprintDB {
 
         try {
             statement = connection.prepareStatement(query);
-            statement.setDate(1, endDate);            
+            statement.setString(1, endDate);            
             statement.setInt(2, sprintID);
 
             statement.executeUpdate();
@@ -109,7 +109,7 @@ public class SprintDB {
         }
     }
 
-    public static void updateSprintStart(int sprintID, Date startDate) throws SQLException {
+    public static void updateSprintStart(int sprintID, String startDate) throws SQLException {
         ConnectionPool pool = ConnectionPool.getInstance();
         Connection connection = pool.getConnection();
         PreparedStatement statement = null;
@@ -119,7 +119,7 @@ public class SprintDB {
 
         try {
             statement = connection.prepareStatement(query);
-            statement.setDate(1, startDate);            
+            statement.setString(1, startDate);            
             statement.setInt(2, sprintID);
 
             statement.executeUpdate();
