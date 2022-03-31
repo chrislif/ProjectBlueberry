@@ -2,7 +2,7 @@
 <Context path="/projectBlueberry">
   <Resource auth="Container" 
             driverClassName="com.mysql.jdbc.Driver" 
-            logAbandoned="true" 
+            logAbandoned="true"
             maxActive="100" 
             maxIdle="30" 
             maxWait="10000" 
@@ -10,8 +10,9 @@
             removeAbandoned="true" 
             removeAbandonedTimeout="60" 
             type="javax.sql.DataSource" 
-            url="jdbc:mysql://cit-capstone-project.ci2aly1bqiqe.us-east-1.rds.amazonaws.com:3306/project-blueberry" 
             username="admin"
             password="admin#AWS" 
+            factory="org.apache.tomcat.dbcp.dbcp.BasicDataSourceFactory"
+            url="jdbc:mysql://cit-capstone-project.ci2aly1bqiqe.us-east-1.rds.amazonaws.com:3306/project-blueberry"
             />
 </Context>
