@@ -48,6 +48,10 @@
         <servlet-name>TaskEdit</servlet-name>
         <servlet-class>controller.TaskEdit</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>Register</servlet-name>
+        <servlet-class>controller.Register</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Authorize</servlet-name>
         <url-pattern>/Authorize</url-pattern>
@@ -95,6 +99,10 @@
     <servlet-mapping>
         <servlet-name>TaskEdit</servlet-name>
         <url-pattern>/TaskEdit</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Register</servlet-name>
+        <url-pattern>/Register</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>50</session-timeout>

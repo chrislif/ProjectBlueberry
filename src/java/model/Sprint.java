@@ -2,10 +2,6 @@ package model;
 
 import java.util.ArrayList;
 
-/**
- *
- * @author jackson
- */
 public class Sprint {
     private int sprintID;
     private int sprintNum;

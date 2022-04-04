@@ -11,10 +11,6 @@ import model.Sprint;
 import model.Story;
 import model.StoryTask;
 
-/**
- *
- * @author al725845
- */
 public class BlueDB {
     public static ArrayList<Project> generateProjectList(Account user) throws SQLException {
         ConnectionPool pool = ConnectionPool.getInstance();

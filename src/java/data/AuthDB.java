@@ -1,6 +1,3 @@
-/*
-
- */
 package data;
 
 import java.security.MessageDigest;
@@ -12,10 +9,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import model.Account;
 
-/**
- *
- * @author chris
- */
 public class AuthDB {
     public static String createAccount (Account user, String salt, String hash) throws SQLException {
         ConnectionPool pool = ConnectionPool.getInstance();

@@ -1,10 +1,3 @@
-<%-- 
-    Document   : header
-    Created on : Mar 3, 2022, 4:21:28 PM
-    Author     : chris
---%>
-
-
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>

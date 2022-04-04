@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package data;
 
 import java.sql.Connection;
@@ -10,18 +5,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.sql.Date;
 import java.util.ArrayList;
 import model.Account;
 import model.Project;
-import model.Sprint;
-import model.Story;
-import model.StoryTask;
 
-/**
- *
- * @author al725845
- */
 public class ProjectDB {
 
     public static String createProject(String name, String creationDate) throws SQLException {
