@@ -13,7 +13,6 @@
     <script type="text/javascript" src="page/project/manager.js"></script>
     <script type="text/javascript">
         var project = JSON.parse('${project}');
-        console.log(project);
     </script>
     <div class="mainContent">
         

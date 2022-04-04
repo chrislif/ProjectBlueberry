@@ -11,7 +11,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import model.Account;
 
-@WebServlet(name = "Register", urlPatterns = {"/Register"})
 public class Register extends HttpServlet {
 
     @Override

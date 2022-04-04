@@ -4,118 +4,14 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import model.Account;
 import model.Project;
+import model.Sprint;
+import model.Story;
+import model.StoryTask;
 
-public class ProjectDB {
-
-    public static String createProject(String name, String creationDate) throws SQLException {
-        ConnectionPool pool = ConnectionPool.getInstance();
-        Connection connection = pool.getConnection();
-        String keyValue = "";
-        PreparedStatement statement = null;
-        ResultSet resultSet = null;
-
-        String query = "INSERT INTO project (projectName, creationDate)"
-                + "VALUES (?, ?)";
-
-        try {
-            statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
-            statement.setString(1, name);
-            statement.setString(2, creationDate);
-
-            statement.executeUpdate();
-            resultSet = statement.getGeneratedKeys();
-
-        } catch (SQLException ex) {
-            throw ex;
-        } finally {
-            try {
-                if (resultSet != null && statement != null) {
-                    resultSet.next();
-                    keyValue = resultSet.getString(1);
-
-                    resultSet.close();
-                    statement.close();
-                }
-                pool.freeConnection(connection);
-            } catch (SQLException ex) {
-                throw ex;
-            }
-        }
-        return keyValue;
-    }
-    
-    public static ArrayList<Account> getContributer(int projectID) throws SQLException {
-        ConnectionPool pool = ConnectionPool.getInstance();
-        Connection connection = pool.getConnection();
-        PreparedStatement statement = null;
-        ResultSet resultSet = null;
-        ArrayList<Account> accounts = new ArrayList();
-        
-        String query = "SELECT projectPeople.accountID, account.accountName "
-                + "from projectPeople "
-                + "inner join account on account.accountID = projectPeople.accountID"
-                + "WHERE projectID = ? and tag='contributor'";
-        
-        try {
-            statement = connection.prepareStatement(query);
-            statement.setInt(1, projectID);
-            resultSet = statement.executeQuery();
-            
-            Account account;
-            while (resultSet.next()){
-                account = new Account();
-                account.setAccountID(resultSet.getInt("accountID"));
-                account.setAccountName(resultSet.getString("accountName"));
-                accounts.add(account);
-            }
-        } catch (SQLException ex) {
-            throw ex;
-        } finally {
-            try {
-                if (statement != null) {
-                    statement.close();
-                }
-                pool.freeConnection(connection);
-            } catch (SQLException ex) {
-                throw ex;
-            }
-        }
-        return accounts;
-    }
-
-    public static void insertContributer(int projectID, int accountID, String tag) throws SQLException {
-        ConnectionPool pool = ConnectionPool.getInstance();
-        Connection connection = pool.getConnection();
-        PreparedStatement statement = null;
-
-        String query = "INSERT INTO projectPeople (projectID, accountID, tag)"
-                + "VALUES (?, ?, ?)";
-
-        try {
-            statement = connection.prepareStatement(query);
-            statement.setInt(1, projectID);
-            statement.setInt(2, accountID);
-            statement.setString(3, tag);
-
-            statement.executeUpdate();
-        } catch (SQLException ex) {
-            throw ex;
-        } finally {
-            try {
-                if (statement != null) {
-                    statement.close();
-                }
-                pool.freeConnection(connection);
-            } catch (SQLException ex) {
-                throw ex;
-            }
-        }
-    }
-    
+public class BlueDB {
     public static ArrayList<Project> generateProjectList(Account user) throws SQLException {
         ConnectionPool pool = ConnectionPool.getInstance();
         Connection connection = pool.getConnection();
@@ -185,7 +81,7 @@ public class ProjectDB {
                 project.setProjectCreationDate(resultSet.getString("creationDate"));
                 project.contributors = getContributers(project);
                 project.managers = getManagers(project);
-                project.sprints = SprintDB.getSprints(project.getProjectID());
+                project.sprints = getSprints(project.getProjectID());
             }
         } catch (SQLException ex){
             throw ex;
@@ -281,22 +177,33 @@ public class ProjectDB {
             }
         }
         return managers;
-    }    
+    }
     
-    public static void updateProjectName(Project project, String name) throws SQLException{
+    public static ArrayList<Sprint> getSprints(int projectID) throws SQLException {
         ConnectionPool pool = ConnectionPool.getInstance();
         Connection connection = pool.getConnection();
         PreparedStatement statement = null;
         ResultSet resultSet = null;
+        ArrayList<Sprint> sprints = new ArrayList();
         
-        String query = "UPDATE project SET projectName = ? where projectID = ?";
-        
-        try{
+        String query = "SELECT * FROM sprint WHERE projectID = ?";
+        try {
             statement = connection.prepareStatement(query);
-            statement.setString(1, name);
-            statement.setInt(2, project.getProjectID());
+            statement.setString(1, Integer.toString(projectID));
+            resultSet = statement.executeQuery();
             
-            statement.executeUpdate();
+            Sprint sprint;
+            while (resultSet.next()){
+                sprint = new Sprint();
+                sprint.setSprintID(resultSet.getInt("sprintID"));
+                sprint.setSprintNum(resultSet.getInt("sprintNum"));
+                sprint.setSprintName(resultSet.getString("sprintName"));
+                sprint.setSprintStartDate(resultSet.getString("sprintStart"));
+                sprint.setSprintEndDate(resultSet.getString("sprintEnd"));
+                sprint.stories = getStories(sprint.getSprintID());
+                
+                sprints.add(sprint);
+            }
         } catch (SQLException ex) {
             throw ex;
         } finally {
@@ -306,9 +213,96 @@ public class ProjectDB {
                     statement.close();
                 }
                 pool.freeConnection(connection);
-            } catch (SQLException e) {
-                throw e;
+            } catch (SQLException ex) {
+                throw ex;
             }
         }
+        return sprints;
+    }
+    
+    public static ArrayList<Story> getStories(int sprintID) throws SQLException {
+        ConnectionPool pool = ConnectionPool.getInstance();
+        Connection connection = pool.getConnection();
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+        ArrayList<Story> stories = new ArrayList();
+        
+        String query = "SELECT * FROM stories WHERE sprintID = ?";
+        try {
+            statement = connection.prepareStatement(query);
+            statement.setString(1, Integer.toString(sprintID));
+            resultSet = statement.executeQuery();
+            
+            Story story;
+            while (resultSet.next()){
+                story = new Story();
+                story.setStoryID(resultSet.getInt("storyID"));
+                story.setStoryName(resultSet.getString("storyName"));
+                story.setStoryPriority(resultSet.getInt("storyPriority"));
+                story.tasks = getTasks(story.getStoryID());
+                
+                stories.add(story);
+            }
+        } catch (SQLException ex) {
+            throw ex;
+        } finally {
+            try {
+                if (resultSet != null && statement != null) {
+                    resultSet.close();
+                    statement.close();
+                }
+                pool.freeConnection(connection);
+            } catch (SQLException ex) {
+                throw ex;
+            }
+        }
+        return stories;
+    }
+    
+    public static ArrayList<StoryTask> getTasks(int storyID) throws SQLException {
+        ConnectionPool pool = ConnectionPool.getInstance();
+        Connection connection = pool.getConnection();
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+        ArrayList<StoryTask> tasks = new ArrayList();
+        
+        String query = "SELECT * FROM tasks WHERE storyID = ?";
+        try {
+            statement = connection.prepareStatement(query);
+            statement.setString(1, Integer.toString(storyID));
+            resultSet = statement.executeQuery();
+            
+            StoryTask task;
+            while (resultSet.next()){
+                task = new StoryTask();
+                task.setTaskID(resultSet.getInt("taskID"));
+                task.setTaskName(resultSet.getString("taskName"));
+                task.setTaskPriority(resultSet.getInt("taskPriority"));
+                task.setTaskTime(resultSet.getInt("taskTime"));
+                task.setTaskDetails(resultSet.getString("taskDetails"));
+                int completedInt = resultSet.getInt("taskCompleted");
+                if (completedInt > 0){
+                    task.setTaskCompleted(true);
+                } else {
+                    task.setTaskCompleted(false);
+                }
+                
+                tasks.add(task);
+            }
+        } catch (SQLException ex) {
+            throw ex;
+        } finally {
+            try {
+                if (resultSet != null && statement != null) {
+                    resultSet.close();
+                    statement.close();
+                }
+                pool.freeConnection(connection);
+            } catch (SQLException ex) {
+                throw ex;
+            }
+        }
+        return tasks;
     }
 }
+

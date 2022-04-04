@@ -1,9 +1,3 @@
-<%-- 
-    Document   : register
-    Created on : Mar 7, 2022, 1:23:28 PM
-    Author     : dh687287
---%>
-
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <jsp:include page="/page/link/header.jsp"/>

@@ -16,32 +16,34 @@ function showProjectForm() {
 }
 
 function createProject() {
-    ajaxPost("Project", {'projectName': $("#projectNameText").val()}, (result) => {
+    ajaxCall("Project", {'projectName': $("#projectNameText").val()}, "POST", (result) => {
         hideProjectForm();      
         retrieveProjects();
     });
 }
 
 function retrieveProjects() {
-    ajaxGet("ProjectList", {}, (result) => {
+    ajaxCall("ProjectList", {}, "GET", (result) => {
         projectList = JSON.parse(result);
         
         $("#projectTable").html("");
-        projectList.forEach(element => (
-            $("#projectTable").append(
-                `<form action="Project" method="GET">
-                    <input type="hidden" name="projectID" value="` + element.projectID + `">
-                    <button type="submit" class="gridSubContent gridButton">
-                        <div class="gridButtonText">
-                            <h3>Project: `+ element.projectName + `</h3>
-                            <p>ID: ` + element.projectID + `</p>
-                            <p>Date: ` + element.projectCreationDate + `</p>
-                        </div>
-                    </button>
-                </form>`
-            )
-        ));
+        projectList.forEach(createProjectButton);
     });
+}
+
+function createProjectButton(element) {
+    $("#projectTable").append(`
+        <form action="Project" method="GET">
+            <input type="hidden" name="projectID" value="` + element.projectID + `">
+            <button type="submit" class="gridSubContent gridButton">
+                <div class="gridButtonText">
+                    <h3>Project: ${element.projectName}</h3>
+                    <p>ID: ${element.projectID}</p>
+                    <p>Date: ${element.projectCreationDate}</p>
+                </div>
+            </button>
+        </form>`
+    );
 }
 
 function hideProjectForm() {
@@ -50,22 +52,9 @@ function hideProjectForm() {
     $("#projectNewButton").slideDown(100);
 }
 
-var ajaxGet = (url, data, callback) => {
+var ajaxCall = (url, data, type, callback) => {
     $.ajax({
-        type: "GET",
-        url: url,
-        data: data,
-        dataType: "JSON",
-        success: callback,
-        error: function (jqXHR, ex) {
-            console.log(jqXHR);
-        }
-    });
-};
-
-var ajaxPost = (url, data, callback) => {
-    $.ajax({
-        type: "POST",
+        type: type,
         url: url,
         data: data,
         dataType: "JSON",

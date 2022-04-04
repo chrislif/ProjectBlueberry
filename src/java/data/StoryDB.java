@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package data;
 
 import java.sql.Connection;
@@ -12,10 +7,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import model.Story;
 
-/**
- *
- * @author al725845
- */
 public class StoryDB {
 
     public static void createStory(Story story, int sprintID) throws SQLException {

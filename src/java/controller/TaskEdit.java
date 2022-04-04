@@ -1,16 +1,15 @@
 package controller;
 
+import com.google.gson.Gson;
+import controller.function.ProjectManager;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/**
- *
- * @author dh687287
- */
 public class TaskEdit extends HttpServlet {
     
     @Override
@@ -22,7 +21,23 @@ public class TaskEdit extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        ArrayList<String> errorList = new ArrayList();
+        PrintWriter responseOut = response.getWriter();
+        Gson gson = new Gson();
         
+        int projectID = Integer.parseInt(request.getParameter("projectID"));
+        int taskID = Integer.parseInt(request.getParameter("editedTaskID"));
+        int editedStoryID = Integer.parseInt(request.getParameter("editedTaskStoryRelation"));
+        String editedTaskName = request.getParameter("editedTaskName");
+        String editedTaskDetails = request.getParameter("editedTaskDetails");
+        int editedTaskTime = Integer.parseInt(request.getParameter("editedTaskTime"));
+        int editTaskPriority = Integer.parseInt(request.getParameter("editedTaskPriority"));
+        
+        model.Project project = ProjectManager.updateTasks(projectID, taskID, editedStoryID, editedTaskName, editedTaskDetails, editTaskPriority, editedTaskTime, errorList);
+        
+        String editedProjectJSON = gson.toJson(project);
+        
+        responseOut.println(editedProjectJSON);
     }
 
     @Override

@@ -1,9 +1,3 @@
-<%-- 
-    Document   : login
-    Created on : Mar 7, 2022, 1:23:06 PM
-    Author     : dh687287
---%>
-
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <jsp:include page="/page/link/header.jsp"/>
 <main>

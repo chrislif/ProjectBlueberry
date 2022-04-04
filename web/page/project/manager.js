@@ -2,9 +2,9 @@
 
 $(document).ready(() => {
     $("#newSprintButton").click(showSprintForm);
-    
+
     $("#newContributorButton").click(showContributorForm);
-    
+
     $(window).click(function (e) {
         if (e.target.id === "mainModal") {
             $("#mainModal").fadeOut(100);
@@ -19,99 +19,88 @@ function displayProject(sprintList) {
             Sprint Overview
         </h2>`;
 
-    sprintList.forEach((sprint) => {
-        sprintHtml += `
-            <div class="sprintCard">
-                <div class="sprintCardHeader">
-                    <h2 class="sprintName" id="sprintName${sprint.sprintID}"> ${sprint.sprintName} </h2>
-                    <p class="sprintDate" id="sprintDates${sprint.sprintID}"> ${sprint.sprintStartDate} to ${sprint.sprintEndDate} </p>
-                    <span id="editSprintButton${sprint.sprintID}"><img src="resources/editIcon.png"  class="editIcon" alt="Icon to edit sprint information"></span> 
-                    <span id="deleteSprintButton${sprint.sprintID}"><img src="resources/deleteIcon.png" class="deleteIcon" alt="Icon to delete sprint information"></span>
-                </div>`;
-
-        sprint.stories.forEach((story) => {
-            sprintHtml += `
-                <div class="storyCard">
-                    <div class="storyCardHeader">
-                        <h3 class="storyName">Story: ${story.storyName} </h3>
-                        <button class="styledButton" id="newTaskButton${story.storyID}" data-storyid="${story.storyID}">New Task</button>
-                        <span id="editStoryButton${story.storyID}"><img src="resources/editIcon.png"  class="editIcon" alt="Icon to edit story information"></span> 
-                        <span id="deleteStoryButton${story.storyID}"><img src="resources/deleteIcon.png" class="deleteIcon" alt="Icon to delete story information"></span>
-                    </div>
-                    <table class="stylizedTable" id="taskTable${story.storyID}">
-                        <tr>
-                            <th>Task Name</th>
-                            <th>Task Priority</th>
-                            <th>Task Details</th>
-                        </tr>`;
-
-            story.tasks.forEach((task) => {
-                sprintHtml += `
-                        <tr>
-                            <td> ${task.taskName} </td>
-                            <td> ${task.taskPriority} </td>
-                            <td> ${task.taskDetails} </td>
-                        </tr>`;
-            });
-
-            sprintHtml += `
-                    </table>
-                    <div>
-                        <table class="stylizedTable">
-                            <tr>
-                                <th>To-Do</th>
-                                <th>Doing</th>
-                                <th>Done</th>
-                            </tr>
-                        </table>
-                    </div>
-                </div>`;
-        });
-
-        sprintHtml += `
-                <button class="styledButton" id="newStoryButton${sprint.sprintID}" data-sprintid="${sprint.sprintID}">New Story</button>
-            </div>`;
-    });
-
     $("#sprintOverview").empty().append(sprintHtml);
+    sprintList.forEach(displaySprint);
 
     showStoryForm(sprintList);
-
     showTaskForm(sprintList);
-
     showEditSprintForm(sprintList);
-
     showEditStoryForm(sprintList);
+    showEditTaskForm(sprintList);
+}
+
+function displaySprint(element) {
+    var html = `
+        <div class="sprintCard" id="sprintCard${element.sprintID}">
+            <div class="sprintCardHeader">
+                <h2 class="sprintName" id="sprintName${element.sprintID}"> ${element.sprintName} </h2>
+                <p class="sprintDate" id="sprintDates${element.sprintID}"> ${element.sprintStartDate} to ${element.sprintEndDate} </p>
+                <span id="editSprintButton${element.sprintID}"><img src="resources/editIcon.png"  class="editIcon" alt="Icon to edit sprint information"></span> 
+                <span id="deleteSprintButton${element.sprintID}"><img src="resources/deleteIcon.png" class="deleteIcon" alt="Icon to delete sprint information"></span>
+            </div>
+        </div>`;
+    $("#sprintOverview").append(html);
+
+    var sprintCard = $(`#sprintCard${element.sprintID}`);
+    element.stories.forEach(function (element) {
+        displayStory(element, sprintCard);
+    });
+
+    html = `<button class="styledButton" id="newStoryButton${element.sprintID}" data-sprintid="${element.sprintID}">New Story</button>`;
+    sprintCard.append(html);
+}
+
+function displayStory(storyElement, sprintCard) {
+    var html = `
+        <div class="storyCard">
+            <div class="storyCardHeader">
+                <h3 class="storyName">Story: ${storyElement.storyName} </h3>
+                <button class="styledButton" id="newTaskButton${storyElement.storyID}" data-storyid="${storyElement.storyID}">New Task</button>
+                <span id="editStoryButton${storyElement.storyID}"><img src="resources/editIcon.png"  class="editIcon" alt="Icon to edit story information"></span> 
+                <span id="deleteStoryButton${storyElement.storyID}"><img src="resources/deleteIcon.png" class="deleteIcon" alt="Icon to delete story information"></span>
+            </div>
+            <table class="stylizedTable" id="taskTable${storyElement.storyID}">
+                <tr>
+                    <th>Task Name</th>
+                    <th>Task Priority</th>
+                    <th>Task Time</th>
+                    <th>Task Details</th>
+                </tr>
+            </table>
+            <div>
+                <table class="stylizedTable">
+                    <tr>
+                        <th>To-Do</th>
+                        <th>Doing</th>
+                        <th>Done</th>
+                    </tr>
+                </table>
+            </div>
+        </div>`;
+
+    sprintCard.append(html);
+
+    var taskTable = $(`#taskTable${storyElement.storyID}`);
+    storyElement.tasks.forEach(function (taskElement) {
+        displayTask(taskElement, taskTable, storyElement.storyID);
+    });
+}
+
+function displayTask(taskElement, taskTable, storyID) {
+    var html = `
+        <tr>
+            <td> <span id="editTaskLink${taskElement.taskID}" class="editTaskLink" data-storyid="${storyID}">${taskElement.taskName}</span> </td>
+            <td> ${taskElement.taskPriority} </td>
+            <td> ${taskElement.taskTime}</td>
+            <td> ${taskElement.taskDetails} </td>
+        </tr>`;
+
+    taskTable.append(html);
+
 }
 
 function showSprintForm() {
-    $("#mainModal").html(
-            `<div id="modalBox" class="modalContent">
-            <span id="modalCloseButton" class="closeButton">&times;</span>
-            <div id="modalContent">
-                <h2>Add A Sprint</h2><br>
-
-                <label for="sprintNumber">Sprint #: </label>
-                <select name="sprintNumber" id="sprintNumber">
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                </select><br><br>
-
-                <label for="sprintName">Sprint Name: </label>
-                <input type="text" name="sprintName" id="sprintName"><br><br>
-
-                <label for="sprintStartDate">Sprint Start Date: </label>
-                <input type="date" id="sprintStartDate" name="sprintStartDate"><br><br>
-
-                <label for="sprintEndDate">Sprint End Date: </label>
-                <input type="date" id="sprintEndDate" name="sprintEndDate"><br><br>
-
-                <button class="styledButton" id="sprintCreateButton">Create Sprint</button>
-            </div>
-        </div>`);
+    $("#mainModal").html(sprintFormModal);
 
     var today = new Date();
     var dd = today.getDate();
@@ -156,7 +145,7 @@ function showContributorForm() {
     $("#modalCloseButton").click(() => {
         $("#mainModal").fadeOut(500);
     });
-    
+
     $("#mainModal").fadeIn(200);
 }
 
@@ -165,28 +154,9 @@ function showStoryForm(sprintList) {
         //Creates the click event for the create user story form
         $("#newStoryButton" + sprint.sprintID).click(function () {
 
-            $("#mainModal").html(
-                    `<div id="modalBox" class="modalContent">
-                        <span id="modalCloseButton" class="closeButton">&times;</span>
-                        <div id="modalContent">
-                            <h2>Add A Story to ${sprint.sprintName}</h2><br>
+            $("#mainModal").html(storyFormModal);
 
-                            <label for="storyName">User Story Name: </label>
-                            <input type="text" name="storyName" id="newStoryName"> <br> <br>
-
-                            <label for="priorityLevel">Priority: </label>
-                            <select name="priorityLevel" id="storyPriorityLevel">
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
-                                <option value="4">4</option>
-                                <option value="5">5</option>
-                            </select> <br> <br>
-
-                            <button class="styledButton" id="storyCreateButton" data-sprintid="${$(this).attr("data-sprintid")}">Create Story</button>
-                        </div>
-                    </div>`);
-
+            $("#storyCreateButton").attr('', $(this).attr("data-sprintid"));
             $("#storyCreateButton").click(createStory);
 
             $("#modalCloseButton").click(() => {
@@ -202,7 +172,6 @@ function showTaskForm(sprintList) {
     sprintList.forEach((sprint) => {
         // Creates the click event for the create task form
         sprint.stories.forEach((story) => {
-            console.log(story);
             $("#newTaskButton" + story.storyID).click(function () {
 
                 $("#mainModal").html(
@@ -326,20 +295,87 @@ function showEditStoryForm(sprintList) {
                         <button class="styledButton" id="completeStoryEdit">Edit Story</button>
                     </div>
                 </div>`
-            );
-            
-            appendStorySprintOptions(sprintList);
-            
-            $("#completeStoryEdit").click(editStory);
-            
-            $("#modalCloseButton").click(() => {
-                $("#mainModal").fadeOut(500);
-            });
+                        );
 
-            $("#mainModal").fadeIn(200);
+                appendStorySprintOptions(sprintList);
+
+                $("#completeStoryEdit").click(editStory);
+
+                $("#modalCloseButton").click(() => {
+                    $("#mainModal").fadeOut(500);
+                });
+
+                $("#mainModal").fadeIn(200);
             });
         });
     });
+}
+
+function showEditTaskForm(sprintList) {
+
+    sprintList.forEach((sprint) => {
+       
+        sprint.stories.forEach((story) => {
+            
+            story.tasks.forEach((task) => {
+               $("#editTaskLink"+task.taskID).click(function () {
+                   $("#mainModal").html(
+                        `<div id="modalBox" class="modalContent">
+                                <span id="modalCloseButton" class="closeButton">&times;</span>
+                                <div id="modalContent">
+                                    <h2>Edit ${task.taskName}</h2><br>
+
+                                    <input type="hidden" id="editTaskID" value="${task.taskID}">
+
+                                    <label for="editedTaskName">Task Name: </label>
+                                    <input type="text" name="editedTaskName" id="editedTaskName" value="${task.taskName}"><br><br>
+                   
+                                    <label for="editTaskStoryRelation">Story that this Task is linked to:</label>
+                                    <select name="editTaskStoryRelation" id="editTaskStoryRelation">
+                                        <option value="${story.storyID}">${story.storyName}</option>
+                                    </select><br><br>
+
+                                    <label for="editedTaskDetails">Task Details: </label>
+                                    <input type="text" name="editedTaskDetails" id="editedTaskDetails" value="${task.taskDetails}"><br><br>
+
+                                    <label for="editedTaskPriority">Task Priority: </label>
+                                    <select name="editedTaskPriority" id="editedTaskPriority">
+                                        <option value="${task.taskPriority}">${task.taskPriority}</option>
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+                                        <option value="5">5</option>
+                                    </select><br><br>
+                   
+                                    <label for="editedTaskTime">Task Time (In Hours): </label>
+                                    <input type="text" name="editedTaskTime" id="editedTaskTime" value="${task.taskTime}"> <br> <br>
+
+                                    <button class="styledButton" id="completeTaskEdit">Edit Task</button>
+                   
+                                    <button class="styledButton" id="completeTask" data-storyid="${story.storyID}">Complete Task</button>
+                   
+                                    <button class="styledButton" id="deleteTask" data-storyid="${story.storyID}">Delete Task</button>
+                                </div>
+                            </div>`
+                        );
+                
+                    appendTaskStoryOptions(sprintList);
+
+                    $("#completeTaskEdit").click(editTask);
+
+                    $("#modalCloseButton").click(() => {
+                        $("#mainModal").fadeOut(500);
+                    });
+
+                    $("#mainModal").fadeIn(200);
+                   }); 
+            });
+            
+        });
+        
+    });
+
 }
 
 function updateSprint(updatedSprint) {
@@ -375,87 +411,104 @@ function updateTasks(taskList, storyID) {
 }
 
 function createTask() {
-    ajaxPost('Task', {
-        'storyID': $(this).attr("data-storyid"),
-        'taskName': $("#newTaskName").val(),
-        'taskDetails': $("#newTaskDetails").val(),
-        'taskTime': $("#newTaskTime").val(),
-        'taskPriority': $("#taskPriorityLevel option:selected").val()},
-            (result) => {
+    ajaxCall('Task',
+            {'storyID': $(this).attr("data-storyid"),
+                'taskName': $("#newTaskName").val(),
+                'taskDetails': $("#newTaskDetails").val(),
+                'taskTime': $("#newTaskTime").val(),
+                'taskPriority': $("#taskPriorityLevel option:selected").val()},
+            'POST', (result) => {
         $("#mainModal").fadeOut(500);
         var taskList = JSON.parse(result);
         updateTasks(taskList, $(this).attr("data-storyid"));
     });
 }
 
+function editTask() {
+    ajaxCall('TaskEdit',
+            {'projectID': project.projectID,
+              'editedTaskID' : $("#editTaskID").val(),
+              'editedTaskName' : $("#editedTaskName").val(),
+              'editedTaskStoryRelation': $("#editTaskStoryRelation").val(),
+              'editedTaskDetails' : $("#editedTaskDetails").val(),
+              'editedTaskTime' : $("#editedTaskTime").val(),
+              'editedTaskPriority' : $("#editedTaskPriority option:selected").val()},
+            'Post', (result) => {
+                var editedProject = JSON.parse(result);
+                $("#mainModal").fadeOut(500);
+                displayProject(editedProject.sprints);
+            });
+}
+
 function createSprint() {
-    ajaxPost('Sprint', {
-        'projectID': project.projectID,
-        'storyID': $(this).attr("data-storyid"),
-        'sprintNum': $("#sprintNumber option:selected").val(),
-        'sprintName': $("#sprintName").val(),
-        'sprintStartDate': $("#sprintStartDate").val(),
-        'sprintEndDate': $("#sprintEndDate").val()},
-            (result) => {
+    ajaxCall('Sprint',
+            {'projectID': project.projectID,
+                'storyID': $(this).attr("data-storyid"),
+                'sprintNum': $("#sprintNumber option:selected").val(),
+                'sprintName': $("#sprintName").val(),
+                'sprintStartDate': $("#sprintStartDate").val(),
+                'sprintEndDate': $("#sprintEndDate").val()},
+            'POST', (result) => {
         $("#mainModal").fadeOut(500);
         displayProject(JSON.parse(result));
     });
 }
 
-function addContributor(){
-    ajaxPost('Contributor', {
+function addContributor() {
+    ajaxCall('Contributor', {
         'projectID': project.projectID,
         'contributerName': $("#contributerName").val()},
-        (result) => {
+            'POST', (result) => {
         $("#mainModal").fadeOut(500);
         var contributorList = JSON.parse(result);
         $("#contributor").empty();
         $("#contributor").append("<tr><th>Contributors</th></tr>");
-        console.log(result);
         contributorList.forEach((contributor) => {
             $("#contributor").append(`<tr><td>${contributor.accountName}</td></tr>`);
-            
         });
     });
 }
 
 function editSprint() {
-    ajaxPost('SprintEdit', {'projectID': project.projectID,
-        'sprintID' : $("#editSprintID").val(),
-        'sprintNumber': $("#editedSprintNumber").val(),
-        'sprintName': $("#editedSprintName").val(),
-        'sprintStartDate': $("#editedSprintStartDate").val(),
-        'sprintEndDate': $("#editedSprintEndDate").val()},
-        (result) => {
-            var editedProject = JSON.parse(result);
-            console.log(editedProject);
-            $("#mainModal").fadeOut(500);
-            displayProject(editedProject.sprints);
-        });
+    ajaxCall('SprintEdit',
+            {'projectID': project.projectID,
+                'sprintID': $("#editSprintID").val(),
+                'sprintNumber': $("#editedSprintNumber").val(),
+                'sprintName': $("#editedSprintName").val(),
+                'sprintStartDate': $("#editedSprintStartDate").val(),
+                'sprintEndDate': $("#editedSprintEndDate").val()},
+            'POST', (result) => {
+        var editedProject = JSON.parse(result);
+        console.log(editedProject);
+        $("#mainModal").fadeOut(500);
+        displayProject(editedProject.sprints);
+    });
 }
 
 function createStory() {
-    ajaxPost('Story', {'storyName': $("#newStoryName").val(),
-        'sprintID': $(this).attr("data-sprintid"),
-        'storyPriority': $("#storyPriorityLevel option:selected").val()},
-            (result) => {
+    ajaxCall('Story',
+            {'storyName': $("#newStoryName").val(),
+                'sprintID': $(this).attr("data-sprintid"),
+                'storyPriority': $("#storyPriorityLevel option:selected").val()},
+            'POST', (result) => {
         $("#mainModal").fadeOut(500);
         updateStories($(this).attr("data-sprintid"), result);
     });
 }
 
 function editStory() {
-    ajaxPost('StoryEdit', {'projectID': project.projectID,
-                        'editedSprint' : $("#editStorySprintRelation").val(),
-                        'editStoryID' : $("#editStoryID").val(),
-                        'editedStoryName' : $("#editedStoryName").val(),
-                        'editedStoryPriorityLevel' : $("#editedStoryPriority option:selected").val()},
-                        (result => {
-                            var editedProject = JSON.parse(result);
-                            $("#mainModal").fadeOut(500);
-                            displayProject(editedProject.sprints);
-                        })
-    );
+    ajaxCall('StoryEdit',
+            {'projectID': project.projectID,
+                'editedSprint': $("#editStorySprintRelation").val(),
+                'editStoryID': $("#editStoryID").val(),
+                'editedStoryName': $("#editedStoryName").val(),
+                'editedStoryPriorityLevel': $("#editedStoryPriority option:selected").val()},
+            'POST', (result => {
+                var editedProject = JSON.parse(result);
+                $("#mainModal").fadeOut(500);
+                displayProject(editedProject.sprints);
+            })
+            );
 }
 
 function updateStories(sprintID, storyList) {
@@ -473,9 +526,21 @@ function appendStorySprintOptions(sprintList) {
     });
 }
 
-var ajaxGet = (url, data, callback) => {
+function appendTaskStoryOptions(sprintList) {
+    sprintList.forEach( (sprint) => {
+        sprint.stories.forEach((story) =>{
+            var o = new Option(story.storyName, story.storyID);
+            
+            $(o).html(story.storyName);
+            
+            $("#editTaskStoryRelation").append(o);
+        });
+    });
+}
+
+var ajaxCall = (url, data, type, callback) => {
     $.ajax({
-        type: "GET",
+        type: type,
         url: url,
         data: data,
         dataType: "JSON",
@@ -486,15 +551,65 @@ var ajaxGet = (url, data, callback) => {
     });
 };
 
-var ajaxPost = (url, data, callback) => {
-    $.ajax({
-        type: "POST",
-        url: url,
-        data: data,
-        dataType: "JSON",
-        success: callback,
-        error: function (jqXHR, ex) {
-            console.log(jqXHR);
-        }
-    });
-};
+var contributorFormModal = `
+    <div id="modalBox" class="modalContent">
+        <span id="modalCloseButton" class="closeButton">&times;</span>
+        <div id="modalContent">
+            <h2>Add A Contributer</h2><br>
+
+            <label for="contributerName">Contributer Name: </label>
+            <input type="text" name="contributerName" id="contributerName"><br><br>
+
+            <button class="styledButton" id="contributerAddButton">Add Contributer</button>
+        </div>
+    </div>`;
+
+var sprintFormModal = `
+    <div id="modalBox" class="modalContent">
+        <span id="modalCloseButton" class="closeButton">&times;</span>
+        <div id="modalContent">
+            <h2>Add A Sprint</h2><br>
+
+            <label for="sprintNumber">Sprint #: </label>
+            <select name="sprintNumber" id="sprintNumber">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+            </select><br><br>
+
+            <label for="sprintName">Sprint Name: </label>
+            <input type="text" name="sprintName" id="sprintName"><br><br>
+
+            <label for="sprintStartDate">Sprint Start Date: </label>
+            <input type="date" id="sprintStartDate" name="sprintStartDate"><br><br>
+
+            <label for="sprintEndDate">Sprint End Date: </label>
+            <input type="date" id="sprintEndDate" name="sprintEndDate"><br><br>
+
+            <button class="styledButton" id="sprintCreateButton">Create Sprint</button>
+        </div>
+    </div>`;
+
+var storyFormModal = `
+    <div id="modalBox" class="modalContent">
+            <span id="modalCloseButton" class="closeButton">&times;</span>
+            <div id="modalContent">
+                <h2>Add Story</h2><br>
+
+                <label for="storyName">User Story Name: </label>
+                <input type="text" name="storyName" id="newStoryName"> <br> <br>
+
+                <label for="priorityLevel">Priority: </label>
+                <select name="priorityLevel" id="storyPriorityLevel">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                </select> <br> <br>
+
+                <button class="styledButton" id="storyCreateButton" data-sprintid="${$(this).attr("data-sprintid")}">Create Story</button>
+            </div>
+        </div>`;
