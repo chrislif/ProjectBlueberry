@@ -156,7 +156,7 @@ function showStoryForm(sprintList) {
 
             $("#mainModal").html(storyFormModal);
 
-            $("#storyCreateButton").attr('', $(this).attr("data-sprintid"));
+            $("#storyCreateButton").attr('data-sprintid', $(this).attr("data-sprintid"));
             $("#storyCreateButton").click(createStory);
 
             $("#modalCloseButton").click(() => {

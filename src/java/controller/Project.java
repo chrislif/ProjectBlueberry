@@ -21,7 +21,7 @@ public class Project extends HttpServlet {
         int projectID = Integer.parseInt(request.getParameter("projectID"));
         
         model.Project project = ProjectManager.getProject(projectID);
-        
+
         request.setAttribute("project", gson.toJson(project));
         
         String url = "/page/project/projectHome.jsp";
