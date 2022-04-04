@@ -58,6 +58,7 @@ nav {
 
 .navbutton:hover {
     background-color: rgb(255, 166, 48);
+    cursor: pointer;
 }
 
 .modalBackground {
