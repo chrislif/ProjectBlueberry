@@ -99,17 +99,12 @@ public class Authorization {
         return user;
     }
     
-    public static Boolean isContributerOnProject(int projectID, int accountID, ArrayList<String> errorList){
+    public static Boolean isContributerOnProject(Project project, Account account){
         try{
-            Account account = new Account();
-            account.setAccountID(accountID);
-            Project project = new Project();
-            project.setProjectID(projectID);
-            
-            return AccountDB.isContributer(account, project);
+            return AccountDB.isContributor(account, project);
         }
         catch (SQLException ex) {
-            errorList.add(ex.getMessage());
+            String mess = ex.getMessage();
             return null;
         } 
     }

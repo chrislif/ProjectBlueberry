@@ -1,6 +1,7 @@
 package controller;
 
 import com.google.gson.Gson;
+import controller.function.Authorization;
 import controller.function.ProjectManager;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -18,9 +19,16 @@ public class Project extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         Gson gson = new Gson();
+        HttpSession session = request.getSession();
         int projectID = Integer.parseInt(request.getParameter("projectID"));
         
         model.Project project = ProjectManager.getProject(projectID);
+        
+        Account currentUser = (Account)session.getAttribute("currentUser");
+        Boolean isContributor = Authorization.isContributerOnProject(project, currentUser);
+        
+        session.setAttribute("isContributor", isContributor);
+        request.setAttribute("isContributor", gson.toJson(isContributor));
 
         request.setAttribute("project", gson.toJson(project));
         
