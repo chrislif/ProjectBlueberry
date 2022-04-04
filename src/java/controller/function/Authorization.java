@@ -1,11 +1,13 @@
 package controller.function;
 
+import data.AccountDB;
 import data.AuthDB;
 import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Random;
 import model.Account;
+import model.Project;
 
 public class Authorization {
     public static Boolean IsValidLogin(String email, String password, ArrayList<String> errorList) {
@@ -95,6 +97,21 @@ public class Authorization {
         }
         
         return user;
+    }
+    
+    public static Boolean isContributerOnProject(int projectID, int accountID, ArrayList<String> errorList){
+        try{
+            Account account = new Account();
+            account.setAccountID(accountID);
+            Project project = new Project();
+            project.setProjectID(projectID);
+            
+            return AccountDB.isContributer(account, project);
+        }
+        catch (SQLException ex) {
+            errorList.add(ex.getMessage());
+            return null;
+        } 
     }
     
     public static String randomSalt(){
