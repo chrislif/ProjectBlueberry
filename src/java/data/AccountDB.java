@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Set;
 import model.Account;
+import model.Project;
 
 public class AccountDB {
     public static ArrayList<Account> getAccounts() throws SQLException{
@@ -231,6 +232,39 @@ public class AccountDB {
             } catch (SQLException e) {
                 throw e;
             }            
+        }
+    }
+    
+    public static Boolean isContributor(Account account, Project project) throws SQLException{
+        ConnectionPool pool = ConnectionPool.getInstance();
+        Connection connection = pool.getConnection();
+        PreparedStatement statement = null; 
+        ResultSet resultSet = null;
+        
+        String query = "SELECT accountID, projectID, tag"
+                + "FROM projectPeople"
+                + "WHERE accountID = ? and projectID = ?";
+        
+        try{
+            statement = connection.prepareStatement(query);
+            statement.setInt(1, account.getAccountID());
+            statement.setInt(2, project.getProjectID());
+            
+            resultSet = statement.executeQuery();
+            return "contributer".equals(resultSet.getString("tag"));
+
+        } catch (SQLException ex) {
+            throw ex;
+        } finally {
+            try {
+                if (resultSet != null && statement != null) {
+                    resultSet.close();
+                    statement.close();
+                }
+                pool.freeConnection(connection);
+            } catch (SQLException e) {
+                throw e;
+            }
         }
     }
 }
