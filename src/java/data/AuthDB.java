@@ -101,7 +101,7 @@ public class AuthDB {
             statement = connection.prepareStatement(query);
             statement.setString(1, email);
             resultSet = statement.executeQuery();
-
+            
             return resultSet.next();
         } catch (SQLException ex) {
             throw ex;

@@ -243,15 +243,16 @@ public class AccountDB {
         
         String query = "SELECT accountID, projectID, tag"
                 + "FROM projectPeople"
-                + "WHERE accountID = ? and projectID = ?";
+                + "WHERE accountID = ? and projectID = ? and tag = 'contributor'";
         
         try{
             statement = connection.prepareStatement(query);
             statement.setInt(1, account.getAccountID());
             statement.setInt(2, project.getProjectID());
-            
+                  
             resultSet = statement.executeQuery();
-            return "contributer".equals(resultSet.getString("tag"));
+            
+            return resultSet.next(); 
 
         } catch (SQLException ex) {
             throw ex;
