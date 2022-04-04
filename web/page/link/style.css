@@ -231,6 +231,7 @@ nav {
 
 .styledButton:hover {
     background: rgb(255, 166, 48);
+    cursor: pointer;
 }
 
 .styledButton:active {
@@ -240,6 +241,7 @@ nav {
 
 .editTaskLink:hover {
     color: rgb(255, 166, 48);
+    cursor: pointer;
 }
 
 input[type=text], input[type=password], input[type=date] {
@@ -285,6 +287,7 @@ select:focus {
 .editIcon:hover,
 .deleteIcon:hover{
     background-color: rgb(0, 167, 225);
+    cursor: pointer;
 }
 
 footer {
