@@ -129,13 +129,15 @@ public class ProjectManager {
         }
     }
     
-    public static ArrayList<StoryTask> createTask(int storyID, String taskName, String taskDetails, int taskPriority, int taskTime) {
+    public static Project createTask(int projectID, int storyID, String taskName, String taskDetails, int taskPriority, int taskTime) {
         StoryTask newTask = new StoryTask(0, taskName, taskPriority, taskTime, taskDetails, false);
         
         try {
             TaskDB.createTask(newTask, storyID);
             
-            return TaskDB.getTasks(storyID);
+            model.Project project = getProject(projectID);
+            
+            return project;
         } catch (SQLException ex) {
             return null;
         }
