@@ -238,6 +238,10 @@ nav {
     transform: translateY(4px);
 }
 
+.editTaskLink:hover {
+    color: rgb(255, 166, 48);
+}
+
 input[type=text], input[type=password], input[type=date] {
     outline: none;
     width: 25%;
