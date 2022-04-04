@@ -241,19 +241,18 @@ public class AccountDB {
         PreparedStatement statement = null; 
         ResultSet resultSet = null;
         
-        String query = "SELECT accountID, projectID, tag FROM projectPeople "
-                + "WHERE accountID = ? AND projectID = ?";
+        String query = "SELECT accountID, projectID, tag"
+                + "FROM projectPeople"
+                + "WHERE accountID = ? and projectID = ? and tag = 'contributor'";
         
         try{
             statement = connection.prepareStatement(query);
             statement.setInt(1, account.getAccountID());
             statement.setInt(2, project.getProjectID());
-            
+                  
             resultSet = statement.executeQuery();
             
-            resultSet.next();
-            
-            return "contributer".equals(resultSet.getString("tag"));
+            return resultSet.next(); 
 
         } catch (SQLException ex) {
             throw ex;
