@@ -14,7 +14,7 @@ public class TaskDB {
         Connection connection = pool.getConnection();
         PreparedStatement statement = null;
 
-        String query = "INSERT INTO tasks (taskName, storyID, taskPriority, taskTime, taskDetails, taskCompleted)"
+        String query = "INSERT INTO tasks (taskName, storyID, taskPriority, taskTime, taskDetails, taskStatus)"
                 + "VALUES (?, ?, ?, ?, ?, ?)";
 
         try {
@@ -24,7 +24,7 @@ public class TaskDB {
             statement.setInt(3, task.getTaskPriority());
             statement.setInt(4, task.getTaskTime());
             statement.setString(5, task.getTaskDetails());
-            statement.setBoolean(6, task.getTaskCompleted());
+            statement.setInt(6, task.getTaskStatus());
 
             statement.executeUpdate();
         } catch (SQLException ex) {
@@ -236,12 +236,7 @@ public class TaskDB {
                 task.setTaskPriority(resultSet.getInt("taskPriority"));
                 task.setTaskTime(resultSet.getInt("taskTime"));
                 task.setTaskDetails(resultSet.getString("taskDetails"));
-                int completedInt = resultSet.getInt("taskCompleted");
-                if (completedInt > 0) {
-                    task.setTaskCompleted(true);
-                } else {
-                    task.setTaskCompleted(false);
-                }
+                task.setTaskStatus(resultSet.getInt("taskStatus"));
 
                 tasks.add(task);
             }
