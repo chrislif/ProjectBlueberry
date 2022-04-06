@@ -11,8 +11,8 @@
             removeAbandonedTimeout="60" 
             type="javax.sql.DataSource" 
             username="admin"
-            password="admin#AWS" 
+            password="Admin#AWS" 
             factory="org.apache.tomcat.dbcp.dbcp.BasicDataSourceFactory"
-            url="jdbc:mysql://cit-capstone-project.ci2aly1bqiqe.us-east-1.rds.amazonaws.com:3306/project-blueberry"
+            url="jdbc:mysql://project-blueberry.ci2aly1bqiqe.us-east-1.rds.amazonaws.com:3306/project-blueberry"
             />
 </Context>
