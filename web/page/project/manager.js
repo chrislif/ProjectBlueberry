@@ -35,11 +35,13 @@ function displaySprint(element) {
             <div class="sprintCardHeader">
                 <h2 class="sprintName" id="sprintName${element.sprintID}"> ${element.sprintName} </h2>
                 <p class="sprintDate" id="sprintDates${element.sprintID}"> ${element.sprintStartDate} to ${element.sprintEndDate} </p>
-                <span id="editSprintButton${element.sprintID}"><img src="resources/editIcon.png"  class="editIcon" alt="Icon to edit sprint information"></span> 
-                <span id="deleteSprintButton${element.sprintID}"><img src="resources/deleteIcon.png" class="deleteIcon" alt="Icon to delete sprint information"></span>
+                <div id="editSprintButton${element.sprintID}"><img src="resources/editIcon.png"  class="editIcon" alt="Icon to edit sprint information"></div> 
+                <div data-sprintid="${element.sprintID}" id="deleteSprintButton${element.sprintID}"><img src="resources/deleteIcon.png" class="deleteIcon" alt="Icon to delete sprint information"></div>
             </div>
         </div>`;
     $("#sprintOverview").append(html);
+
+    $("#deleteSprintButton" + element.sprintID).click(deleteSprint);
 
     var sprintCard = $(`#sprintCard${element.sprintID}`);
     element.stories.forEach(function (element) {
@@ -48,6 +50,8 @@ function displaySprint(element) {
 
     html = `<button class="styledButton" id="newStoryButton${element.sprintID}" data-sprintid="${element.sprintID}">New Story</button>`;
     sprintCard.append(html);
+    
+    
 }
 
 function displayStory(storyElement, sprintCard) {
@@ -489,6 +493,17 @@ function editSprint() {
         $("#mainModal").fadeOut(500);
         displayProject(editedProject.sprints);
     });
+}
+
+function deleteSprint() {
+    ajaxCall('SprintEdit',
+        {'projectID': project.projectID,
+            'sprintID' : $(this).attr('data-sprintid')},
+        'GET', (result) => {
+            var editedProject = JSON.parse(result);
+            displayProject(editedProject.sprints);
+        }
+    );
 }
 
 function createStory() {

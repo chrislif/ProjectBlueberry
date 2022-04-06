@@ -66,6 +66,18 @@ public class ProjectManager {
         }
     }
     
+    public static Project deleteSprint (int sprintID, int projectID, ArrayList<String> errorList) {
+        try {
+            SprintDB.deleteSprintByID(sprintID);
+            model.Project project = getProject(projectID);
+            
+            return project;
+        } catch (SQLException ex) {
+            errorList.add(ex.getMessage());
+            return null;
+        }
+    }
+    
     public static Project updateSprint(int projectID, int sprintID, int sprintNum, String sprintName, String sprintStartDate, String sprintEndDate, ArrayList<String> errorList) {
         try {
             SprintDB.updateSprintName(sprintID, sprintName);

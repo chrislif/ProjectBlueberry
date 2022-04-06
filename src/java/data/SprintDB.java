@@ -156,6 +156,34 @@ public class SprintDB {
             }
         }
     }
+    
+    public static void deleteSprintByID(int sprintID) throws SQLException {
+        ConnectionPool pool = ConnectionPool.getInstance();
+        Connection connection = pool.getConnection();
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+        
+        String query = "DELETE FROM sprint WHERE sprintID = ?";
+        
+        try {
+            statement = connection.prepareStatement(query);
+            statement.setInt(1, sprintID);
+
+            statement.executeUpdate();
+        } catch (SQLException ex) {
+            throw ex;
+        } finally {
+            try {
+                if (resultSet != null && statement != null) {
+                    resultSet.close();
+                    statement.close();
+                }
+                pool.freeConnection(connection);
+            } catch (SQLException e) {
+                throw e;
+            }
+        }
+    }
 
     public static ArrayList<Sprint> getSprints(int projectID) throws SQLException {
         ConnectionPool pool = ConnectionPool.getInstance();
