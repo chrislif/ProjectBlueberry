@@ -54,10 +54,7 @@ public class Sprint extends HttpServlet {
             responseOut.println(sprintListJSON);
         } else {
             int projectID = Integer.parseInt(request.getParameter("projectID"));
-            int sprintNum = Integer.parseInt(request.getParameter("sprintNum"));
-            String sprintName = request.getParameter("sprintName");
-            String sprintStartDate = request.getParameter("sprintStartDate");
-            String sprintEndDate = request.getParameter("sprintEndDate");
+
             ArrayList<model.Sprint> sprintList = ProjectManager.retrieveSprints(projectID);
 
             String sprintListJSON = gson.toJson(sprintList);

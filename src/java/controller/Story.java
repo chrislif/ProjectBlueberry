@@ -45,6 +45,7 @@ public class Story extends HttpServlet {
             String storyListJSON = gson.toJson(storyList);
 
             responseOut.println(storyListJSON);
+            responseOut.println(gson.toJson("Error - Invalid credentials"));
         }
 
     }
