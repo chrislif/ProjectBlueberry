@@ -26,7 +26,7 @@ function displayProject(sprintList) {
     showTaskForm(sprintList);
     showEditSprintForm(sprintList);
     showEditStoryForm(sprintList);
-    showEditTaskForm(sprintList);
+    showEditTaskForm(sprintList);;
 }
 
 function displaySprint(element) {
@@ -59,16 +59,8 @@ function displayStory(storyElement, sprintCard) {
                 <span id="editStoryButton${storyElement.storyID}"><img src="resources/editIcon.png"  class="editIcon" alt="Icon to edit story information"></span> 
                 <span id="deleteStoryButton${storyElement.storyID}"><img src="resources/deleteIcon.png" class="deleteIcon" alt="Icon to delete story information"></span>
             </div>
-            <table class="stylizedTable" id="taskTable${storyElement.storyID}">
-                <tr>
-                    <th>Task Name</th>
-                    <th>Task Priority</th>
-                    <th>Task Time</th>
-                    <th>Task Details</th>
-                </tr>
-            </table>
             <div>
-                <table class="stylizedTable">
+                <table class="stylizedTable" id="taskTable${storyElement.storyID}">
                     <tr>
                         <th>To-Do</th>
                         <th>Doing</th>
@@ -89,10 +81,12 @@ function displayStory(storyElement, sprintCard) {
 function displayTask(taskElement, taskTable, storyID) {
     var html = `
         <tr>
-            <td> <span id="editTaskLink${taskElement.taskID}" class="editTaskLink" data-storyid="${storyID}">${taskElement.taskName}</span> </td>
-            <td> ${taskElement.taskPriority} </td>
-            <td> ${taskElement.taskTime}</td>
-            <td> ${taskElement.taskDetails} </td>
+            <td>
+                <div id="editTaskLink${taskElement.taskID}" class="taskCard" data-storyid="${storyID}">
+                    <h3>${taskElement.taskName}</h3>
+                    <p>${taskElement.taskDetails}<p>
+                </div>
+            </td>
         </tr>`;
 
     taskTable.append(html);
@@ -318,48 +312,48 @@ function showEditTaskForm(sprintList) {
         sprint.stories.forEach((story) => {
             
             story.tasks.forEach((task) => {
-               $("#editTaskLink"+task.taskID).click(function () {
-                   $("#mainModal").html(
+                $("#editTaskLink"+task.taskID).click(function() {
+                    $("#mainModal").html(
                         `<div id="modalBox" class="modalContent">
-                                <span id="modalCloseButton" class="closeButton">&times;</span>
-                                <div id="modalContent">
-                                    <h2>Edit ${task.taskName}</h2><br>
+                        <span id="modalCloseButton" class="closeButton">&times;</span>
+                        <div id="modalContent">
+                            <h2>Edit ${task.taskName}</h2><br>
 
-                                    <input type="hidden" id="editTaskID" value="${task.taskID}">
+                            <input type="hidden" id="editTaskID" value="${task.taskID}">
 
-                                    <label for="editedTaskName">Task Name: </label>
-                                    <input type="text" name="editedTaskName" id="editedTaskName" value="${task.taskName}"><br><br>
-                   
-                                    <label for="editTaskStoryRelation">Story that this Task is linked to:</label>
-                                    <select name="editTaskStoryRelation" id="editTaskStoryRelation">
-                                        <option value="${story.storyID}">${story.storyName}</option>
-                                    </select><br><br>
+                            <label for="editedTaskName">Task Name: </label>
+                            <input type="text" name="editedTaskName" id="editedTaskName" value="${task.taskName}"><br><br>
 
-                                    <label for="editedTaskDetails">Task Details: </label>
-                                    <input type="text" name="editedTaskDetails" id="editedTaskDetails" value="${task.taskDetails}"><br><br>
+                            <label for="editTaskStoryRelation">Story that this Task is linked to:</label>
+                            <select name="editTaskStoryRelation" id="editTaskStoryRelation">
+                                <option value="${story.storyID}">${story.storyName}</option>
+                            </select><br><br>
 
-                                    <label for="editedTaskPriority">Task Priority: </label>
-                                    <select name="editedTaskPriority" id="editedTaskPriority">
-                                        <option value="${task.taskPriority}">${task.taskPriority}</option>
-                                        <option value="1">1</option>
-                                        <option value="2">2</option>
-                                        <option value="3">3</option>
-                                        <option value="4">4</option>
-                                        <option value="5">5</option>
-                                    </select><br><br>
-                   
-                                    <label for="editedTaskTime">Task Time (In Hours): </label>
-                                    <input type="text" name="editedTaskTime" id="editedTaskTime" value="${task.taskTime}"> <br> <br>
+                            <label for="editedTaskDetails">Task Details: </label>
+                            <input type="text" name="editedTaskDetails" id="editedTaskDetails" value="${task.taskDetails}"><br><br>
 
-                                    <button class="styledButton" id="completeTaskEdit">Edit Task</button>
-                   
-                                    <button class="styledButton" id="completeTask" data-storyid="${story.storyID}">Complete Task</button>
-                   
-                                    <button class="styledButton" id="deleteTask" data-storyid="${story.storyID}">Delete Task</button>
-                                </div>
-                            </div>`
-                        );
-                
+                            <label for="editedTaskPriority">Task Priority: </label>
+                            <select name="editedTaskPriority" id="editedTaskPriority">
+                                <option value="${task.taskPriority}">${task.taskPriority}</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                            </select><br><br>
+
+                            <label for="editedTaskTime">Task Time (In Hours): </label>
+                            <input type="text" name="editedTaskTime" id="editedTaskTime" value="${task.taskTime}"> <br> <br>
+
+                            <button class="styledButton" id="completeTaskEdit">Edit Task</button>
+
+                            <button class="styledButton" id="completeTask" data-storyid="${story.storyID}">Complete Task</button>
+
+                            <button class="styledButton" id="deleteTask" data-storyid="${story.storyID}">Delete Task</button>
+                        </div>
+                        </div>`
+                    );
+
                     appendTaskStoryOptions(sprintList);
 
                     $("#completeTaskEdit").click(editTask);
@@ -369,13 +363,11 @@ function showEditTaskForm(sprintList) {
                     });
 
                     $("#mainModal").fadeIn(200);
-                   }); 
+                });
             });
-            
         });
-        
     });
-
+    
 }
 
 function updateSprint(updatedSprint) {
@@ -389,9 +381,9 @@ function updateTasks(taskList, storyID) {
     var taskTableHTML =
             `
             <tr>
-                <th>Task Name</th>
-                <th>Task Priority</th>
-                <th>Task Details</th>
+                <th>To-Do</th>
+                <th>Doing</th>
+                <th>Done</th>
             </tr>
             `;
 
@@ -399,9 +391,12 @@ function updateTasks(taskList, storyID) {
         taskTableHTML +=
                 `
                 <tr>
-                    <td> ${task.taskName} </td>
-                    <td> ${task.taskPriority} </td>
-                    <td> ${task.taskDetails} </td>
+                    <td>
+                        <div id="editTaskLink${task.taskID}" class="taskCard" data-storyid="${storyID}">
+                            <h3>${task.taskName}</h3>
+                            <p>${task.taskDetails}<p>
+                        </div>
+                    </td>
                 </tr>
                `;
     });
@@ -412,15 +407,16 @@ function updateTasks(taskList, storyID) {
 
 function createTask() {
     ajaxCall('Task',
-            {'storyID': $(this).attr("data-storyid"),
+            {'projectID': project.projectID,
+                'storyID': $(this).attr("data-storyid"),
                 'taskName': $("#newTaskName").val(),
                 'taskDetails': $("#newTaskDetails").val(),
                 'taskTime': $("#newTaskTime").val(),
                 'taskPriority': $("#taskPriorityLevel option:selected").val()},
             'POST', (result) => {
         $("#mainModal").fadeOut(500);
-        var taskList = JSON.parse(result);
-        updateTasks(taskList, $(this).attr("data-storyid"));
+        var editedProject = JSON.parse(result);
+        displayProject(editedProject.sprints);
     });
 }
 

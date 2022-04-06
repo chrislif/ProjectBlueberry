@@ -25,17 +25,18 @@ public class Task extends HttpServlet {
         PrintWriter responseOut = response.getWriter();
         Gson gson = new Gson();
         
+        int projectID = Integer.parseInt(request.getParameter("projectID"));
         int storyID = Integer.parseInt(request.getParameter("storyID"));
         String taskName = request.getParameter("taskName");
         String taskDetails = request.getParameter("taskDetails");
         int taskTime = Integer.parseInt(request.getParameter("taskTime"));
         int taskPriority = Integer.parseInt(request.getParameter("taskPriority"));
         
-        ArrayList<StoryTask> taskList = ProjectManager.createTask(storyID, taskName, taskDetails, taskPriority, taskTime);
+        model.Project project = ProjectManager.createTask(projectID, storyID, taskName, taskDetails, taskPriority, taskTime);
 
-        String taskListJSON = gson.toJson(taskList);
+        String projectJSON = gson.toJson(project);
 
-        responseOut.println(taskListJSON);
+        responseOut.println(projectJSON);
     }
 
     @Override
