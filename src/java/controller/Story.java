@@ -9,30 +9,44 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 public class Story extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        HttpSession session = request.getSession();
         PrintWriter responseOut = response.getWriter();
         Gson gson = new Gson();
-        
-        int sprintID = Integer.parseInt(request.getParameter("sprintID"));
-        String storyName = request.getParameter("storyName");
-        int storyPriority = Integer.parseInt(request.getParameter("storyPriority"));
+        Boolean isContributor = (Boolean) session.getAttribute("isContributor");
 
-        ArrayList<model.Story> storyList = ProjectManager.createStory(sprintID, storyName, storyPriority);
+        if (!isContributor) {
+            int sprintID = Integer.parseInt(request.getParameter("sprintID"));
+            String storyName = request.getParameter("storyName");
+            int storyPriority = Integer.parseInt(request.getParameter("storyPriority"));
 
-        String storyListJSON = gson.toJson(storyList);
+            ArrayList<model.Story> storyList = ProjectManager.createStory(sprintID, storyName, storyPriority);
 
-        responseOut.println(storyListJSON);
+            String storyListJSON = gson.toJson(storyList);
+
+            responseOut.println(storyListJSON);
+        } else {
+            int sprintID = Integer.parseInt(request.getParameter("sprintID"));
+
+            ArrayList<model.Story> storyList = ProjectManager.retrieveStories(sprintID);
+
+            String storyListJSON = gson.toJson(storyList);
+
+            responseOut.println(storyListJSON);
+        }
+
     }
 
     @Override
