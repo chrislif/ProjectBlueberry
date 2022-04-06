@@ -38,13 +38,11 @@ public class Story extends HttpServlet {
 
             responseOut.println(storyListJSON);
         } else {
-            int sprintID = Integer.parseInt(request.getParameter("sprintID"));
-
-            ArrayList<model.Story> storyList = ProjectManager.retrieveStories(sprintID);
-
-            String storyListJSON = gson.toJson(storyList);
-
-            responseOut.println(storyListJSON);
+            int projectID = Integer.parseInt(request.getParameter("projectID"));
+            model.Project project = ProjectManager.getProject(projectID);
+            String projectJSON = gson.toJson(project);
+            
+            responseOut.println(projectJSON);
             responseOut.println(gson.toJson("Error - Invalid credentials"));
         }
 

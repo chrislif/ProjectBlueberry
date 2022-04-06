@@ -54,12 +54,10 @@ public class Sprint extends HttpServlet {
             responseOut.println(sprintListJSON);
         } else {
             int projectID = Integer.parseInt(request.getParameter("projectID"));
-
-            ArrayList<model.Sprint> sprintList = ProjectManager.retrieveSprints(projectID);
-
-            String sprintListJSON = gson.toJson(sprintList);
-
-            responseOut.println(sprintListJSON);
+            model.Project project = ProjectManager.getProject(projectID);
+            String projectJSON = gson.toJson(project);
+            
+            responseOut.println(projectJSON);
             responseOut.println(gson.toJson("Error - Invalid credentials"));
         }
     }
