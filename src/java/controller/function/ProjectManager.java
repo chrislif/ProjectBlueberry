@@ -130,7 +130,7 @@ public class ProjectManager {
     }
     
     public static Project createTask(int projectID, int storyID, String taskName, String taskDetails, int taskPriority, int taskTime) {
-        StoryTask newTask = new StoryTask(0, taskName, taskPriority, taskTime, taskDetails, false);
+        StoryTask newTask = new StoryTask(0, taskName, taskPriority, taskTime, taskDetails, 0);
         
         try {
             TaskDB.createTask(newTask, storyID);
@@ -150,7 +150,7 @@ public class ProjectManager {
             TaskDB.updateTaskPriority(taskID, taskPriorityLevel);
             TaskDB.updateTaskTime(taskID, taskTime);
             
-            model.StoryTask updatedTask = new StoryTask(taskID, taskName, taskPriorityLevel, taskTime, taskDetails, false);
+            model.StoryTask updatedTask = new StoryTask(taskID, taskName, taskPriorityLevel, taskTime, taskDetails, 0);
             
             model.Project project = getProject(projectID);
             

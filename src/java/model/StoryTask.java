@@ -6,18 +6,18 @@ public class StoryTask {
     private int taskPriority;
     private int taskTime;
     private String taskDetails;
-    private Boolean taskCompleted;
+    private int taskStatus;
 
     public StoryTask() {
     }
 
-    public StoryTask(int taskID, String taskName, int taskPriority, int taskTime, String taskDetails, Boolean taskCompleted) {
+    public StoryTask(int taskID, String taskName, int taskPriority, int taskTime, String taskDetails, int taskStatus) {
         this.taskID = taskID;
         this.taskName = taskName;
         this.taskPriority = taskPriority;
         this.taskTime = taskTime;
         this.taskDetails = taskDetails;
-        this.taskCompleted = taskCompleted;
+        this.taskStatus = taskStatus;
     }
 
     public int getTaskID() {
@@ -60,11 +60,11 @@ public class StoryTask {
         this.taskDetails = taskDetails;
     }
 
-    public Boolean getTaskCompleted() {
-        return taskCompleted;
+    public int getTaskStatus() {
+        return taskStatus;
     }
 
-    public void setTaskCompleted(Boolean taskCompleted) {
-        this.taskCompleted = taskCompleted;
+    public void setTaskStatus(int taskStatus) {
+        this.taskStatus = taskStatus;
     }
 }
