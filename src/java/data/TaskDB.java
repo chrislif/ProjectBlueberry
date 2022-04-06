@@ -186,18 +186,17 @@ public class TaskDB {
         }
     }
 
-    public static void updateTaskCompleted(int taskID, int storyID) throws SQLException {
+    public static void updateTaskCompleted(int taskID) throws SQLException {
         ConnectionPool pool = ConnectionPool.getInstance();
         Connection connection = pool.getConnection();
         PreparedStatement statement = null;
         ResultSet resultSet = null;
 
-        String query = "UPDATE tasks SET soryID = ? WHERE taskID = ?";
+        String query = "UPDATE tasks SET taskStatus = 2 WHERE taskID = ?";
 
         try {
-            statement = connection.prepareStatement(query);
-            statement.setInt(1, storyID);            
-            statement.setInt(2, taskID);
+            statement = connection.prepareStatement(query);          
+            statement.setInt(1, taskID);
 
             statement.executeUpdate();
         } catch (SQLException ex) {

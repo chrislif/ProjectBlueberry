@@ -26,7 +26,8 @@ function displayProject(sprintList) {
     showTaskForm(sprintList);
     showEditSprintForm(sprintList);
     showEditStoryForm(sprintList);
-    showEditTaskForm(sprintList);;
+    showEditTaskForm(sprintList);
+    ;
 }
 
 function displaySprint(element) {
@@ -308,13 +309,13 @@ function showEditStoryForm(sprintList) {
 function showEditTaskForm(sprintList) {
 
     sprintList.forEach((sprint) => {
-       
+
         sprint.stories.forEach((story) => {
-            
+
             story.tasks.forEach((task) => {
-                $("#editTaskLink"+task.taskID).click(function() {
+                $("#editTaskLink" + task.taskID).click(function () {
                     $("#mainModal").html(
-                        `<div id="modalBox" class="modalContent">
+                            `<div id="modalBox" class="modalContent">
                         <span id="modalCloseButton" class="closeButton">&times;</span>
                         <div id="modalContent">
                             <h2>Edit ${task.taskName}</h2><br>
@@ -347,16 +348,18 @@ function showEditTaskForm(sprintList) {
 
                             <button class="styledButton" id="completeTaskEdit">Edit Task</button>
 
-                            <button class="styledButton" id="completeTask" data-storyid="${story.storyID}">Complete Task</button>
+                            <button class="styledButton" id="completeTheTask" data-storyid="${story.storyID}">Complete Task</button>
 
                             <button class="styledButton" id="deleteTask" data-storyid="${story.storyID}">Delete Task</button>
                         </div>
                         </div>`
-                    );
+                            );
 
                     appendTaskStoryOptions(sprintList);
 
                     $("#completeTaskEdit").click(editTask);
+
+                    $("#completeTheTask").click(completeTask);
 
                     $("#modalCloseButton").click(() => {
                         $("#mainModal").fadeOut(500);
@@ -367,7 +370,7 @@ function showEditTaskForm(sprintList) {
             });
         });
     });
-    
+
 }
 
 function updateSprint(updatedSprint) {
@@ -423,17 +426,28 @@ function createTask() {
 function editTask() {
     ajaxCall('TaskEdit',
             {'projectID': project.projectID,
-              'editedTaskID' : $("#editTaskID").val(),
-              'editedTaskName' : $("#editedTaskName").val(),
-              'editedTaskStoryRelation': $("#editTaskStoryRelation").val(),
-              'editedTaskDetails' : $("#editedTaskDetails").val(),
-              'editedTaskTime' : $("#editedTaskTime").val(),
-              'editedTaskPriority' : $("#editedTaskPriority option:selected").val()},
+                'editedTaskID': $("#editTaskID").val(),
+                'editedTaskName': $("#editedTaskName").val(),
+                'editedTaskStoryRelation': $("#editTaskStoryRelation").val(),
+                'editedTaskDetails': $("#editedTaskDetails").val(),
+                'editedTaskTime': $("#editedTaskTime").val(),
+                'editedTaskPriority': $("#editedTaskPriority option:selected").val()},
             'Post', (result) => {
-                var editedProject = JSON.parse(result);
-                $("#mainModal").fadeOut(500);
-                displayProject(editedProject.sprints);
-            });
+        var editedProject = JSON.parse(result);
+        $("#mainModal").fadeOut(500);
+        displayProject(editedProject.sprints);
+    });
+}
+
+function completeTask() {
+    ajaxCall('TaskComplete',
+            {'projectID': project.projectID,
+                'completedTaskID': $("#editTaskID").val(),
+                'completedTaskTime': $("#editedTaskTime").val(),
+                'completedTaskPriority': $("#editedTaskPriority option:selected").val()},
+            'POST', () => {
+        $("#mainModal").fadeOut(500);
+    });
 }
 
 function createSprint() {
@@ -523,12 +537,12 @@ function appendStorySprintOptions(sprintList) {
 }
 
 function appendTaskStoryOptions(sprintList) {
-    sprintList.forEach( (sprint) => {
-        sprint.stories.forEach((story) =>{
+    sprintList.forEach((sprint) => {
+        sprint.stories.forEach((story) => {
             var o = new Option(story.storyName, story.storyID);
-            
+
             $(o).html(story.storyName);
-            
+
             $("#editTaskStoryRelation").append(o);
         });
     });
