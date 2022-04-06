@@ -16,7 +16,9 @@ function showProjectForm() {
 }
 
 function createProject() {
+    $("#projectCreateButton").prop('disabled', true);
     ajaxCall("Project", {'projectName': $("#projectNameText").val()}, "POST", (result) => {
+        $("#projectCreateButton").prop('disabled', false);
         hideProjectForm();      
         retrieveProjects();
     });

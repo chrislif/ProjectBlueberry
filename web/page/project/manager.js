@@ -409,6 +409,7 @@ function updateTasks(taskList, storyID) {
 }
 
 function createTask() {
+    $("#taskCreateButton").attr('disabled', true);
     ajaxCall('Task',
             {'projectID': project.projectID,
                 'storyID': $(this).attr("data-storyid"),
@@ -417,6 +418,7 @@ function createTask() {
                 'taskTime': $("#newTaskTime").val(),
                 'taskPriority': $("#taskPriorityLevel option:selected").val()},
             'POST', (result) => {
+        $("#taskCreateButton").attr('disabled', false);
         $("#mainModal").fadeOut(500);
         var editedProject = JSON.parse(result);
         displayProject(editedProject.sprints);
@@ -424,6 +426,7 @@ function createTask() {
 }
 
 function editTask() {
+    $("#completeTaskEdit").attr('disabled', true);
     ajaxCall('TaskEdit',
             {'projectID': project.projectID,
                 'editedTaskID': $("#editTaskID").val(),
@@ -433,9 +436,10 @@ function editTask() {
                 'editedTaskTime': $("#editedTaskTime").val(),
                 'editedTaskPriority': $("#editedTaskPriority option:selected").val()},
             'Post', (result) => {
-        var editedProject = JSON.parse(result);
-        $("#mainModal").fadeOut(500);
-        displayProject(editedProject.sprints);
+                $("#completeTaskEdit").attr('disabled', false);
+                var editedProject = JSON.parse(result);
+                $("#mainModal").fadeOut(500);
+                displayProject(editedProject.sprints);
     });
 }
 
@@ -447,10 +451,11 @@ function completeTask() {
                 'completedTaskPriority': $("#editedTaskPriority option:selected").val()},
             'POST', () => {
         $("#mainModal").fadeOut(500);
-    });
+            });
 }
 
 function createSprint() {
+    $("#sprintCreateButton").attr('disabled', true);
     ajaxCall('Sprint',
             {'projectID': project.projectID,
                 'storyID': $(this).attr("data-storyid"),
@@ -459,16 +464,19 @@ function createSprint() {
                 'sprintStartDate': $("#sprintStartDate").val(),
                 'sprintEndDate': $("#sprintEndDate").val()},
             'POST', (result) => {
+        $("#sprintCreateButton").attr('disabled', false);
         $("#mainModal").fadeOut(500);
         displayProject(JSON.parse(result));
     });
 }
 
 function addContributor() {
+    $("#contributorAddButton").attr('disabled', true);
     ajaxCall('Contributor', {
         'projectID': project.projectID,
         'contributerName': $("#contributerName").val()},
             'POST', (result) => {
+        $("#contributorAddButton").attr('disabled', false);
         $("#mainModal").fadeOut(500);
         var contributorList = JSON.parse(result);
         $("#contributor").empty();
@@ -480,6 +488,7 @@ function addContributor() {
 }
 
 function editSprint() {
+    $("#completeSprintEdit").attr('disabled', true);
     ajaxCall('SprintEdit',
             {'projectID': project.projectID,
                 'sprintID': $("#editSprintID").val(),
@@ -488,6 +497,7 @@ function editSprint() {
                 'sprintStartDate': $("#editedSprintStartDate").val(),
                 'sprintEndDate': $("#editedSprintEndDate").val()},
             'POST', (result) => {
+        $("#completeSprintEdit").attr('disabled', false);
         var editedProject = JSON.parse(result);
         console.log(editedProject);
         $("#mainModal").fadeOut(500);
@@ -496,17 +506,20 @@ function editSprint() {
 }
 
 function createStory() {
+    $("#storyCreateButton").attr('disabled', true);
     ajaxCall('Story',
             {'storyName': $("#newStoryName").val(),
                 'sprintID': $(this).attr("data-sprintid"),
                 'storyPriority': $("#storyPriorityLevel option:selected").val()},
             'POST', (result) => {
+        $("#storyCreateButton").attr('disable', false);
         $("#mainModal").fadeOut(500);
         updateStories($(this).attr("data-sprintid"), result);
     });
 }
 
 function editStory() {
+    $("#completeStoryEdit").attr('disabled', true);
     ajaxCall('StoryEdit',
             {'projectID': project.projectID,
                 'editedSprint': $("#editStorySprintRelation").val(),
@@ -514,6 +527,7 @@ function editStory() {
                 'editedStoryName': $("#editedStoryName").val(),
                 'editedStoryPriorityLevel': $("#editedStoryPriority option:selected").val()},
             'POST', (result => {
+                $("#completeStoryEdit").attr('disabled', false);
                 var editedProject = JSON.parse(result);
                 $("#mainModal").fadeOut(500);
                 displayProject(editedProject.sprints);
