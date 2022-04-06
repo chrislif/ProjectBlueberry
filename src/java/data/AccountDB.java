@@ -212,12 +212,12 @@ public class AccountDB {
         int currentXP = getAccountXP(account);
         int newXP = currentXP + xp;
         
-        String query = "UPDATE account set accountXP = ? where accountName = ?";
+        String query = "UPDATE account set accountXP = ? where accountID = ?";
         
         try{
             statement = connection.prepareStatement(query);
             statement.setInt(1, newXP);
-            statement.setInt(2, account.getAccountXP());
+            statement.setInt(2, account.getAccountID());
             
             statement.executeUpdate();
         } catch (SQLException ex) {
