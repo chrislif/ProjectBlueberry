@@ -14,7 +14,7 @@ public class TaskDB {
         Connection connection = pool.getConnection();
         PreparedStatement statement = null;
 
-        String query = "INSERT INTO tasks (taskName, storyID, taskPriority, taskTime, taskDetails, taskCompleted)"
+        String query = "INSERT INTO tasks (taskName, storyID, taskPriority, taskTime, taskDetails, taskStatus)"
                 + "VALUES (?, ?, ?, ?, ?, ?)";
 
         try {
@@ -24,7 +24,7 @@ public class TaskDB {
             statement.setInt(3, task.getTaskPriority());
             statement.setInt(4, task.getTaskTime());
             statement.setString(5, task.getTaskDetails());
-            statement.setBoolean(6, task.getTaskCompleted());
+            statement.setInt(6, task.getTaskStatus());
 
             statement.executeUpdate();
         } catch (SQLException ex) {
@@ -186,18 +186,45 @@ public class TaskDB {
         }
     }
 
-    public static void updateTaskCompleted(int taskID, int storyID) throws SQLException {
+    public static void updateTaskCompleted(int taskID) throws SQLException {
         ConnectionPool pool = ConnectionPool.getInstance();
         Connection connection = pool.getConnection();
         PreparedStatement statement = null;
         ResultSet resultSet = null;
 
-        String query = "UPDATE tasks SET soryID = ? WHERE taskID = ?";
+        String query = "UPDATE tasks SET taskStatus = 2 WHERE taskID = ?";
 
         try {
+            statement = connection.prepareStatement(query);          
+            statement.setInt(1, taskID);
+
+            statement.executeUpdate();
+        } catch (SQLException ex) {
+            throw ex;
+        } finally {
+            try {
+                if (resultSet != null && statement != null) {
+                    resultSet.close();
+                    statement.close();
+                }
+                pool.freeConnection(connection);
+            } catch (SQLException e) {
+                throw e;
+            }
+        }
+    }
+    
+    public static void deleteTaskByID(int taskID) throws SQLException {
+        ConnectionPool pool = ConnectionPool.getInstance();
+        Connection connection = pool.getConnection();
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+        
+        String query = "DELETE FROM tasks WHERE taskID = ?";
+        
+        try {
             statement = connection.prepareStatement(query);
-            statement.setInt(1, storyID);            
-            statement.setInt(2, taskID);
+            statement.setInt(1, taskID);
 
             statement.executeUpdate();
         } catch (SQLException ex) {
@@ -236,12 +263,7 @@ public class TaskDB {
                 task.setTaskPriority(resultSet.getInt("taskPriority"));
                 task.setTaskTime(resultSet.getInt("taskTime"));
                 task.setTaskDetails(resultSet.getString("taskDetails"));
-                int completedInt = resultSet.getInt("taskCompleted");
-                if (completedInt > 0) {
-                    task.setTaskCompleted(true);
-                } else {
-                    task.setTaskCompleted(false);
-                }
+                task.setTaskStatus(resultSet.getInt("taskStatus"));
 
                 tasks.add(task);
             }

@@ -15,7 +15,18 @@ public class SprintEdit extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        ArrayList<String> errorList = new ArrayList();
+        PrintWriter responseOut = response.getWriter();
+        Gson gson = new Gson();
         
+        int projectID = Integer.parseInt(request.getParameter("projectID"));
+        int sprintID = Integer.parseInt(request.getParameter("sprintID"));
+        
+        model.Project project = ProjectManager.deleteSprint(sprintID, projectID, errorList);
+        
+        String editedProjectJSON = gson.toJson(project);
+        
+        responseOut.println(editedProjectJSON);
     }
 
     @Override

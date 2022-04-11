@@ -52,6 +52,10 @@
         <servlet-name>Register</servlet-name>
         <servlet-class>controller.Register</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>TaskComplete</servlet-name>
+        <servlet-class>controller.TaskComplete</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Authorize</servlet-name>
         <url-pattern>/Authorize</url-pattern>
@@ -103,6 +107,10 @@
     <servlet-mapping>
         <servlet-name>Register</servlet-name>
         <url-pattern>/Register</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>TaskComplete</servlet-name>
+        <url-pattern>/TaskComplete</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>50</session-timeout>

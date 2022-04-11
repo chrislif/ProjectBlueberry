@@ -9,6 +9,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 public class Sprint extends HttpServlet {
 
@@ -17,7 +18,7 @@ public class Sprint extends HttpServlet {
             throws ServletException, IOException {
         PrintWriter responseOut = response.getWriter();
         Gson gson = new Gson();
-        
+
         int projectID = Integer.parseInt(request.getParameter("projectID"));
 
         ArrayList<model.Sprint> sprintList = ProjectManager.retrieveSprints(projectID);
@@ -30,22 +31,35 @@ public class Sprint extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        HttpSession session = request.getSession();
+
         PrintWriter responseOut = response.getWriter();
         Gson gson = new Gson();
-        
-        int projectID = Integer.parseInt(request.getParameter("projectID"));
-        int sprintNum = Integer.parseInt(request.getParameter("sprintNum"));
-        String sprintName = request.getParameter("sprintName");
-        String sprintStartDate = request.getParameter("sprintStartDate");
-        String sprintEndDate = request.getParameter("sprintEndDate");
+        Boolean isContributor = (Boolean) session.getAttribute("isContributor");
 
-        ProjectManager.createSprint(projectID, sprintNum, sprintName, sprintStartDate, sprintEndDate);
+        if (!isContributor) {
 
-        ArrayList<model.Sprint> sprintList = ProjectManager.retrieveSprints(projectID);
+            int projectID = Integer.parseInt(request.getParameter("projectID"));
+            int sprintNum = Integer.parseInt(request.getParameter("sprintNum"));
+            String sprintName = request.getParameter("sprintName");
+            String sprintStartDate = request.getParameter("sprintStartDate");
+            String sprintEndDate = request.getParameter("sprintEndDate");
 
-        String sprintListJSON = gson.toJson(sprintList);
+            ProjectManager.createSprint(projectID, sprintNum, sprintName, sprintStartDate, sprintEndDate);
 
-        responseOut.println(sprintListJSON);
+            ArrayList<model.Sprint> sprintList = ProjectManager.retrieveSprints(projectID);
+
+            String sprintListJSON = gson.toJson(sprintList);
+
+            responseOut.println(sprintListJSON);
+        } else {
+            int projectID = Integer.parseInt(request.getParameter("projectID"));
+            model.Project project = ProjectManager.getProject(projectID);
+            String projectJSON = gson.toJson(project);
+            
+            responseOut.println(projectJSON);
+            responseOut.println(gson.toJson("Error - Invalid credentials"));
+        }
     }
 
     @Override

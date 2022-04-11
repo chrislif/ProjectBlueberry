@@ -127,6 +127,34 @@ public class StoryDB {
             }
         }
     }
+    
+    public static void deleteStoryByID(int storyID) throws SQLException {
+        ConnectionPool pool = ConnectionPool.getInstance();
+        Connection connection = pool.getConnection();
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+        
+        String query = "DELETE FROM stories WHERE storyID = ?";
+        
+        try {
+            statement = connection.prepareStatement(query);
+            statement.setInt(1, storyID);
+
+            statement.executeUpdate();
+        } catch (SQLException ex) {
+            throw ex;
+        } finally {
+            try {
+                if (resultSet != null && statement != null) {
+                    resultSet.close();
+                    statement.close();
+                }
+                pool.freeConnection(connection);
+            } catch (SQLException e) {
+                throw e;
+            }
+        }
+    }
 
     public static ArrayList<Story> getStories(int sprintID) throws SQLException {
         ConnectionPool pool = ConnectionPool.getInstance();
