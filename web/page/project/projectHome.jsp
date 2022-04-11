@@ -13,7 +13,7 @@
     <script type="text/javascript" src="page/project/manager.js"></script>
     <script type="text/javascript">
         var project = JSON.parse('${project}');
-        console.log('${isContributor}');
+        var isContributor = JSON.parse('${isContributor}');
     </script>
     <div class="mainContent">
         
