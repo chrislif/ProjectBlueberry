@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import model.Sprint;
+import model.Story;
 
 public class SprintDB {
 
@@ -157,7 +158,7 @@ public class SprintDB {
         }
     }
     
-    public static void deleteSprintByID(int sprintID) throws SQLException {
+    public static void deleteSprintByID(Sprint sprint) throws SQLException {
         ConnectionPool pool = ConnectionPool.getInstance();
         Connection connection = pool.getConnection();
         PreparedStatement statement = null;
@@ -165,9 +166,13 @@ public class SprintDB {
         
         String query = "DELETE FROM sprint WHERE sprintID = ?";
         
+        for(Story story : sprint.stories){
+            StoryDB.deleteStoryByID(story);
+        }
+        
         try {
             statement = connection.prepareStatement(query);
-            statement.setInt(1, sprintID);
+            statement.setInt(1, sprint.getSprintID());
 
             statement.executeUpdate();
         } catch (SQLException ex) {
@@ -183,6 +188,45 @@ public class SprintDB {
                 throw e;
             }
         }
+    }
+    
+    public static Sprint getSprintByID(int sprintID) throws SQLException {
+        ConnectionPool pool = ConnectionPool.getInstance();
+        Connection connection = pool.getConnection();
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+        Sprint sprint = new Sprint();
+        
+        String query = "SELECT * FROM sprint WHERE sprintID = ?";
+        
+        try {
+            statement = connection.prepareStatement(query);
+            statement.setString(1, Integer.toString(sprintID));
+            resultSet = statement.executeQuery();
+            
+            while (resultSet.next()) {
+                
+                sprint.setSprintID(resultSet.getInt("sprintID"));
+                sprint.setSprintNum(resultSet.getInt("sprintNum"));
+                sprint.setSprintName(resultSet.getString("sprintName"));
+                sprint.setSprintStartDate(resultSet.getString("sprintStart"));
+                sprint.setSprintEndDate(resultSet.getString("sprintEnd"));
+                sprint.stories = StoryDB.getStories(sprint.getSprintID());
+            }
+        } catch (SQLException ex) {
+            throw ex;
+        } finally {
+            try {
+                if (resultSet != null && statement != null) {
+                    resultSet.close();
+                    statement.close();
+                }
+                pool.freeConnection(connection);
+            } catch (SQLException ex) {
+                throw ex;
+            }
+        }
+        return sprint;
     }
 
     public static ArrayList<Sprint> getSprints(int projectID) throws SQLException {
