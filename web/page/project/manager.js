@@ -327,6 +327,11 @@ function showEditTaskForm(sprintList) {
                             <h2>Edit ${task.taskName}</h2><br>
 
                             <input type="hidden" id="editTaskID" value="${task.taskID}">
+                    
+                            <label for="editTaskContributorRelation">Who is working on this Task:</label>
+                            <select name="editTaskContributorRelation" id="editTaskContributorRelation">
+                                
+                            </select><br><br>
 
                             <label for="editedTaskName">Task Name: </label>
                             <input type="text" name="editedTaskName" id="editedTaskName" value="${task.taskName}"><br><br>
@@ -360,7 +365,8 @@ function showEditTaskForm(sprintList) {
                         </div>
                         </div>`
                             );
-
+                    appendTaskContributorOptions();
+                            
                     appendTaskStoryOptions(sprintList);
                     
                     $("#deleteTask").click(deleteTask);
@@ -484,6 +490,7 @@ function editTask() {
     ajaxCall('TaskEdit',
             {'projectID': project.projectID,
                 'editedTaskID': $("#editTaskID").val(),
+                'editedTaskContributorRelation' : $("#editTaskStoryRelation option:selected").val(),
                 'editedTaskName': $("#editedTaskName").val(),
                 'editedTaskStoryRelation': $("#editTaskStoryRelation").val(),
                 'editedTaskDetails': $("#editedTaskDetails").val(),
@@ -605,6 +612,25 @@ function appendTaskStoryOptions(sprintList) {
             $("#editTaskStoryRelation").append(o);
         });
     });
+}
+
+function appendTaskContributorOptions(){
+    project.managers.forEach((manager) => {
+        var o = new Option(manager.accountName, manager.accountID);
+        
+        $(o).html(manager.accountName);
+        
+        $("#editTaskContributorRelation").append(o);
+    });
+    
+    project.contributors.forEach((contributor) => {
+        var o = new Option(contributor.accountName, contributor.accountID);
+        
+        $(o).html(contributor.accountName);
+        
+        $("#editTaskContributorRelation").append(o);
+    });
+    
 }
 
 var ajaxCall = (url, data, type, callback) => {

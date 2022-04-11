@@ -7,6 +7,7 @@ public class StoryTask {
     private int taskTime;
     private String taskDetails;
     private int taskStatus;
+    private Account contributor;
 
     public StoryTask() {
     }
