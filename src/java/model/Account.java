@@ -5,8 +5,10 @@ public class Account {
     private String accountName;
     private String email;
     private int accountXP;
+    private Boolean isAdmin;
 
     public Account() {
+        this.isAdmin = false;
     }
 
     public Account(int accountID, String accountName, String email, int accountXP) {
@@ -14,6 +16,7 @@ public class Account {
         this.accountName = accountName;
         this.email = email;
         this.accountXP = accountXP;
+        this.isAdmin = false;
     }
 
     public int getAccountID() {
@@ -46,6 +49,14 @@ public class Account {
 
     public void setAccountXP(int accountXP) {
         this.accountXP = accountXP;
+    }
+
+    public Boolean getIsAdmin() {
+        return isAdmin;
+    }
+
+    public void setIsAdmin(Boolean isAdmin) {
+        this.isAdmin = isAdmin;
     }
     
     
