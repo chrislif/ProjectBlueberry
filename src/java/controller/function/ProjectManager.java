@@ -100,13 +100,15 @@ public class ProjectManager {
         }
     }
     
-    public static ArrayList<Story> createStory(int sprintID, String storyName, int storyPriority) {
+    public static Project createStory(int projectID, int sprintID, String storyName, int storyPriority) {
         Story newStory = new Story(0, storyName, storyPriority);
         
         try {
             StoryDB.createStory(newStory, sprintID);
             
-            return retrieveStories(sprintID);
+            model.Project project = ProjectDB.getProject(projectID);
+            
+            return project;
         } catch (SQLException ex) {
             return null;
         }

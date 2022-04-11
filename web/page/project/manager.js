@@ -426,9 +426,10 @@ function createSprint() {
                 'sprintStartDate': $("#sprintStartDate").val(),
                 'sprintEndDate': $("#sprintEndDate").val()},
             'POST', (result) => {
+        var editedProject = JSON.parse(result);
         $("#sprintCreateButton").attr('disabled', false);
         $("#mainModal").fadeOut(500);
-        displayProject(JSON.parse(result));
+        displayProject(editedProject.sprints);
     });
 }
 
@@ -538,13 +539,15 @@ function addContributor() {
 function createStory() {
     $("#storyCreateButton").attr('disabled', true);
     ajaxCall('Story',
-            {'storyName': $("#newStoryName").val(),
+            {'projectID': project.projectID,
+                'storyName': $("#newStoryName").val(),
                 'sprintID': $(this).attr("data-sprintid"),
                 'storyPriority': $("#storyPriorityLevel option:selected").val()},
             'POST', (result) => {
         $("#storyCreateButton").attr('disable', false);
         $("#mainModal").fadeOut(500);
-        updateStories($(this).attr("data-sprintid"), result);
+        var editedProject = JSON.parse(result);
+        displayProject(editedProject.sprints);
     });
 }
 
