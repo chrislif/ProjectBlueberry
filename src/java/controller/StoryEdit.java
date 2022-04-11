@@ -22,7 +22,7 @@ public class StoryEdit extends HttpServlet {
         int projectID = Integer.parseInt(request.getParameter("projectID"));
         int storyID = Integer.parseInt(request.getParameter("storyID"));
         
-        model.Project project = ProjectManager.deleteTask(storyID, projectID, errorList);
+        model.Project project = ProjectManager.deleteStory(storyID, projectID, errorList);
         
         String editedProjectJSON = gson.toJson(project);
         

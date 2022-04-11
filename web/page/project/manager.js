@@ -515,6 +515,7 @@ function deleteTask() {
         'GET', (result) => {
             var editedProject = JSON.parse(result);
             displayProject(editedProject.sprints);
+            $("#mainModal").fadeOut(500);
         }
     );
 }
