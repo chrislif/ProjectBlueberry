@@ -172,12 +172,14 @@ public class ProjectManager {
         }
     }
     
-    public static Project updateTasks(int projectID, int taskID, int storyID, String taskName, String taskDetails, int taskPriorityLevel, int taskTime, ArrayList<String> errorList){
+    public static Project updateTasks(int projectID, int taskID, int contributorID, int storyID, String taskName, String taskDetails, int taskPriorityLevel, int taskTime, ArrayList<String> errorList){
         try {
             TaskDB.updateTaskName(taskID, taskName);
             TaskDB.updateTaskDetails(taskID, taskDetails);
             TaskDB.updateTaskPriority(taskID, taskPriorityLevel);
             TaskDB.updateTaskTime(taskID, taskTime);
+            
+            // Add contributorID to database, set the contributorID in DB call, retrieve account of contributorID and set it to task.contributor
             
             model.StoryTask updatedTask = new StoryTask(taskID, taskName, taskPriorityLevel, taskTime, taskDetails, 0);
             

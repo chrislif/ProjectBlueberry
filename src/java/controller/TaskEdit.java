@@ -38,13 +38,14 @@ public class TaskEdit extends HttpServlet {
         
         int projectID = Integer.parseInt(request.getParameter("projectID"));
         int taskID = Integer.parseInt(request.getParameter("editedTaskID"));
+        int contributorID = Integer.parseInt(request.getParameter("editedTaskContributorRelation"));
         int editedStoryID = Integer.parseInt(request.getParameter("editedTaskStoryRelation"));
         String editedTaskName = request.getParameter("editedTaskName");
         String editedTaskDetails = request.getParameter("editedTaskDetails");
         int editedTaskTime = Integer.parseInt(request.getParameter("editedTaskTime"));
         int editTaskPriority = Integer.parseInt(request.getParameter("editedTaskPriority"));
         
-        model.Project project = ProjectManager.updateTasks(projectID, taskID, editedStoryID, editedTaskName, editedTaskDetails, editTaskPriority, editedTaskTime, errorList);
+        model.Project project = ProjectManager.updateTasks(projectID, taskID, contributorID, editedStoryID, editedTaskName, editedTaskDetails, editTaskPriority, editedTaskTime, errorList);
         
         String editedProjectJSON = gson.toJson(project);
         
