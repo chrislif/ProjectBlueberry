@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import model.Account;
 import model.StoryTask;
 
 public class TaskDB {
@@ -198,6 +199,39 @@ public class TaskDB {
             statement = connection.prepareStatement(query);          
             statement.setInt(1, taskID);
 
+            statement.executeUpdate();
+        } catch (SQLException ex) {
+            throw ex;
+        } finally {
+            try {
+                if (resultSet != null && statement != null) {
+                    resultSet.close();
+                    statement.close();
+                }
+                pool.freeConnection(connection);
+            } catch (SQLException e) {
+                throw e;
+            }
+        }
+    }
+    
+        public static void assignUser(String userName, int taskID) throws SQLException {
+        ConnectionPool pool = ConnectionPool.getInstance();
+        Connection connection = pool.getConnection();
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+        
+        String query = "update tasks "
+                + "set assignedUserID = ? "
+                + "where taskID = ? ";
+        
+        try { 
+            Account user = AccountDB.getAccount(userName); 
+            
+            statement = connection.prepareStatement(query);
+            statement.setInt(1, user.getAccountID());
+            statement.setInt(2, taskID);
+            
             statement.executeUpdate();
         } catch (SQLException ex) {
             throw ex;
