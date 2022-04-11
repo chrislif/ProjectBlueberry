@@ -215,7 +215,7 @@ public class TaskDB {
         }
     }
     
-        public static void assignUser(String userName, int taskID) throws SQLException {
+        public static void assignUser(int userID, int taskID) throws SQLException {
         ConnectionPool pool = ConnectionPool.getInstance();
         Connection connection = pool.getConnection();
         PreparedStatement statement = null;
@@ -225,11 +225,10 @@ public class TaskDB {
                 + "set assignedUserID = ? "
                 + "where taskID = ? ";
         
-        try { 
-            Account user = AccountDB.getAccount(userName); 
+        try {  
             
             statement = connection.prepareStatement(query);
-            statement.setInt(1, user.getAccountID());
+            statement.setInt(1, userID);
             statement.setInt(2, taskID);
             
             statement.executeUpdate();
