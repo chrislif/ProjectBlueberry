@@ -141,6 +141,18 @@ public class ProjectManager {
         }
     }
     
+    public static Project deleteStory (int storyID, int projectID, ArrayList<String> errorList) {
+        try {
+            StoryDB.deleteStoryByID(storyID);
+            model.Project project = getProject(projectID);
+            
+            return project;
+        } catch (SQLException ex) {
+            errorList.add(ex.getMessage());
+            return null;
+        }
+    }
+    
     public static Project createTask(int projectID, int storyID, String taskName, String taskDetails, int taskPriority, int taskTime) {
         StoryTask newTask = new StoryTask(0, taskName, taskPriority, taskTime, taskDetails, 0);
         
@@ -168,6 +180,18 @@ public class ProjectManager {
             
             return project;
         } catch(SQLException ex) {
+            errorList.add(ex.getMessage());
+            return null;
+        }
+    }
+    
+    public static Project deleteTask (int taskID, int projectID, ArrayList<String> errorList) {
+        try {
+            TaskDB.deleteTaskByID(taskID);
+            model.Project project = getProject(projectID);
+            
+            return project;
+        } catch (SQLException ex) {
             errorList.add(ex.getMessage());
             return null;
         }
