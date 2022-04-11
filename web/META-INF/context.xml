@@ -10,9 +10,9 @@
             removeAbandoned="true" 
             removeAbandonedTimeout="60" 
             type="javax.sql.DataSource" 
-            username="admin"
-            password="Admin#AWS" 
+            username="doadmin"
+            password="AVNS_CZO0M13zLBKKKCr" 
             factory="org.apache.tomcat.dbcp.dbcp.BasicDataSourceFactory"
-            url="jdbc:mysql://project-blueberry.ci2aly1bqiqe.us-east-1.rds.amazonaws.com:3306/project-blueberry"
+            url="jdbc:mysql://db-capstone-do-user-11321754-0.b.db.ondigitalocean.com:25060/defaultdb"
             />
 </Context>
