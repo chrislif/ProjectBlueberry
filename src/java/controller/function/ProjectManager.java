@@ -68,7 +68,9 @@ public class ProjectManager {
     
     public static Project deleteSprint (int sprintID, int projectID, ArrayList<String> errorList) {
         try {
-            SprintDB.deleteSprintByID(sprintID);
+            Sprint sprint = SprintDB.getSprintByID(sprintID);
+            
+            SprintDB.deleteSprintByID(sprint);
             model.Project project = getProject(projectID);
             
             return project;
@@ -145,7 +147,8 @@ public class ProjectManager {
     
     public static Project deleteStory (int storyID, int projectID, ArrayList<String> errorList) {
         try {
-            StoryDB.deleteStoryByID(storyID);
+            model.Story story = StoryDB.getStoryByID(storyID);
+            StoryDB.deleteStoryByID(story);
             model.Project project = getProject(projectID);
             
             return project;
@@ -189,7 +192,8 @@ public class ProjectManager {
     
     public static Project deleteTask (int taskID, int projectID, ArrayList<String> errorList) {
         try {
-            TaskDB.deleteTaskByID(taskID);
+            model.StoryTask task = TaskDB.getTaskByID(taskID);
+            TaskDB.deleteTaskByID(task);
             model.Project project = getProject(projectID);
             
             return project;

@@ -214,8 +214,7 @@ public class TaskDB {
             }
         }
     }
-    
-        public static void assignUser(int userID, int taskID) throws SQLException {
+    public static void assignUser(int userID, int taskID) throws SQLException {
         ConnectionPool pool = ConnectionPool.getInstance();
         Connection connection = pool.getConnection();
         PreparedStatement statement = null;
@@ -247,7 +246,7 @@ public class TaskDB {
         }
     }
     
-    public static void deleteTaskByID(int taskID) throws SQLException {
+    public static void deleteTaskByID(StoryTask task) throws SQLException {
         ConnectionPool pool = ConnectionPool.getInstance();
         Connection connection = pool.getConnection();
         PreparedStatement statement = null;
@@ -257,7 +256,7 @@ public class TaskDB {
         
         try {
             statement = connection.prepareStatement(query);
-            statement.setInt(1, taskID);
+            statement.setInt(1, task.getTaskID());
 
             statement.executeUpdate();
         } catch (SQLException ex) {
@@ -273,6 +272,46 @@ public class TaskDB {
                 throw e;
             }
         }
+    }
+    
+    public static StoryTask getTaskByID(int taskID) throws SQLException {
+        ConnectionPool pool = ConnectionPool.getInstance();
+        Connection connection = pool.getConnection();
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+        StoryTask task = new StoryTask();
+        
+        String query = "SELECT * FROM tasks WHERE taskID = ?";
+        
+        try {
+            statement = connection.prepareStatement(query);
+            statement.setString(1, Integer.toString(taskID));
+            resultSet = statement.executeQuery();
+            
+            while (resultSet.next()) {
+                
+                task = new StoryTask();
+                task.setTaskID(resultSet.getInt("taskID"));
+                task.setTaskName(resultSet.getString("taskName"));
+                task.setTaskPriority(resultSet.getInt("taskPriority"));
+                task.setTaskTime(resultSet.getInt("taskTime"));
+                task.setTaskDetails(resultSet.getString("taskDetails"));
+                task.setTaskStatus(resultSet.getInt("taskStatus"));
+            }
+        } catch (SQLException ex) {
+            throw ex;
+        } finally {
+            try {
+                if (resultSet != null && statement != null) {
+                    resultSet.close();
+                    statement.close();
+                }
+                pool.freeConnection(connection);
+            } catch (SQLException ex) {
+                throw ex;
+            }
+        }
+        return task;
     }
 
     public static ArrayList<StoryTask> getTasks(int storyID) throws SQLException {
