@@ -26,7 +26,7 @@ public class AdminAccountsEdit extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+
     }
 
     @Override
@@ -36,14 +36,23 @@ public class AdminAccountsEdit extends HttpServlet {
         HttpSession session = request.getSession();
         ArrayList<String> errorList = new ArrayList();
         PrintWriter responseOut = response.getWriter();
-        
+
+        String accountID = request.getParameter("accountID");
         String email = request.getParameter("email");
         String accountName = request.getParameter("accountName");
-        String password = request.getParameter("password");
-        
-        //Account editUser = AdminManager.updateAccount(account, email, accountName, password, errorList);
-        
-        responseOut.flush();
+        String accountXp = request.getParameter("accountXP");
+
+        Account account = new Account();
+        account.setAccountID(Integer.parseInt(accountID));
+        account.setEmail(email);
+        account.setAccountName(accountName);
+        account.setAccountXP(Integer.parseInt(accountXp));
+
+        model.Account editedAccount = AdminManager.updateAccount(account, email, accountName, errorList);
+
+        String editedAccountJSON = gson.toJson(editedAccount);
+
+        responseOut.println(editedAccountJSON);
     }
 
     @Override

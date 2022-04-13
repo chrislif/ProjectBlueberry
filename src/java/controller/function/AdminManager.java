@@ -18,7 +18,7 @@ public class AdminManager {
         }
     }
 
-    public static Account updateAccount(Account account, String email, String accountName, String password, ArrayList<String> errorList) {
+    public static Account updateAccount(Account account, String email, String accountName, ArrayList<String> errorList) {
 
         try {
             AccountDB.updateAccountEmail(account, email);
@@ -38,7 +38,7 @@ public class AdminManager {
 
         account.setAccountName(accountName);
 
-        String hash;
+        /*String hash;
         String salt = randomSalt();
 
         try {
@@ -52,7 +52,7 @@ public class AdminManager {
             AccountDB.updateAccountPassword(account, hash, salt);
         } catch (SQLException ex) {
             errorList.add(ex.getMessage());
-        }
+        }*/
 
         return account;
     }
