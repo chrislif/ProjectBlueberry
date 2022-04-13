@@ -3,6 +3,8 @@ package controller;
 import controller.function.Authorization;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -43,6 +45,7 @@ public class Register extends HttpServlet {
         } else {
             url = "/page/auth/register.jsp";
         }
+        session.setAttribute("errorList", errorList);
         
         getServletContext().getRequestDispatcher(url).forward(request, response);
     }

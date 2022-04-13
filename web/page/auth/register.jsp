@@ -9,7 +9,7 @@
     <div class="subContent">
         <form action="Register" method="POST">
             <label for="email">Email: </label>
-            <input type="text" name="email">
+            <input type="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" title="Please enter an email">
             <br>
             <label for="password">Password: </label>
             <input type="password" name="password"> 

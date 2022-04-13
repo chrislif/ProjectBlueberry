@@ -9,7 +9,7 @@
             <form action="Authorize" method="POST">
                 <label for="email">Email: </label>
                 <br>
-                <input type="text" name="email">
+                <input type="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" name="email">
                 <br>
                 <br>
 

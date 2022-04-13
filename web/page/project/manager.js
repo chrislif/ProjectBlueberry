@@ -51,8 +51,8 @@ function displaySprint(element) {
 
     html = `<button class="styledButton" id="newStoryButton${element.sprintID}" data-sprintid="${element.sprintID}">New Story</button>`;
     sprintCard.append(html);
-    
-    
+
+
 }
 
 function displayStory(storyElement, sprintCard) {
@@ -76,8 +76,8 @@ function displayStory(storyElement, sprintCard) {
         </div>`;
 
     sprintCard.append(html);
-    
-    $("#deleteStoryButton"+storyElement.storyID).click(deleteStory);
+
+    $("#deleteStoryButton" + storyElement.storyID).click(deleteStory);
 
     var taskTable = $(`#taskTable${storyElement.storyID}`);
     storyElement.tasks.forEach(function (taskElement) {
@@ -366,9 +366,9 @@ function showEditTaskForm(sprintList) {
                         </div>`
                             );
                     appendTaskContributorOptions();
-                            
+
                     appendTaskStoryOptions(sprintList);
-                    
+
                     $("#deleteTask").click(deleteTask);
 
                     $("#completeTaskEdit").click(editTask);
@@ -423,20 +423,25 @@ function updateTasks(taskList, storyID) {
 }
 
 function createSprint() {
-    $("#sprintCreateButton").attr('disabled', true);
-    ajaxCall('Sprint',
-            {'projectID': project.projectID,
-                'storyID': $(this).attr("data-storyid"),
-                'sprintNum': $("#sprintNumber option:selected").val(),
-                'sprintName': $("#sprintName").val(),
-                'sprintStartDate': $("#sprintStartDate").val(),
-                'sprintEndDate': $("#sprintEndDate").val()},
-            'POST', (result) => {
-        var editedProject = JSON.parse(result);
-        $("#sprintCreateButton").attr('disabled', false);
-        $("#mainModal").fadeOut(500);
-        displayProject(editedProject.sprints);
-    });
+    if ($("#sprintName").val().trim() === "") {
+        $("#nameValidation").html("Enter a sprint name");
+        console.log("error");
+    } else {
+        $("#sprintCreateButton").attr('disabled', true);
+        ajaxCall('Sprint',
+                {'projectID': project.projectID,
+                    'storyID': $(this).attr("data-storyid"),
+                    'sprintNum': $("#sprintNumber option:selected").val(),
+                    'sprintName': $("#sprintName").val(),
+                    'sprintStartDate': $("#sprintStartDate").val(),
+                    'sprintEndDate': $("#sprintEndDate").val()},
+                'POST', (result) => {
+            var editedProject = JSON.parse(result);
+            $("#sprintCreateButton").attr('disabled', false);
+            $("#mainModal").fadeOut(500);
+            displayProject(editedProject.sprints);
+        });
+    }
 }
 
 function editSprint() {
@@ -459,12 +464,12 @@ function editSprint() {
 
 function deleteSprint() {
     ajaxCall('SprintEdit',
-        {'projectID': project.projectID,
-            'sprintID' : $(this).attr('data-sprintid')},
-        'GET', (result) => {
-            var editedProject = JSON.parse(result);
-            displayProject(editedProject.sprints);
-        }
+            {'projectID': project.projectID,
+                'sprintID': $(this).attr('data-sprintid')},
+            'GET', (result) => {
+        var editedProject = JSON.parse(result);
+        displayProject(editedProject.sprints);
+    }
     );
 }
 
@@ -490,17 +495,17 @@ function editTask() {
     ajaxCall('TaskEdit',
             {'projectID': project.projectID,
                 'editedTaskID': $("#editTaskID").val(),
-                'editedTaskContributorRelation' : $("#editTaskStoryRelation option:selected").val(),
+                'editedTaskContributorRelation': $("#editTaskStoryRelation option:selected").val(),
                 'editedTaskName': $("#editedTaskName").val(),
                 'editedTaskStoryRelation': $("#editTaskStoryRelation").val(),
                 'editedTaskDetails': $("#editedTaskDetails").val(),
                 'editedTaskTime': $("#editedTaskTime").val(),
                 'editedTaskPriority': $("#editedTaskPriority option:selected").val()},
             'Post', (result) => {
-                $("#completeTaskEdit").attr('disabled', false);
-                var editedProject = JSON.parse(result);
-                $("#mainModal").fadeOut(500);
-                displayProject(editedProject.sprints);
+        $("#completeTaskEdit").attr('disabled', false);
+        var editedProject = JSON.parse(result);
+        $("#mainModal").fadeOut(500);
+        displayProject(editedProject.sprints);
     });
 }
 
@@ -512,18 +517,18 @@ function completeTask() {
                 'completedTaskPriority': $("#editedTaskPriority option:selected").val()},
             'POST', () => {
         $("#mainModal").fadeOut(500);
-            });
+    });
 }
 
 function deleteTask() {
     ajaxCall('TaskEdit',
-        {'projectID': project.projectID,
-            'taskID' : $(this).attr('data-taskid')},
-        'GET', (result) => {
-            var editedProject = JSON.parse(result);
-            displayProject(editedProject.sprints);
-            $("#mainModal").fadeOut(500);
-        }
+            {'projectID': project.projectID,
+                'taskID': $(this).attr('data-taskid')},
+            'GET', (result) => {
+        var editedProject = JSON.parse(result);
+        displayProject(editedProject.sprints);
+        $("#mainModal").fadeOut(500);
+    }
     );
 }
 
@@ -534,29 +539,39 @@ function addContributor() {
         'contributerName': $("#contributerName").val()},
             'POST', (result) => {
         $("#contributorAddButton").attr('disabled', false);
-        $("#mainModal").fadeOut(500);
-        var contributorList = JSON.parse(result);
-        $("#contributor").empty();
-        $("#contributor").append("<tr><th>Contributors</th></tr>");
-        contributorList.forEach((contributor) => {
-            $("#contributor").append(`<tr><td>${contributor.accountName}</td></tr>`);
-        });
+        if (JSON.parse(result) == "false") {
+            console.log("didnt work");
+        } else {
+            console.log(result);
+            $("#mainModal").fadeOut(500);
+            var contributorList = JSON.parse(result);
+            $("#contributor").empty();
+            $("#contributor").append("<tr><th>Contributors</th></tr>");
+            contributorList.forEach((contributor) => {
+                $("#contributor").append(`<tr><td>${contributor.accountName}</td></tr>`);
+            });
+        }
+
     });
 }
 
 function createStory() {
-    $("#storyCreateButton").attr('disabled', true);
-    ajaxCall('Story',
-            {'projectID': project.projectID,
-                'storyName': $("#newStoryName").val(),
-                'sprintID': $(this).attr("data-sprintid"),
-                'storyPriority': $("#storyPriorityLevel option:selected").val()},
-            'POST', (result) => {
-        $("#storyCreateButton").attr('disable', false);
-        $("#mainModal").fadeOut(500);
-        var editedProject = JSON.parse(result);
-        displayProject(editedProject.sprints);
-    });
+    if ($("#newStoryName").val().trim() === "") {
+        $("#storyValidation").html("Enter a story name")
+    } else {
+        $("#storyCreateButton").attr('disabled', true);
+        ajaxCall('Story',
+                {'projectID': project.projectID,
+                    'storyName': $("#newStoryName").val(),
+                    'sprintID': $(this).attr("data-sprintid"),
+                    'storyPriority': $("#storyPriorityLevel option:selected").val()},
+                'POST', (result) => {
+            $("#storyCreateButton").attr('disable', false);
+            $("#mainModal").fadeOut(500);
+            var editedProject = JSON.parse(result);
+            displayProject(editedProject.sprints);
+        });
+    }
 }
 
 function editStory() {
@@ -578,12 +593,12 @@ function editStory() {
 
 function deleteStory() {
     ajaxCall('StoryEdit',
-        {'projectID': project.projectID,
-            'storyID' : $(this).attr('data-storyid')},
-        'GET', (result) => {
-            var editedProject = JSON.parse(result);
-            displayProject(editedProject.sprints);
-        }
+            {'projectID': project.projectID,
+                'storyID': $(this).attr('data-storyid')},
+            'GET', (result) => {
+        var editedProject = JSON.parse(result);
+        displayProject(editedProject.sprints);
+    }
     );
 }
 
@@ -614,23 +629,23 @@ function appendTaskStoryOptions(sprintList) {
     });
 }
 
-function appendTaskContributorOptions(){
+function appendTaskContributorOptions() {
     project.managers.forEach((manager) => {
         var o = new Option(manager.accountName, manager.accountID);
-        
+
         $(o).html(manager.accountName);
-        
+
         $("#editTaskContributorRelation").append(o);
     });
-    
+
     project.contributors.forEach((contributor) => {
         var o = new Option(contributor.accountName, contributor.accountID);
-        
+
         $(o).html(contributor.accountName);
-        
+
         $("#editTaskContributorRelation").append(o);
     });
-    
+
 }
 
 var ajaxCall = (url, data, type, callback) => {
@@ -675,7 +690,7 @@ var sprintFormModal = `
             </select><br><br>
 
             <label for="sprintName">Sprint Name: </label>
-            <input type="text" name="sprintName" id="sprintName"><br><br>
+            <input type="text" name="sprintName" id="sprintName"><span id="nameValidation" style="color: red"></span><br><br>
 
             <label for="sprintStartDate">Sprint Start Date: </label>
             <input type="date" id="sprintStartDate" name="sprintStartDate"><br><br>
@@ -694,7 +709,7 @@ var storyFormModal = `
                 <h2>Add Story</h2><br>
 
                 <label for="storyName">User Story Name: </label>
-                <input type="text" name="storyName" id="newStoryName"> <br> <br>
+                <input type="text" name="storyName" id="newStoryName"><span id="storyValidation" style="color: red"></span> <br> <br>
 
                 <label for="priorityLevel">Priority: </label>
                 <select name="priorityLevel" id="storyPriorityLevel">

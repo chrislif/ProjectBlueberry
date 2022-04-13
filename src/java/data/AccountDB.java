@@ -10,28 +10,29 @@ import model.Account;
 import model.Project;
 
 public class AccountDB {
-    public static ArrayList<Account> getAccounts() throws SQLException{
+
+    public static ArrayList<Account> getAccounts() throws SQLException {
         ConnectionPool pool = ConnectionPool.getInstance();
         Connection connection = pool.getConnection();
         PreparedStatement statement = null;
         ResultSet resultSet = null;
-        
+
         ArrayList<Account> accountList = new ArrayList();
-        
+
         String query = "SELECT accountID, accountName, email, accountXP "
                 + "FROM account";
-        try{
+        try {
             statement = connection.prepareStatement(query);
             resultSet = statement.executeQuery();
-            
+
             Account account;
-            while(resultSet.next()){
+            while (resultSet.next()) {
                 account = new Account();
                 account.setAccountID(resultSet.getInt("accountID"));
                 account.setAccountName(resultSet.getString("accountName"));
                 account.setEmail(resultSet.getString("email"));
                 account.setAccountXP(resultSet.getInt("accountXP"));
-                
+
                 accountList.add(account);
             }
         } catch (SQLException ex) {
@@ -49,25 +50,25 @@ public class AccountDB {
         }
         return accountList;
     }
-    
-    public static Account getAccount(String accountName) throws SQLException{
+
+    public static Account getAccount(String accountName) throws SQLException {
         ConnectionPool pool = ConnectionPool.getInstance();
         Connection connection = pool.getConnection();
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         Account account = new Account();
-        
+
         String query = "SELECT accountID from account where accountName = ?";
-        
-        try{
+
+        try {
             statement = connection.prepareStatement(query);
             statement.setString(1, accountName);
-            resultSet = statement.executeQuery();          
-            
+            resultSet = statement.executeQuery();
+
             resultSet.next();
-            
+
             account.setAccountID(resultSet.getInt("accountID"));
-            
+
             return account;
         } catch (SQLException ex) {
             throw ex;
@@ -80,6 +81,39 @@ public class AccountDB {
                 pool.freeConnection(connection);
             } catch (SQLException ex) {
                 throw ex;
+            }
+        }
+    }
+
+    public static Boolean getAccountContributor(int accountID, int projectID) throws SQLException {
+        ConnectionPool pool = ConnectionPool.getInstance();
+        Connection connection = pool.getConnection();
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+
+        String query = "SELECT * from projectPeople "
+                + "WHERE projectID = ? and accountID = ?";
+
+        try {
+            statement = connection.prepareStatement(query);
+            statement.setInt(1, projectID);
+            statement.setInt(2, accountID);
+
+            resultSet = statement.executeQuery();
+
+            return resultSet.next();
+
+        } catch (SQLException ex) {
+            throw ex;
+        } finally {
+            try {
+                if (resultSet != null && statement != null) {
+                    resultSet.close();
+                    statement.close();
+                }
+                pool.freeConnection(connection);
+            } catch (SQLException e) {
+                throw e;
             }
         }
     }
@@ -112,7 +146,7 @@ public class AccountDB {
             }
         }
     }
-    
+
     public static void updateAccountEmail(Account account, String email) throws SQLException {
         ConnectionPool pool = ConnectionPool.getInstance();
         Connection connection = pool.getConnection();
@@ -140,8 +174,8 @@ public class AccountDB {
                 throw e;
             }
         }
-    }  
-    
+    }
+
     public static void updateAccountPassword(Account account, String hash, String salt) throws SQLException {
         ConnectionPool pool = ConnectionPool.getInstance();
         Connection connection = pool.getConnection();
@@ -172,22 +206,21 @@ public class AccountDB {
             }
         }
     }
-    
-    public static int getAccountXP(Account account) throws SQLException{
+
+    public static int getAccountXP(Account account) throws SQLException {
         ConnectionPool pool = ConnectionPool.getInstance();
         Connection connection = pool.getConnection();
         PreparedStatement statement = null;
         ResultSet resultSet = null;
 
-        
         String query = "SELECT accountXP FROM account WHERE accountID = ?";
-        
+
         try {
             statement = connection.prepareStatement(query);
             statement.setInt(1, account.getAccountID());
             resultSet = statement.executeQuery();
             resultSet.next();
-            
+
             return resultSet.getInt("accountXP");
         } catch (SQLException ex) {
             throw ex;
@@ -203,22 +236,22 @@ public class AccountDB {
             }
         }
     }
-    
-    public static void updateAccountXP(int xp, Account account) throws SQLException{
+
+    public static void updateAccountXP(int xp, Account account) throws SQLException {
         ConnectionPool pool = ConnectionPool.getInstance();
         Connection connection = pool.getConnection();
-        PreparedStatement statement = null; 
+        PreparedStatement statement = null;
         ResultSet resultSet = null;
         int currentXP = getAccountXP(account);
         int newXP = currentXP + xp;
-        
+
         String query = "UPDATE account set accountXP = ? where accountID = ?";
-        
-        try{
+
+        try {
             statement = connection.prepareStatement(query);
             statement.setInt(1, newXP);
             statement.setInt(2, account.getAccountID());
-            
+
             statement.executeUpdate();
         } catch (SQLException ex) {
             throw ex;
@@ -231,26 +264,26 @@ public class AccountDB {
                 pool.freeConnection(connection);
             } catch (SQLException e) {
                 throw e;
-            }            
+            }
         }
     }
-    
-    public static Boolean isContributor(Account account, Project project) throws SQLException{
+
+    public static Boolean isContributor(Account account, Project project) throws SQLException {
         ConnectionPool pool = ConnectionPool.getInstance();
         Connection connection = pool.getConnection();
-        PreparedStatement statement = null; 
+        PreparedStatement statement = null;
         ResultSet resultSet = null;
-        
+
         String query = "SELECT accountID, projectID, tag FROM projectPeople "
                 + "WHERE accountID = ? and projectID = ? and tag = 'contributor'";
-        
+
         try {
             statement = connection.prepareStatement(query);
             statement.setInt(1, account.getAccountID());
             statement.setInt(2, project.getProjectID());
-                  
+
             resultSet = statement.executeQuery();
-            
+
             return resultSet.next();
 
         } catch (SQLException ex) {

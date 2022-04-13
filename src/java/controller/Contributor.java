@@ -13,7 +13,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import model.Account;
 
-
 public class Contributor extends HttpServlet {
 
     @Override
@@ -22,27 +21,31 @@ public class Contributor extends HttpServlet {
 
     }
 
- 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         PrintWriter responseOut = response.getWriter();
         Gson gson = new Gson();
-        
+
         int projectID = Integer.parseInt(request.getParameter("projectID"));
         String contributorName = request.getParameter("contributerName");
-        
+
         try {
             Account account = AccountDB.getAccount(contributorName);
             int accountID = account.getAccountID();
-            ArrayList<Account> contributorList = ProjectManager.addContributer(projectID, accountID);
-            String contributorListJSON = gson.toJson(contributorList);
-            responseOut.println(contributorListJSON);
-        } catch (SQLException ex){
+            
+            if (AccountDB.getAccountContributor(accountID, projectID)) {
+                responseOut.println(gson.toJson("false"));
+            } else {
+                ArrayList<Account> contributorList = ProjectManager.addContributer(projectID, accountID);
+                String contributorListJSON = gson.toJson(contributorList);
+                responseOut.println(contributorListJSON);
+            }
+
+        } catch (SQLException ex) {
             String message = ex.getMessage();
         }
-        
-        
+
     }
 
     @Override
