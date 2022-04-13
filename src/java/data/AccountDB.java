@@ -50,6 +50,43 @@ public class AccountDB {
         return accountList;
     }
     
+    public static Account getAccountByID(int accountID) throws SQLException {
+        ConnectionPool pool = ConnectionPool.getInstance();
+        Connection connection = pool.getConnection();
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+        Account account = new Account();
+        
+        String query = "SELECT * from account where accountID = ?";
+        
+        try{
+            statement = connection.prepareStatement(query);
+            statement.setInt(1, accountID);
+            resultSet = statement.executeQuery();          
+            
+            if(resultSet.next()){
+                account.setAccountID(resultSet.getInt("accountID"));
+                account.setAccountName(resultSet.getString("accountName"));
+                account.setEmail(resultSet.getString("email"));
+                account.setAccountXP(resultSet.getInt("accountXP"));
+            }
+            
+            return account;
+        } catch (SQLException ex) {
+            throw ex;
+        } finally {
+            try {
+                if (resultSet != null && statement != null) {
+                    resultSet.close();
+                    statement.close();
+                }
+                pool.freeConnection(connection);
+            } catch (SQLException ex) {
+                throw ex;
+            }
+        }
+    }
+    
     public static Account getAccount(String accountName) throws SQLException{
         ConnectionPool pool = ConnectionPool.getInstance();
         Connection connection = pool.getConnection();

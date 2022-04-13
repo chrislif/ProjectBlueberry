@@ -158,18 +158,17 @@ public class TaskDB {
         }
     }
 
-    public static void updateTaskCompleted(int taskID, Boolean completed) throws SQLException {
+    public static void updateTaskProgress(int taskID) throws SQLException {
         ConnectionPool pool = ConnectionPool.getInstance();
         Connection connection = pool.getConnection();
         PreparedStatement statement = null;
         ResultSet resultSet = null;
 
-        String query = "UPDATE tasks SET taskCompleted = ? WHERE taskID = ?";
+        String query = "UPDATE tasks SET taskStatus = 1 WHERE taskID = ?";
 
         try {
-            statement = connection.prepareStatement(query);
-            statement.setBoolean(1, completed);            
-            statement.setInt(2, taskID);
+            statement = connection.prepareStatement(query);         
+            statement.setInt(1, taskID);
 
             statement.executeUpdate();
         } catch (SQLException ex) {
@@ -297,6 +296,11 @@ public class TaskDB {
                 task.setTaskTime(resultSet.getInt("taskTime"));
                 task.setTaskDetails(resultSet.getString("taskDetails"));
                 task.setTaskStatus(resultSet.getInt("taskStatus"));
+                
+                int contributorID = resultSet.getInt("assignedUserID");
+                
+                Account contributor = AccountDB.getAccountByID(contributorID);
+                task.setContributor(contributor);
             }
         } catch (SQLException ex) {
             throw ex;
@@ -336,6 +340,11 @@ public class TaskDB {
                 task.setTaskTime(resultSet.getInt("taskTime"));
                 task.setTaskDetails(resultSet.getString("taskDetails"));
                 task.setTaskStatus(resultSet.getInt("taskStatus"));
+                
+                int contributorID = resultSet.getInt("assignedUserID");
+                
+                Account contributor = AccountDB.getAccountByID(contributorID);
+                task.setContributor(contributor);
 
                 tasks.add(task);
             }
