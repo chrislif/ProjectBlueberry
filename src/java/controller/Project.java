@@ -28,6 +28,7 @@ public class Project extends HttpServlet {
         Boolean isContributor = Authorization.isContributerOnProject(project, currentUser);
         
         request.setAttribute("isContributor", gson.toJson(isContributor));
+        session.setAttribute("isContributor", isContributor);
 
         request.setAttribute("project", gson.toJson(project));
         
