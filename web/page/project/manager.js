@@ -64,11 +64,21 @@ function displayStory(storyElement, sprintCard) {
                 <div id="editStoryButton${storyElement.storyID}"><img src="resources/editIcon.png"  class="editIcon" alt="Icon to edit story information"></div> 
                 <div id="deleteStoryButton${storyElement.storyID}" data-storyid="${storyElement.storyID}"><img src="resources/deleteIcon.png" class="deleteIcon" alt="Icon to delete story information"></div>
             </div>
-            <div>
-                <table class="stylizedTable" id="taskTable${storyElement.storyID}">
+            <div class="taskManagementContainer">
+                <table class="stylizedTable" id="taskTable${storyElement.storyID}ToDo">
                     <tr>
                         <th>To-Do</th>
+                    </tr>
+                </table>
+    
+                <table class="stylizedTable" id="taskTable${storyElement.storyID}Doing">
+                    <tr>
                         <th>Doing</th>
+                    </tr>
+                </table>
+    
+                <table class="stylizedTable" id="taskTable${storyElement.storyID}Done">
+                    <tr>
                         <th>Done</th>
                     </tr>
                 </table>
@@ -81,7 +91,16 @@ function displayStory(storyElement, sprintCard) {
 
     var taskTable = $(`#taskTable${storyElement.storyID}`);
     storyElement.tasks.forEach(function (taskElement) {
-        displayTask(taskElement, taskTable, storyElement.storyID);
+        if (taskElement.taskStatus === 0){
+            taskTable = $(`#taskTable${storyElement.storyID}ToDo`);
+            displayTask(taskElement, taskTable, storyElement.storyID);
+        } else if (taskElement.taskStatus === 1) {
+            taskTable = $(`#taskTable${storyElement.storyID}Doing`);
+            displayTask(taskElement, taskTable, storyElement.storyID);
+        } else if (taskElement.taskStatus === 2) {
+            taskTable = $(`#taskTable${storyElement.storyID}Done`);
+            displayTask(taskElement, taskTable, storyElement.storyID);
+        }
     });
 }
 
@@ -92,6 +111,7 @@ function displayTask(taskElement, taskTable, storyID) {
                 <div id="editTaskLink${taskElement.taskID}" class="taskCard" data-storyid="${storyID}">
                     <h3>${taskElement.taskName}</h3>
                     <p>${taskElement.taskDetails}<p>
+                    <p>${taskElement.contributor.accountName}</p>
                 </div>
             </td>
         </tr>`;
@@ -330,7 +350,7 @@ function showEditTaskForm(sprintList) {
                     
                             <label for="editTaskContributorRelation">Who is working on this Task:</label>
                             <select name="editTaskContributorRelation" id="editTaskContributorRelation">
-                                
+                                <option value="0">Unassigned</option>
                             </select><br><br>
 
                             <label for="editedTaskName">Task Name: </label>
@@ -492,10 +512,11 @@ function createTask() {
 
 function editTask() {
     $("#completeTaskEdit").attr('disabled', true);
+    console.log($("#editTaskContributorRelation option:selected").val());
     ajaxCall('TaskEdit',
             {'projectID': project.projectID,
                 'editedTaskID': $("#editTaskID").val(),
-                'editedTaskContributorRelation': $("#editTaskStoryRelation option:selected").val(),
+                'editedTaskContributorRelation' : $("#editTaskContributorRelation option:selected").val(),
                 'editedTaskName': $("#editedTaskName").val(),
                 'editedTaskStoryRelation': $("#editTaskStoryRelation").val(),
                 'editedTaskDetails': $("#editedTaskDetails").val(),
