@@ -64,11 +64,21 @@ function displayStory(storyElement, sprintCard) {
                 <div id="editStoryButton${storyElement.storyID}"><img src="resources/editIcon.png"  class="editIcon" alt="Icon to edit story information"></div> 
                 <div id="deleteStoryButton${storyElement.storyID}" data-storyid="${storyElement.storyID}"><img src="resources/deleteIcon.png" class="deleteIcon" alt="Icon to delete story information"></div>
             </div>
-            <div>
-                <table class="stylizedTable" id="taskTable${storyElement.storyID}">
+            <div class="taskManagementContainer">
+                <table class="stylizedTable" id="taskTable${storyElement.storyID}ToDo">
                     <tr>
                         <th>To-Do</th>
+                    </tr>
+                </table>
+    
+                <table class="stylizedTable" id="taskTable${storyElement.storyID}Doing">
+                    <tr>
                         <th>Doing</th>
+                    </tr>
+                </table>
+    
+                <table class="stylizedTable" id="taskTable${storyElement.storyID}Done">
+                    <tr>
                         <th>Done</th>
                     </tr>
                 </table>
@@ -81,7 +91,16 @@ function displayStory(storyElement, sprintCard) {
 
     var taskTable = $(`#taskTable${storyElement.storyID}`);
     storyElement.tasks.forEach(function (taskElement) {
-        displayTask(taskElement, taskTable, storyElement.storyID);
+        if (taskElement.taskStatus === 0){
+            taskTable = $(`#taskTable${storyElement.storyID}ToDo`);
+            displayTask(taskElement, taskTable, storyElement.storyID);
+        } else if (taskElement.taskStatus === 1) {
+            taskTable = $(`#taskTable${storyElement.storyID}Doing`);
+            displayTask(taskElement, taskTable, storyElement.storyID);
+        } else if (taskElement.taskStatus === 2) {
+            taskTable = $(`#taskTable${storyElement.storyID}Done`);
+            displayTask(taskElement, taskTable, storyElement.storyID);
+        }
     });
 }
 

@@ -280,6 +280,13 @@ select:focus {
     border: 2px solid rgb(255, 166, 48);
 }
 
+.taskManagementContainer{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content:space-between;
+}
+
 .stylizedTable {
     border-spacing: 20px 5px;
     text-align: left;           
