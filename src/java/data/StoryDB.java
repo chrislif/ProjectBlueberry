@@ -5,7 +5,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import model.Sprint;
 import model.Story;
+import model.StoryTask;
 
 public class StoryDB {
 
@@ -128,7 +130,7 @@ public class StoryDB {
         }
     }
     
-    public static void deleteStoryByID(int storyID) throws SQLException {
+    public static void deleteStoryByID(Story story) throws SQLException {
         ConnectionPool pool = ConnectionPool.getInstance();
         Connection connection = pool.getConnection();
         PreparedStatement statement = null;
@@ -136,9 +138,12 @@ public class StoryDB {
         
         String query = "DELETE FROM stories WHERE storyID = ?";
         
+        for(StoryTask task : story.tasks){
+            TaskDB.deleteTaskByID(task);
+        }
         try {
             statement = connection.prepareStatement(query);
-            statement.setInt(1, storyID);
+            statement.setInt(1, story.getStoryID());
 
             statement.executeUpdate();
         } catch (SQLException ex) {
@@ -154,6 +159,44 @@ public class StoryDB {
                 throw e;
             }
         }
+    }
+    
+    public static Story getStoryByID(int storyID) throws SQLException {
+        ConnectionPool pool = ConnectionPool.getInstance();
+        Connection connection = pool.getConnection();
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+        Story story = new Story();
+        
+        String query = "SELECT * FROM stories WHERE storyID = ?";
+        
+        try {
+            statement = connection.prepareStatement(query);
+            statement.setString(1, Integer.toString(storyID));
+            resultSet = statement.executeQuery();
+            
+            while (resultSet.next()) {
+                
+                story = new Story();
+                story.setStoryID(resultSet.getInt("storyID"));
+                story.setStoryName(resultSet.getString("storyName"));
+                story.setStoryPriority(resultSet.getInt("storyPriority"));
+                story.tasks = TaskDB.getTasks(story.getStoryID());
+            }
+        } catch (SQLException ex) {
+            throw ex;
+        } finally {
+            try {
+                if (resultSet != null && statement != null) {
+                    resultSet.close();
+                    statement.close();
+                }
+                pool.freeConnection(connection);
+            } catch (SQLException ex) {
+                throw ex;
+            }
+        }
+        return story;
     }
 
     public static ArrayList<Story> getStories(int sprintID) throws SQLException {

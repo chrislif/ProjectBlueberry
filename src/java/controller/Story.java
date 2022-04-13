@@ -28,15 +28,16 @@ public class Story extends HttpServlet {
         Boolean isContributor = (Boolean) session.getAttribute("isContributor");
 
         if (!isContributor) {
+            int projectID = Integer.parseInt(request.getParameter("projectID"));
             int sprintID = Integer.parseInt(request.getParameter("sprintID"));
             String storyName = request.getParameter("storyName");
             int storyPriority = Integer.parseInt(request.getParameter("storyPriority"));
 
-            ArrayList<model.Story> storyList = ProjectManager.createStory(sprintID, storyName, storyPriority);
+            model.Project project = ProjectManager.createStory(projectID, sprintID, storyName, storyPriority);
 
-            String storyListJSON = gson.toJson(storyList);
+            String projectJSON = gson.toJson(project);
 
-            responseOut.println(storyListJSON);
+            responseOut.println(projectJSON);
         } else {
             int projectID = Integer.parseInt(request.getParameter("projectID"));
             model.Project project = ProjectManager.getProject(projectID);

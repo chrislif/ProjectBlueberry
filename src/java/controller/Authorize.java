@@ -1,8 +1,11 @@
 package controller;
 
 import controller.function.Authorization;
+import data.AuthDB;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -40,6 +43,7 @@ public class Authorize extends HttpServlet {
         if (Authorization.IsValidLogin(email, password, errorList)) {
             Account user = Authorization.authorizeUser(email, password, errorList);
             if (user != null) {
+                user.setIsAdmin(Authorization.accountIsAdmin(user, errorList));
                 session.setAttribute("currentUser", user);
                 url = "/page/project/overview.jsp";
             } else {

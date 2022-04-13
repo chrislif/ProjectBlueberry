@@ -57,6 +57,15 @@ public class Authorization {
         }
     }
     
+    public static Boolean accountIsAdmin(Account user, ArrayList<String> errorList) {
+        try {
+            return AuthDB.isAdmin(user.getAccountID());
+        } catch (SQLException ex) {
+            errorList.add(ex.getMessage());
+            return null;
+        }
+    }
+    
     public static Account RegisterUser(String email, String password, String passwordCheck, String accountName, ArrayList <String> errorList){
         if (!password.equals(passwordCheck)) {
             errorList.add("Password do not match, please reenter");

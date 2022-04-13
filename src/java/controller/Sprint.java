@@ -47,11 +47,11 @@ public class Sprint extends HttpServlet {
 
             ProjectManager.createSprint(projectID, sprintNum, sprintName, sprintStartDate, sprintEndDate);
 
-            ArrayList<model.Sprint> sprintList = ProjectManager.retrieveSprints(projectID);
+            model.Project project = ProjectManager.getProject(projectID);
 
-            String sprintListJSON = gson.toJson(sprintList);
+            String projectJSON = gson.toJson(project);
 
-            responseOut.println(sprintListJSON);
+            responseOut.println(projectJSON);
         } else {
             int projectID = Integer.parseInt(request.getParameter("projectID"));
             model.Project project = ProjectManager.getProject(projectID);

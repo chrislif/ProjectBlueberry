@@ -68,7 +68,9 @@ public class ProjectManager {
     
     public static Project deleteSprint (int sprintID, int projectID, ArrayList<String> errorList) {
         try {
-            SprintDB.deleteSprintByID(sprintID);
+            Sprint sprint = SprintDB.getSprintByID(sprintID);
+            
+            SprintDB.deleteSprintByID(sprint);
             model.Project project = getProject(projectID);
             
             return project;
@@ -100,13 +102,15 @@ public class ProjectManager {
         }
     }
     
-    public static ArrayList<Story> createStory(int sprintID, String storyName, int storyPriority) {
+    public static Project createStory(int projectID, int sprintID, String storyName, int storyPriority) {
         Story newStory = new Story(0, storyName, storyPriority);
         
         try {
             StoryDB.createStory(newStory, sprintID);
             
-            return retrieveStories(sprintID);
+            model.Project project = ProjectDB.getProject(projectID);
+            
+            return project;
         } catch (SQLException ex) {
             return null;
         }
@@ -141,6 +145,19 @@ public class ProjectManager {
         }
     }
     
+    public static Project deleteStory (int storyID, int projectID, ArrayList<String> errorList) {
+        try {
+            model.Story story = StoryDB.getStoryByID(storyID);
+            StoryDB.deleteStoryByID(story);
+            model.Project project = getProject(projectID);
+            
+            return project;
+        } catch (SQLException ex) {
+            errorList.add(ex.getMessage());
+            return null;
+        }
+    }
+    
     public static Project createTask(int projectID, int storyID, String taskName, String taskDetails, int taskPriority, int taskTime) {
         StoryTask newTask = new StoryTask(0, taskName, taskPriority, taskTime, taskDetails, 0);
         
@@ -155,12 +172,14 @@ public class ProjectManager {
         }
     }
     
-    public static Project updateTasks(int projectID, int taskID, int storyID, String taskName, String taskDetails, int taskPriorityLevel, int taskTime, ArrayList<String> errorList){
+    public static Project updateTasks(int projectID, int taskID, int contributorID, int storyID, String taskName, String taskDetails, int taskPriorityLevel, int taskTime, ArrayList<String> errorList){
         try {
             TaskDB.updateTaskName(taskID, taskName);
             TaskDB.updateTaskDetails(taskID, taskDetails);
             TaskDB.updateTaskPriority(taskID, taskPriorityLevel);
             TaskDB.updateTaskTime(taskID, taskTime);
+            
+            // Add contributorID to database, set the contributorID in DB call, retrieve account of contributorID and set it to task.contributor
             
             model.StoryTask updatedTask = new StoryTask(taskID, taskName, taskPriorityLevel, taskTime, taskDetails, 0);
             
@@ -168,6 +187,19 @@ public class ProjectManager {
             
             return project;
         } catch(SQLException ex) {
+            errorList.add(ex.getMessage());
+            return null;
+        }
+    }
+    
+    public static Project deleteTask (int taskID, int projectID, ArrayList<String> errorList) {
+        try {
+            model.StoryTask task = TaskDB.getTaskByID(taskID);
+            TaskDB.deleteTaskByID(task);
+            model.Project project = getProject(projectID);
+            
+            return project;
+        } catch (SQLException ex) {
             errorList.add(ex.getMessage());
             return null;
         }
