@@ -88,7 +88,7 @@ public class AccountDB {
         }
     }
     
-    public static Account getAccount(String accountName) throws SQLException{
+    public static Account getAccount(int accountID) throws SQLException{
         ConnectionPool pool = ConnectionPool.getInstance();
         Connection connection = pool.getConnection();
         PreparedStatement statement = null;
