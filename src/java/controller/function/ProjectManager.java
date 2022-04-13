@@ -1,6 +1,7 @@
 package controller.function;
 
 import com.google.gson.Gson;
+import data.AccountDB;
 import data.ProjectDB;
 import data.SprintDB;
 import data.StoryDB;
@@ -180,8 +181,15 @@ public class ProjectManager {
             TaskDB.updateTaskTime(taskID, taskTime);
             
             // Add contributorID to database, set the contributorID in DB call, retrieve account of contributorID and set it to task.contributor
+            if (contributorID != 0) {
+                TaskDB.assignUser(contributorID, taskID);
+                TaskDB.updateTaskProgress(taskID);
+            }
+            Account user = AccountDB.getAccountByID(contributorID);
             
             model.StoryTask updatedTask = new StoryTask(taskID, taskName, taskPriorityLevel, taskTime, taskDetails, 0);
+            updatedTask.setContributor(user);
+            
             
             model.Project project = getProject(projectID);
             

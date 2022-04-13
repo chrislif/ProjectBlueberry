@@ -92,6 +92,7 @@ function displayTask(taskElement, taskTable, storyID) {
                 <div id="editTaskLink${taskElement.taskID}" class="taskCard" data-storyid="${storyID}">
                     <h3>${taskElement.taskName}</h3>
                     <p>${taskElement.taskDetails}<p>
+                    <p>${taskElement.contributor.accountName}</p>
                 </div>
             </td>
         </tr>`;
@@ -330,7 +331,7 @@ function showEditTaskForm(sprintList) {
                     
                             <label for="editTaskContributorRelation">Who is working on this Task:</label>
                             <select name="editTaskContributorRelation" id="editTaskContributorRelation">
-                                
+                                <option value="0">Unassigned</option>
                             </select><br><br>
 
                             <label for="editedTaskName">Task Name: </label>
@@ -487,10 +488,11 @@ function createTask() {
 
 function editTask() {
     $("#completeTaskEdit").attr('disabled', true);
+    console.log($("#editTaskContributorRelation option:selected").val());
     ajaxCall('TaskEdit',
             {'projectID': project.projectID,
                 'editedTaskID': $("#editTaskID").val(),
-                'editedTaskContributorRelation' : $("#editTaskStoryRelation option:selected").val(),
+                'editedTaskContributorRelation' : $("#editTaskContributorRelation option:selected").val(),
                 'editedTaskName': $("#editedTaskName").val(),
                 'editedTaskStoryRelation': $("#editTaskStoryRelation").val(),
                 'editedTaskDetails': $("#editedTaskDetails").val(),

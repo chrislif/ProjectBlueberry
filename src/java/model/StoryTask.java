@@ -19,6 +19,7 @@ public class StoryTask {
         this.taskTime = taskTime;
         this.taskDetails = taskDetails;
         this.taskStatus = taskStatus;
+        this.contributor = null;
     }
 
     public int getTaskID() {
@@ -67,5 +68,13 @@ public class StoryTask {
 
     public void setTaskStatus(int taskStatus) {
         this.taskStatus = taskStatus;
+    }
+
+    public Account getContributor() {
+        return contributor;
+    }
+
+    public void setContributor(Account contributor) {
+        this.contributor = contributor;
     }
 }
