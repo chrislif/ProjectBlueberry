@@ -43,7 +43,6 @@ function createAccountButton(element) {
                     <label for="accountXP">Account XP: </label>
                     <input type="text" name="accountXP" value="${element.accountXP}"id="accountXP" readonly><br><br>
 
-                    <button class="styledButton" id="accountEditButton">Edit</button>
                 </div>
             </div>`);
 

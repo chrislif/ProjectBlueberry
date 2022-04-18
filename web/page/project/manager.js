@@ -2,7 +2,7 @@
 
 $(document).ready(() => {
     displayProjectDetails();
-    
+
     $("#newSprintButton").click(showSprintForm);
 
     $("#newContributorButton").click(showContributorForm);
@@ -21,11 +21,11 @@ function displayProjectDetails() {
                 <input type="hidden" name="projectID" value="${project.projectID}"/>
                 <input type="image" src="resources/deleteIcon.png" class="deleteIcon" alt="Icon to delete your whole project"/>
                 </form>`);
-    
+
     $("#projectOverview").html(projectHeader);
-    
+
     $("#deleteProjectBtn").click(deleteProject);
-    
+
     var projectManagerTableHtml = ``;
     project.managers.forEach((manager) => {
         projectManagerTableHtml += `
@@ -34,8 +34,8 @@ function displayProjectDetails() {
             </tr>`;
     });
     $("#managersTable").append(projectManagerTableHtml);
-    
-    
+
+
     var projectContribtorTableHtml = ``;
     project.contributors.forEach((contributor) => {
         projectContribtorTableHtml += `
@@ -124,7 +124,7 @@ function displayStory(storyElement, sprintCard) {
 
     var taskTable = $(`#taskTable${storyElement.storyID}`);
     storyElement.tasks.forEach(function (taskElement) {
-        if (taskElement.taskStatus === 0){
+        if (taskElement.taskStatus === 0) {
             taskTable = $(`#taskTable${storyElement.storyID}ToDo`);
             displayTask(taskElement, taskTable, storyElement.storyID);
         } else if (taskElement.taskStatus === 1) {
@@ -475,11 +475,11 @@ function updateTasks(taskList, storyID) {
 
 }
 function deleteProject() {
-    ajaxCall("ProjectDelete", 
-        {"projectID" : project.projectID},
-        "Get", (result)=> {
-            
-        }
+    ajaxCall("ProjectDelete",
+            {"projectID": project.projectID},
+            "Get", (result) => {
+
+    }
     );
 }
 
@@ -558,7 +558,7 @@ function editTask() {
     ajaxCall('TaskEdit',
             {'projectID': project.projectID,
                 'editedTaskID': $("#editTaskID").val(),
-                'editedTaskContributorRelation' : $("#editTaskContributorRelation option:selected").val(),
+                'editedTaskContributorRelation': $("#editTaskContributorRelation option:selected").val(),
                 'editedTaskName': $("#editedTaskName").val(),
                 'editedTaskStoryRelation': $("#editTaskStoryRelation").val(),
                 'editedTaskDetails': $("#editedTaskDetails").val(),
@@ -578,7 +578,9 @@ function completeTask() {
                 'completedTaskID': $("#editTaskID").val(),
                 'completedTaskTime': $("#editedTaskTime").val(),
                 'completedTaskPriority': $("#editedTaskPriority option:selected").val()},
-            'POST', () => {
+            'POST', (result) => {
+        var editedProject = JSON.parse(result);
+        displayProject(editedProject.sprints);
         $("#mainModal").fadeOut(500);
     });
 }
@@ -609,13 +611,13 @@ function handleAddContributorResult(result) {
         console.log("didnt work");
     } else {
         $("#mainModal").fadeOut(500);
-        
+
         var contributorList = JSON.parse(result);
-        
+
         console.log(contributorList);
-        
+
         $("#contributorsTable").html("<tr><th>Contributors</th></tr>");
-        
+
         contributorList.forEach((contributor) => {
             $("#contributorsTable").append(`<tr><td>${contributor.accountName}</td></tr>`);
         });

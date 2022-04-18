@@ -6,6 +6,7 @@
 package controller;
 
 import com.google.gson.Gson;
+import controller.function.ProjectManager;
 import data.AccountDB;
 import data.TaskDB;
 import java.io.IOException;
@@ -72,6 +73,9 @@ public class TaskComplete extends HttpServlet {
             String message = ex.getMessage();
         }
         
+        model.Project p = ProjectManager.getProject(projectID);
+        
+        responseOut.println(gson.toJson(p));
     }
 
     @Override
