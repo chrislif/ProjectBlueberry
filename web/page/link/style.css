@@ -131,6 +131,13 @@ nav {
     margin: 15px;
 }
 
+.projectHeader {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
 .sprintCard{
     display: grid;
     grid-template-columns: 1fr;
