@@ -39,6 +39,18 @@ public class ProjectManager {
         }
     }
     
+    public static boolean deleteProject (int projectID, ArrayList<String> errorList) {
+        try {
+            Project currentProject = ProjectDB.getProject(projectID);
+            
+            ProjectDB.deleteProject(currentProject);
+            return true;
+        } catch (SQLException ex) {
+            errorList.add(ex.getMessage());
+            return false;
+        }
+    }
+    
     public static Project getProject(int projectID) {
         try {
             return ProjectDB.getProject(projectID);
