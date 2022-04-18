@@ -8,6 +8,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import model.Account;
 import model.Project;
+import model.Sprint;
 
 public class ProjectDB {
 
@@ -47,26 +48,64 @@ public class ProjectDB {
         }
         return keyValue;
     }
-    
+
+    public static void deleteProject(Project project) throws SQLException {
+        ConnectionPool pool = ConnectionPool.getInstance();
+        Connection connection = pool.getConnection();
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+
+        String query = "DELETE from project where projectID = ?";
+
+        for (Sprint sprint : project.sprints) {
+            SprintDB.deleteSprintByID(sprint);
+        }
+        for (Account account : project.contributors) {
+            ProjectDB.deleteContributors(account, project.getProjectID());
+        }        
+        for (Account account : project.managers) {
+            ProjectDB.deleteManagers(account, project.getProjectID());
+        }
+        
+        try {
+            statement = connection.prepareStatement(query);
+            statement.setInt(1, project.getProjectID());
+
+            statement.executeUpdate();
+        } catch (SQLException ex) {
+            throw ex;
+        } finally {
+            try {
+                if (resultSet != null && statement != null) {
+                    resultSet.close();
+                    statement.close();
+                }
+                pool.freeConnection(connection);
+            } catch (SQLException e) {
+                throw e;
+            }
+        }
+    }
+
     public static ArrayList<Account> getContributer(int projectID) throws SQLException {
         ConnectionPool pool = ConnectionPool.getInstance();
         Connection connection = pool.getConnection();
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         ArrayList<Account> accounts = new ArrayList();
-        
+
         String query = "SELECT projectPeople.accountID, account.accountName "
                 + "from projectPeople "
                 + "inner join account on account.accountID = projectPeople.accountID"
                 + "WHERE projectID = ? and tag='contributor'";
-        
+
         try {
             statement = connection.prepareStatement(query);
             statement.setInt(1, projectID);
             resultSet = statement.executeQuery();
-            
+
             Account account;
-            while (resultSet.next()){
+            while (resultSet.next()) {
                 account = new Account();
                 account.setAccountID(resultSet.getInt("accountID"));
                 account.setAccountName(resultSet.getString("accountName"));
@@ -115,36 +154,92 @@ public class ProjectDB {
             }
         }
     }
-    
+
+    public static void deleteContributors(Account account, int projectID) throws SQLException {
+        ConnectionPool pool = ConnectionPool.getInstance();
+        Connection connection = pool.getConnection();
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+
+        String query = "DELETE FROM projectPeople where accountID = ? and projectID = ?";
+
+        try {
+            statement = connection.prepareStatement(query);
+            statement.setInt(1, account.getAccountID());
+
+            statement.executeUpdate();
+        } catch (SQLException ex) {
+            throw ex;
+        } finally {
+            try {
+                if (resultSet != null && statement != null) {
+                    resultSet.close();
+                    statement.close();
+                }
+                pool.freeConnection(connection);
+            } catch (SQLException e) {
+                throw e;
+            }
+        }
+    }
+
+    public static void deleteManagers(Account account, int projectID) throws SQLException {
+        ConnectionPool pool = ConnectionPool.getInstance();
+        Connection connection = pool.getConnection();
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+
+        String query = "DELETE FROM projectPeople where accountID = ? and projectID = ?";
+
+        try {
+            statement = connection.prepareStatement(query);
+            statement.setInt(1, account.getAccountID());
+
+            statement.executeUpdate();
+        } catch (SQLException ex) {
+            throw ex;
+        } finally {
+            try {
+                if (resultSet != null && statement != null) {
+                    resultSet.close();
+                    statement.close();
+                }
+                pool.freeConnection(connection);
+            } catch (SQLException e) {
+                throw e;
+            }
+        }
+    }
+
     public static ArrayList<Project> generateProjectList(Account user) throws SQLException {
         ConnectionPool pool = ConnectionPool.getInstance();
         Connection connection = pool.getConnection();
         PreparedStatement statement = null;
         ResultSet resultSet = null;
-        
+
         ArrayList<Project> projectList = new ArrayList();
-        
+
         String query = "SELECT account.accountID, projectPeople.tag, project.projectID, project.projectName, project.creationDate FROM project "
-                     + "INNER JOIN projectPeople ON project.projectID = projectPeople.projectID "
-                     + "INNER JOIN account ON account.accountID = projectPeople.accountID "
-                     + "WHERE account.accountID = ? ";
-        
+                + "INNER JOIN projectPeople ON project.projectID = projectPeople.projectID "
+                + "INNER JOIN account ON account.accountID = projectPeople.accountID "
+                + "WHERE account.accountID = ? ";
+
         try {
             statement = connection.prepareStatement(query);
             statement.setString(1, Integer.toString(user.getAccountID()));
-            
+
             resultSet = statement.executeQuery();
-            
+
             Project project;
-            while(resultSet.next()){
+            while (resultSet.next()) {
                 project = new Project();
                 project.setProjectID(resultSet.getInt("projectID"));
                 project.setProjectName(resultSet.getString("projectName"));
                 project.setProjectCreationDate(resultSet.getString("creationDate"));
-                
+
                 projectList.add(project);
             }
-        } catch (SQLException ex){
+        } catch (SQLException ex) {
             throw ex;
         } finally {
             try {
@@ -159,26 +254,26 @@ public class ProjectDB {
         }
         return projectList;
     }
-    
+
     public static Project getProject(int projectID) throws SQLException {
         ConnectionPool pool = ConnectionPool.getInstance();
         Connection connection = pool.getConnection();
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         Project project = new Project();
-        
+
         String query = "SELECT account.accountID, projectPeople.tag, project.projectID, project.projectName, project.creationDate FROM project "
-                     + "INNER JOIN projectPeople ON project.projectID = projectPeople.projectID "
-                     + "INNER JOIN account ON account.accountID = projectPeople.accountID "
-                     + "WHERE project.projectID = ? ";
-        
+                + "INNER JOIN projectPeople ON project.projectID = projectPeople.projectID "
+                + "INNER JOIN account ON account.accountID = projectPeople.accountID "
+                + "WHERE project.projectID = ? ";
+
         try {
             statement = connection.prepareStatement(query);
             statement.setString(1, Integer.toString(projectID));
-            
+
             resultSet = statement.executeQuery();
-            
-            while(resultSet.next()){
+
+            while (resultSet.next()) {
                 project = new Project();
                 project.setProjectID(resultSet.getInt("projectID"));
                 project.setProjectName(resultSet.getString("projectName"));
@@ -187,7 +282,7 @@ public class ProjectDB {
                 project.managers = getManagers(project);
                 project.sprints = SprintDB.getSprints(project.getProjectID());
             }
-        } catch (SQLException ex){
+        } catch (SQLException ex) {
             throw ex;
         } finally {
             try {
@@ -202,29 +297,29 @@ public class ProjectDB {
         }
         return project;
     }
-    
+
     public static ArrayList<Account> getContributers(Project project) throws SQLException {
         ConnectionPool pool = ConnectionPool.getInstance();
         Connection connection = pool.getConnection();
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         ArrayList<Account> contributers = new ArrayList();
-        
+
         String query = "SELECT account.accountID, account.accountName, projectPeople.tag, project.projectID FROM project "
-                     + "INNER JOIN projectPeople ON project.projectID = projectPeople.projectID "
-                     + "INNER JOIN account ON account.accountID = projectPeople.accountID "
-                     + "WHERE project.projectID = ? AND tag = 'contributor' ";
+                + "INNER JOIN projectPeople ON project.projectID = projectPeople.projectID "
+                + "INNER JOIN account ON account.accountID = projectPeople.accountID "
+                + "WHERE project.projectID = ? AND tag = 'contributor' ";
         try {
             statement = connection.prepareStatement(query);
             statement.setString(1, Integer.toString(project.getProjectID()));
             resultSet = statement.executeQuery();
-            
+
             Account account;
-            while (resultSet.next()){
+            while (resultSet.next()) {
                 account = new Account();
                 account.setAccountID(resultSet.getInt("accountID"));
                 account.setAccountName(resultSet.getString("accountName"));
-                
+
                 contributers.add(account);
             }
         } catch (SQLException ex) {
@@ -242,29 +337,29 @@ public class ProjectDB {
         }
         return contributers;
     }
-    
+
     public static ArrayList<Account> getManagers(Project project) throws SQLException {
         ConnectionPool pool = ConnectionPool.getInstance();
         Connection connection = pool.getConnection();
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         ArrayList<Account> managers = new ArrayList();
-        
+
         String query = "SELECT account.accountID, account.accountName, projectPeople.tag, project.projectID FROM project "
-                     + "INNER JOIN projectPeople ON project.projectID = projectPeople.projectID "
-                     + "INNER JOIN account ON account.accountID = projectPeople.accountID "
-                     + "WHERE project.projectID = ? AND tag = 'manager' ";
+                + "INNER JOIN projectPeople ON project.projectID = projectPeople.projectID "
+                + "INNER JOIN account ON account.accountID = projectPeople.accountID "
+                + "WHERE project.projectID = ? AND tag = 'manager' ";
         try {
             statement = connection.prepareStatement(query);
             statement.setString(1, Integer.toString(project.getProjectID()));
             resultSet = statement.executeQuery();
-            
+
             Account account;
-            while (resultSet.next()){
+            while (resultSet.next()) {
                 account = new Account();
                 account.setAccountID(resultSet.getInt("accountID"));
                 account.setAccountName(resultSet.getString("accountName"));
-                
+
                 managers.add(account);
             }
         } catch (SQLException ex) {
@@ -281,21 +376,21 @@ public class ProjectDB {
             }
         }
         return managers;
-    }    
-    
-    public static void updateProjectName(Project project, String name) throws SQLException{
+    }
+
+    public static void updateProjectName(Project project, String name) throws SQLException {
         ConnectionPool pool = ConnectionPool.getInstance();
         Connection connection = pool.getConnection();
         PreparedStatement statement = null;
         ResultSet resultSet = null;
-        
+
         String query = "UPDATE project SET projectName = ? where projectID = ?";
-        
-        try{
+
+        try {
             statement = connection.prepareStatement(query);
             statement.setString(1, name);
             statement.setInt(2, project.getProjectID());
-            
+
             statement.executeUpdate();
         } catch (SQLException ex) {
             throw ex;
