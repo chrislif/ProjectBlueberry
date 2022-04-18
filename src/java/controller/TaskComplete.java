@@ -18,6 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import model.Account;
+import model.StoryTask;
 
 /**
  *
@@ -61,8 +62,11 @@ public class TaskComplete extends HttpServlet {
         }
         
         try {
+            StoryTask t = TaskDB.getTaskByID(taskID);
+            
             TaskDB.updateTaskCompleted(taskID);
-            AccountDB.updateAccountXP(xp, currentUser);
+            
+            AccountDB.updateAccountXP(xp, t.getContributor());
             
         } catch (SQLException ex){
             String message = ex.getMessage();
