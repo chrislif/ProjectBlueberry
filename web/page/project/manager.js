@@ -65,19 +65,19 @@ function displayStory(storyElement, sprintCard) {
                 <div id="deleteStoryButton${storyElement.storyID}" data-storyid="${storyElement.storyID}"><img src="resources/deleteIcon.png" class="deleteIcon" alt="Icon to delete story information"></div>
             </div>
             <div class="taskManagementContainer">
-                <table class="stylizedTable" id="taskTable${storyElement.storyID}ToDo">
+                <table class="stylizedTaskTable" id="taskTable${storyElement.storyID}ToDo">
                     <tr>
                         <th>To-Do</th>
                     </tr>
                 </table>
     
-                <table class="stylizedTable" id="taskTable${storyElement.storyID}Doing">
+                <table class="stylizedTaskTable" id="taskTable${storyElement.storyID}Doing">
                     <tr>
                         <th>Doing</th>
                     </tr>
                 </table>
     
-                <table class="stylizedTable" id="taskTable${storyElement.storyID}Done">
+                <table class="stylizedTaskTable" id="taskTable${storyElement.storyID}Done">
                     <tr>
                         <th>Done</th>
                     </tr>
@@ -506,7 +506,7 @@ function createTask() {
         $("#taskCreateButton").attr('disabled', false);
         $("#mainModal").fadeOut(500);
         var editedProject = JSON.parse(result);
-        displayProject(editedProject.sprints);
+        displayProject(editedProject.sprints); //Set a length for validation of task components
     });
 }
 
