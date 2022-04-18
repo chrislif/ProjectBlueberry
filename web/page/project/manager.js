@@ -558,22 +558,26 @@ function addContributor() {
     ajaxCall('Contributor', {
         'projectID': project.projectID,
         'contributerName': $("#contributerName").val()},
-            'POST', (result) => {
-        $("#contributorAddButton").attr('disabled', false);
-        if (JSON.parse(result) == "false") {
-            console.log("didnt work");
-        } else {
-            console.log(result);
-            $("#mainModal").fadeOut(500);
-            var contributorList = JSON.parse(result);
-            $("#contributor").empty();
-            $("#contributor").append("<tr><th>Contributors</th></tr>");
-            contributorList.forEach((contributor) => {
-                $("#contributor").append(`<tr><td>${contributor.accountName}</td></tr>`);
-            });
-        }
+            'POST', handleAddContributorResult);
+}
 
-    });
+function handleAddContributorResult(result) {
+    $("#contributorAddButton").attr('disabled', false);
+    if (JSON.parse(result) == "false") {
+        console.log("didnt work");
+    } else {
+        $("#mainModal").fadeOut(500);
+        
+        var contributorList = JSON.parse(result);
+        
+        console.log(contributorList);
+        
+        $("#contributorsTable").html("<tr><th>Contributors</th></tr>");
+        
+        contributorList.forEach((contributor) => {
+            $("#contributorsTable").append(`<tr><td>${contributor.accountName}</td></tr>`);
+        });
+    }
 }
 
 function createStory() {
