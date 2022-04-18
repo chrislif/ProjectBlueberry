@@ -5,8 +5,10 @@
  */
 package controller;
 
+import controller.function.ProjectManager;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -27,9 +29,18 @@ public class ProjectEdit extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        ArrayList<String> errorList = new ArrayList();
+        
         int projectID = Integer.parseInt(request.getParameter("projectID"));
         
-        int zero = 0;
+        boolean isDeleted = ProjectManager.deleteProject(projectID, errorList);
+        
+        if (isDeleted = true) {
+            getServletContext().getRequestDispatcher("/page/project/overview.jsp").forward(request, response);
+        } else {
+            getServletContext().getRequestDispatcher("/page/project/projectHome.jsp").forward(request, response);
+        }
+        
     }
 
     @Override

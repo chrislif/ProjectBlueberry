@@ -166,6 +166,7 @@ public class ProjectDB {
         try {
             statement = connection.prepareStatement(query);
             statement.setInt(1, account.getAccountID());
+            statement.setInt(2, projectID);
 
             statement.executeUpdate();
         } catch (SQLException ex) {
@@ -194,6 +195,7 @@ public class ProjectDB {
         try {
             statement = connection.prepareStatement(query);
             statement.setInt(1, account.getAccountID());
+            statement.setInt(2, projectID);
 
             statement.executeUpdate();
         } catch (SQLException ex) {
