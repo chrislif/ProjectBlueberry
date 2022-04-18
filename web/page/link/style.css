@@ -283,16 +283,21 @@ select:focus {
 .taskManagementContainer{
     display: flex;
     flex-direction: row;
-    align-items: center;
+    align-items: flex-start;
     justify-content:space-between;
+    min-width: 500px;
 }
 
-.stylizedTable {
+.stylizedTaskTable {
+    min-width: 350px;
+}
+
+.stylizedTable, .stylizedTaskTable {
     border-spacing: 20px 5px;
     text-align: left;           
 }
 
-.stylizedTable th {
+.stylizedTable th, .stylizedTaskTable th {
     border-bottom: 2px solid rgb(0, 167, 225);
     
 }
