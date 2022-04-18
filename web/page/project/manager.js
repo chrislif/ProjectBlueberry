@@ -1,6 +1,8 @@
 "use strict";
 
 $(document).ready(() => {
+    displayProjectDetails();
+    
     $("#newSprintButton").click(showSprintForm);
 
     $("#newContributorButton").click(showContributorForm);
@@ -12,6 +14,37 @@ $(document).ready(() => {
     });
     displayProject(project.sprints);
 });
+
+function displayProjectDetails() {
+    $("#projectTitle").html(`<h1 class="projectTitle">Project: ` + project.projectName + `</h1>`
+            + `<form action="ProjectEdit" method="POST" class="projectDeleteBtn">
+                <input type="hidden" name="projectID" value="${project.projectID}"/>
+                <input type="image" src="resources/deleteIcon.png" class="deleteIcon" alt="Icon to delete your whole project"/>
+                </form>`);
+    
+    $("#projectOverview").html(projectHeader);
+    
+    $("#deleteProjectBtn").click(deleteProject);
+    
+    var projectManagerTableHtml = ``;
+    project.managers.forEach((manager) => {
+        projectManagerTableHtml += `
+            <tr>
+                <td>${manager.accountName}</td>
+            </tr>`;
+    });
+    $("#managersTable").append(projectManagerTableHtml);
+    
+    
+    var projectContribtorTableHtml = ``;
+    project.contributors.forEach((contributor) => {
+        projectContribtorTableHtml += `
+            <tr>
+                <td>${contributor.accountName}</td>
+            </tr>`;
+    });
+    $("#contributorsTable").append(projectContribtorTableHtml);
+}
 
 function displayProject(sprintList) {
     var sprintHtml = `
@@ -441,6 +474,15 @@ function updateTasks(taskList, storyID) {
     $("#taskTable" + storyID).append(taskTableHTML);
 
 }
+function deleteProject() {
+    ajaxCall("ProjectDelete", 
+        {"projectID" : project.projectID},
+        "Get", (result)=> {
+            
+        }
+    );
+}
+
 
 function createSprint() {
     if ($("#sprintName").val().trim() === "") {
@@ -578,7 +620,7 @@ function addContributor() {
 
 function createStory() {
     if ($("#newStoryName").val().trim() === "") {
-        $("#storyValidation").html("Enter a story name")
+        $("#storyValidation").html("Enter a story name");
     } else {
         $("#storyCreateButton").attr('disabled', true);
         ajaxCall('Story',
@@ -744,3 +786,32 @@ var storyFormModal = `
                 <button class="styledButton" id="storyCreateButton" data-sprintid="${$(this).attr("data-sprintid")}">Create Story</button>
             </div>
         </div>`;
+
+var projectHeader = `
+    <h2>
+        Overview
+    </h2>
+    <p>
+        Project ID:
+    </p>
+    <div id="projectManageButton">
+        <button class="styledButton" id="newSprintButton">New Sprint</button>
+        <button class="styledButton" id="newContributorButton">Add Contributor</button>
+    </div>
+
+    <div class="dualTableWrapper">
+        <div class="dualTableContent"> 
+            <table class="stylizedTable" id="managersTable">
+                <tr>
+                    <th>Managers</th>
+                </tr>
+            </table>
+        </div>
+        <div class="dualTableContent"> 
+            <table class="stylizedTable" id="contributorsTable">
+                <tr>
+                    <th>Contributors</th>
+                </tr>
+            </table>
+        </div>
+    </div>`;

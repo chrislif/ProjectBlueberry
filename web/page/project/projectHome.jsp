@@ -17,7 +17,7 @@
     </script>
     <div class="mainContent">
         
-        <div id="projectTitle">
+        <div id="projectTitle" class="projectHeader">
         </div>
 
         <div class="subContent" id="projectOverview">
