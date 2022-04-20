@@ -1,12 +1,7 @@
 "use strict";
 
 $(document).ready(() => {
-    displayProjectDetails();
-
-    $("#newSprintButton").click(showSprintForm);
-
-    $("#newContributorButton").click(showContributorForm);
-
+    
     $(window).click(function (e) {
         if (e.target.id === "mainModal") {
             $("#mainModal").fadeOut(100);
@@ -16,6 +11,9 @@ $(document).ready(() => {
 });
 
 function displayProjectDetails() {
+    
+    $("#projectOverview").html(``);
+    
     $("#projectTitle").html(`<h1 class="projectTitle">Project: ` + project.projectName + `</h1>`
             + `<form action="ProjectEdit" method="POST" class="projectDeleteBtn">
                 <input type="hidden" name="projectID" value="${project.projectID}"/>
@@ -23,6 +21,12 @@ function displayProjectDetails() {
                 </form>`);
 
     $("#projectOverview").html(projectHeader);
+    
+    $("#newSprintButton").click(showSprintForm);
+
+    $("#newContributorButton").click(showContributorForm);
+    
+    $("#editContributors").click(showEditContributorForm);
 
     $("#deleteProjectBtn").click(deleteProject);
 
@@ -47,6 +51,8 @@ function displayProjectDetails() {
 }
 
 function displayProject(sprintList) {
+    displayProjectDetails();
+    
     var sprintHtml = `
         <h2>
             Sprint Overview
@@ -381,8 +387,8 @@ function showEditTaskForm(sprintList) {
 
                             <input type="hidden" id="editTaskID" value="${task.taskID}">
                     
-                            <label for="editTaskContributorRelation">Who is working on this Task:</label>
-                            <select name="editTaskContributorRelation" id="editTaskContributorRelation">
+                            <label for="contributorRelation">Who is working on this Task:</label>
+                            <select name="contributorRelation" id="contributorRelation">
                                 <option value="0">Unassigned</option>
                             </select><br><br>
 
@@ -438,6 +444,33 @@ function showEditTaskForm(sprintList) {
         });
     });
 
+}
+
+function showEditContributorForm() {
+    $("#mainModal").html(
+                    `<div id="modalBox" class="modalContent">
+                    <span id="modalCloseButton" class="closeButton">&times;</span>
+                    <div id="modalContent">
+                        <h2>Edit Contributors</h2><br>
+                        
+                        <label for="contributorRelation">Remove Contributor From Project:</label>
+                            <select name="contributorRelation" id="contributorRelation">
+                            </select><br><br>
+                        
+                        <button class="styledButton" id="deleteContributor">Delete Contributor</button>
+                    </div>
+                </div>`
+                    );
+            
+            appendContributorOptions();
+
+            $("#deleteContributor").click(removeContributor);
+
+            $("#modalCloseButton").click(() => {
+                $("#mainModal").fadeOut(500);
+            });
+
+            $("#mainModal").fadeIn(200);
 }
 
 function updateSprint(updatedSprint) {
@@ -607,7 +640,7 @@ function addContributor() {
 
 function handleAddContributorResult(result) {
     $("#contributorAddButton").attr('disabled', false);
-    if (JSON.parse(result) == "false") {
+    if (JSON.parse(result) === "false") {
         console.log("didnt work");
     } else {
         $("#mainModal").fadeOut(500);
@@ -671,6 +704,18 @@ function deleteStory() {
     );
 }
 
+function removeContributor() {
+    ajaxCall("Contributor",
+    {'projectID' : project.projectID,
+        'contributorID' : $("#contributorRelation option:selected").val()},
+        "GET", (result) => {
+            $("#mainModal").fadeOut(500);
+            var editedProject = JSON.parse(result);
+            displayProject(editedProject.sprints);
+        }
+    );
+}
+
 function updateStories(sprintID, storyList) {
     console.log(sprintID);
     console.log(storyList);
@@ -704,7 +749,7 @@ function appendTaskContributorOptions() {
 
         $(o).html(manager.accountName);
 
-        $("#editTaskContributorRelation").append(o);
+        $("#contributorRelation").append(o);
     });
 
     project.contributors.forEach((contributor) => {
@@ -712,7 +757,19 @@ function appendTaskContributorOptions() {
 
         $(o).html(contributor.accountName);
 
-        $("#editTaskContributorRelation").append(o);
+        $("#contributorRelation").append(o);
+    });
+
+}
+
+function appendContributorOptions() {
+
+    project.contributors.forEach((contributor) => {
+        var o = new Option(contributor.accountName, contributor.accountID);
+
+        $(o).html(contributor.accountName);
+
+        $("#contributorRelation").append(o);
     });
 
 }
@@ -816,7 +873,7 @@ var projectHeader = `
         <div class="dualTableContent"> 
             <table class="stylizedTable" id="contributorsTable">
                 <tr>
-                    <th>Contributors</th>
+                    <th id="editContributors" class="contributorTableTitle">Contributors</th>
                 </tr>
             </table>
         </div>

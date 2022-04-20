@@ -239,4 +239,18 @@ public class ProjectManager {
         }
         
     }
+    
+    public static Project removeContributor(int projectID, int accountID, ArrayList<String> errorList){
+        try {
+            Account contributor = AccountDB.getAccount(accountID);
+            
+            ProjectDB.deleteContributors(contributor, projectID);
+            
+            return ProjectDB.getProject(projectID);
+        } catch (SQLException ex){
+            errorList.add(ex.getMessage());
+            
+            return null;
+        }
+    }
 }
