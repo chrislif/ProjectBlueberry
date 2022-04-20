@@ -297,7 +297,7 @@ function showEditSprintForm(sprintList) {
                         </select><br><br>
 
                         <label for="editedSprintName">Sprint Name: </label>
-                        <input type="text" name="editedSprintName" id="editedSprintName" value="${sprint.sprintName}"><br><br>
+                        <input type="text" name="editedSprintName" id="editedSprintName" value="${sprint.sprintName}"><span id="nameValidation"></span><br><br>
 
                         <label for="editedSprintStartDate">Sprint Start Date: </label>
                         <input type="date" id="editedSprintStartDate" name="editedSprintStartDate" value="${sprint.sprintStartDate}"><br><br>
@@ -340,7 +340,7 @@ function showEditStoryForm(sprintList) {
                         </select><br><br>
                         
                         <label for="editedStoryName">Story Name: </label>
-                        <input type="text" name="editedStoryName" id="editedStoryName" value="${story.storyName}"><br><br>
+                        <input type="text" name="editedStoryName" id="editedStoryName" value="${story.storyName}"><span id="nameValidation"></span><br><br>
 
                         <label for="editedStoryPriority">Story Priority: </label>
                         <select name="editedStoryPriority" id="editedStoryPriority">
@@ -393,7 +393,7 @@ function showEditTaskForm(sprintList) {
                             </select><br><br>
 
                             <label for="editedTaskName">Task Name: </label>
-                            <input type="text" name="editedTaskName" id="editedTaskName" value="${task.taskName}"><br><br>
+                            <input type="text" name="editedTaskName" id="editedTaskName" value="${task.taskName}"><span id="nameValidation"></span><br><br>
 
                             <label for="editTaskStoryRelation">Story that this Task is linked to:</label>
                             <select name="editTaskStoryRelation" id="editTaskStoryRelation">
@@ -447,30 +447,29 @@ function showEditTaskForm(sprintList) {
 }
 
 function showEditContributorForm() {
-    $("#mainModal").html(
-                    `<div id="modalBox" class="modalContent">
-                    <span id="modalCloseButton" class="closeButton">&times;</span>
-                    <div id="modalContent">
-                        <h2>Edit Contributors</h2><br>
-                        
-                        <label for="contributorRelation">Remove Contributor From Project:</label>
-                            <select name="contributorRelation" id="contributorRelation">
-                            </select><br><br>
-                        
-                        <button class="styledButton" id="deleteContributor">Delete Contributor</button>
-                    </div>
-                </div>`
-                    );
-            
-            appendContributorOptions();
+    $("#mainModal").html(`
+        <div id="modalBox" class="modalContent">
+            <span id="modalCloseButton" class="closeButton">&times;</span>
+            <div id="modalContent">
+                <h2>Edit Contributors</h2><br>
 
-            $("#deleteContributor").click(removeContributor);
+                <label for="contributorRelation">Remove Contributor From Project:</label>
+                    <select name="contributorRelation" id="contributorRelation">
+                    </select><br><br>
 
-            $("#modalCloseButton").click(() => {
-                $("#mainModal").fadeOut(500);
-            });
+                <button class="styledButton" id="deleteContributor">Delete Contributor</button>
+            </div>
+        </div>`);
 
-            $("#mainModal").fadeIn(200);
+        appendContributorOptions();
+
+        $("#deleteContributor").click(removeContributor);
+
+        $("#modalCloseButton").click(() => {
+            $("#mainModal").fadeOut(500);
+        });
+
+        $("#mainModal").fadeIn(200);
 }
 
 function updateSprint(updatedSprint) {
@@ -507,15 +506,15 @@ function updateTasks(taskList, storyID) {
     $("#taskTable" + storyID).append(taskTableHTML);
 
 }
+
 function deleteProject() {
     ajaxCall("ProjectDelete",
             {"projectID": project.projectID},
             "Get", (result) => {
-
-    }
+                console.log(result);
+            }
     );
 }
-
 
 function createSprint() {
     if ($("#sprintName").val().trim() === "") {
@@ -540,21 +539,26 @@ function createSprint() {
 }
 
 function editSprint() {
-    $("#completeSprintEdit").attr('disabled', true);
-    ajaxCall('SprintEdit',
-            {'projectID': project.projectID,
-                'sprintID': $("#editSprintID").val(),
-                'sprintNumber': $("#editedSprintNumber").val(),
-                'sprintName': $("#editedSprintName").val(),
-                'sprintStartDate': $("#editedSprintStartDate").val(),
-                'sprintEndDate': $("#editedSprintEndDate").val()},
-            'POST', (result) => {
-        $("#completeSprintEdit").attr('disabled', false);
-        var editedProject = JSON.parse(result);
-        console.log(editedProject);
-        $("#mainModal").fadeOut(500);
-        displayProject(editedProject.sprints);
-    });
+    if ($("#editedSprintName").val().trim() === "") {
+        $("#nameValidation").html("Enter a sprint name");
+        console.log("error");
+    } else {
+        $("#completeSprintEdit").attr('disabled', true);
+        ajaxCall('SprintEdit',
+                {'projectID': project.projectID,
+                    'sprintID': $("#editSprintID").val(),
+                    'sprintNumber': $("#editedSprintNumber").val(),
+                    'sprintName': $("#editedSprintName").val(),
+                    'sprintStartDate': $("#editedSprintStartDate").val(),
+                    'sprintEndDate': $("#editedSprintEndDate").val()},
+                'POST', (result) => {
+            $("#completeSprintEdit").attr('disabled', false);
+            var editedProject = JSON.parse(result);
+            console.log(editedProject);
+            $("#mainModal").fadeOut(500);
+            displayProject(editedProject.sprints);
+        });
+    }
 }
 
 function deleteSprint() {
@@ -601,23 +605,27 @@ function createTask() {
 }
 
 function editTask() {
-    $("#completeTaskEdit").attr('disabled', true);
-    console.log($("#editTaskContributorRelation option:selected").val());
-    ajaxCall('TaskEdit',
-            {'projectID': project.projectID,
-                'editedTaskID': $("#editTaskID").val(),
-                'editedTaskContributorRelation': $("#editTaskContributorRelation option:selected").val(),
-                'editedTaskName': $("#editedTaskName").val(),
-                'editedTaskStoryRelation': $("#editTaskStoryRelation").val(),
-                'editedTaskDetails': $("#editedTaskDetails").val(),
-                'editedTaskTime': $("#editedTaskTime").val(),
-                'editedTaskPriority': $("#editedTaskPriority option:selected").val()},
-            'Post', (result) => {
-        $("#completeTaskEdit").attr('disabled', false);
-        var editedProject = JSON.parse(result);
-        $("#mainModal").fadeOut(500);
-        displayProject(editedProject.sprints);
-    });
+    if ($("#editedTaskName").val().trim() === "") {
+        $("#nameValidation").html("Enter a task name");
+    } else {
+        $("#completeTaskEdit").attr('disabled', true);
+        console.log($("#editTaskContributorRelation option:selected").val());
+        ajaxCall('TaskEdit',
+                {'projectID': project.projectID,
+                    'editedTaskID': $("#editTaskID").val(),
+                    'editedTaskContributorRelation': $("#editTaskContributorRelation option:selected").val(),
+                    'editedTaskName': $("#editedTaskName").val(),
+                    'editedTaskStoryRelation': $("#editTaskStoryRelation").val(),
+                    'editedTaskDetails': $("#editedTaskDetails").val(),
+                    'editedTaskTime': $("#editedTaskTime").val(),
+                    'editedTaskPriority': $("#editedTaskPriority option:selected").val()},
+                'Post', (result) => {
+            $("#completeTaskEdit").attr('disabled', false);
+            var editedProject = JSON.parse(result);
+            $("#mainModal").fadeOut(500);
+            displayProject(editedProject.sprints);
+        });
+    }
 }
 
 function completeTask() {
@@ -692,20 +700,24 @@ function createStory() {
 }
 
 function editStory() {
-    $("#completeStoryEdit").attr('disabled', true);
-    ajaxCall('StoryEdit',
-            {'projectID': project.projectID,
-                'editedSprint': $("#editStorySprintRelation").val(),
-                'editStoryID': $("#editStoryID").val(),
-                'editedStoryName': $("#editedStoryName").val(),
-                'editedStoryPriorityLevel': $("#editedStoryPriority option:selected").val()},
-            'POST', (result => {
-                $("#completeStoryEdit").attr('disabled', false);
-                var editedProject = JSON.parse(result);
-                $("#mainModal").fadeOut(500);
-                displayProject(editedProject.sprints);
-            })
-            );
+    if ($("#editedStoryName").val().trim() === "") {
+        $("#nameValidation").html("Enter a story name");
+    } else {
+        $("#completeStoryEdit").attr('disabled', true);
+        ajaxCall('StoryEdit',
+                {'projectID': project.projectID,
+                    'editedSprint': $("#editStorySprintRelation").val(),
+                    'editStoryID': $("#editStoryID").val(),
+                    'editedStoryName': $("#editedStoryName").val(),
+                    'editedStoryPriorityLevel': $("#editedStoryPriority option:selected").val()},
+                'POST', (result => {
+                    $("#completeStoryEdit").attr('disabled', false);
+                    var editedProject = JSON.parse(result);
+                    $("#mainModal").fadeOut(500);
+                    displayProject(editedProject.sprints);
+                })
+                );
+    }
 }
 
 function deleteStory() {
