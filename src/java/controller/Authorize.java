@@ -47,9 +47,14 @@ public class Authorize extends HttpServlet {
                 session.setAttribute("currentUser", user);
                 url = "/page/project/overview.jsp";
             } else {
+                errorList.add("Invalid Credentials");
                 url = "/page/auth/login.jsp";
             }
+        } else {
+            url = "/page/auth/login.jsp";
         }
+        session.setAttribute("errorList", errorList);
+        
         getServletContext().getRequestDispatcher(url).forward(request, response);
     }
 

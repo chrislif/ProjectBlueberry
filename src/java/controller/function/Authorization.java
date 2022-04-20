@@ -14,13 +14,13 @@ public class Authorization {
     public static Boolean IsValidLogin(String email, String password, ArrayList<String> errorList) {
         Boolean isValid = true;
 
-        if (password.isEmpty()) {
-            errorList.add("Please enter a Password");
-            isValid = false;
-        }
-
         if (email.isEmpty()) {
             errorList.add("Please enter a Email");
+            isValid = false;
+        }        
+        
+        if (password.isEmpty()) {
+            errorList.add("Please enter a Password");
             isValid = false;
         }
 
@@ -66,7 +66,7 @@ public class Authorization {
         try {
             return AuthDB.loginUser(email, password);
         } catch (SQLException ex) {
-            errorList.add("Invalid Credentials");
+            errorList.add("User does not exist");
             //errorList.add(ex.getMessage());
             return null;
         }

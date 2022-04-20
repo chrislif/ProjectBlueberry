@@ -19,6 +19,10 @@ header {
     background: rgb(4, 116, 186);
 }
 
+span {
+    color: rgb(255, 166, 48);
+}
+
 nav {
     position: fixed;
     top: 5%;
