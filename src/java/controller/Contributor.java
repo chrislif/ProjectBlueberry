@@ -26,7 +26,7 @@ public class Contributor extends HttpServlet {
         int projectID = Integer.parseInt(request.getParameter("projectID"));
         int contributorID = Integer.parseInt(request.getParameter("contributorID"));
         
-        model.Project updatedProject = ProjectManager.removeContributor(projectID, projectID, errorList);
+        model.Project updatedProject = ProjectManager.removeContributor(projectID, contributorID, errorList);
         
         String projectJSON = gson.toJson(updatedProject);
         
