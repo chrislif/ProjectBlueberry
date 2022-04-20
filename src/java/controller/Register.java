@@ -28,6 +28,7 @@ public class Register extends HttpServlet {
         
         HttpSession session = request.getSession();
         ArrayList<String> errorList = new ArrayList();
+        session.setAttribute("errorList", errorList);
         
         String accountName = request.getParameter("accountName");
         String password = request.getParameter("password");
@@ -40,7 +41,7 @@ public class Register extends HttpServlet {
                 session.setAttribute("currentUser", newUser);
                 url = "/index.jsp";
             } else {
-                url = "/page/auth/login.jsp";
+                url = "/page/auth/register.jsp";
             }
         } else {
             url = "/page/auth/register.jsp";
