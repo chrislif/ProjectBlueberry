@@ -18,7 +18,19 @@ public class Contributor extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
+        PrintWriter responseOut = response.getWriter();
+        Gson gson = new Gson();
+        
+        ArrayList<String> errorList = new ArrayList();
+        
+        int projectID = Integer.parseInt(request.getParameter("projectID"));
+        int contributorID = Integer.parseInt(request.getParameter("contributorID"));
+        
+        model.Project updatedProject = ProjectManager.removeContributor(projectID, projectID, errorList);
+        
+        String projectJSON = gson.toJson(updatedProject);
+        
+        responseOut.println(projectJSON);
     }
 
     @Override

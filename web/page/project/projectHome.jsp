@@ -9,7 +9,6 @@
 <jsp:include page="/page/link/header.jsp"/>
 <main>
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
-    <script type="text/javascript" src="page/project/projectHome.js"></script>
     <script type="text/javascript" src="page/project/manager.js"></script>
     <script type="text/javascript">
         var project = JSON.parse('${project}');

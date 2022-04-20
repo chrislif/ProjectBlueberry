@@ -313,6 +313,11 @@ select:focus {
     
 }
 
+.contributorTableTitle:hover {
+    color: rgb(255, 166, 48);
+    cursor: pointer;
+}
+
 .editIcon, .deleteIcon {
     width: 50%;
     padding: 5px;
