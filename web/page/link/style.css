@@ -61,6 +61,13 @@ nav {
     cursor: pointer;
 }
 
+.introIndex {
+
+    font-size: 1.5rem;
+    color: black;
+    opacity: 0.75;
+}
+
 .modalBackground {
     display: none;
     position: fixed;
