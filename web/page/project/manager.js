@@ -387,8 +387,8 @@ function showEditTaskForm(sprintList) {
 
                             <input type="hidden" id="editTaskID" value="${task.taskID}">
                     
-                            <label for="contributorRelation">Who is working on this Task:</label>
-                            <select name="contributorRelation" id="contributorRelation">
+                            <label for="editedTaskContributorRelation">Who is working on this Task:</label>
+                            <select name="editedTaskContributorRelation" id="editedTaskContributorRelation">
                                 <option value="0">Unassigned</option>
                             </select><br><br>
 
@@ -587,11 +587,11 @@ function createTask() {
 
 function editTask() {
     $("#completeTaskEdit").attr('disabled', true);
-    console.log($("#editTaskContributorRelation option:selected").val());
+    console.log($("#editedTaskContributorRelation").val());
     ajaxCall('TaskEdit',
             {'projectID': project.projectID,
                 'editedTaskID': $("#editTaskID").val(),
-                'editedTaskContributorRelation': $("#editTaskContributorRelation option:selected").val(),
+                'editedTaskContributorRelation': $("#editedTaskContributorRelation option:selected").val(),
                 'editedTaskName': $("#editedTaskName").val(),
                 'editedTaskStoryRelation': $("#editTaskStoryRelation").val(),
                 'editedTaskDetails': $("#editedTaskDetails").val(),
@@ -711,6 +711,7 @@ function removeContributor() {
         "GET", (result) => {
             $("#mainModal").fadeOut(500);
             var editedProject = JSON.parse(result);
+            project = editedProject;
             displayProject(editedProject.sprints);
         }
     );
@@ -748,16 +749,20 @@ function appendTaskContributorOptions() {
         var o = new Option(manager.accountName, manager.accountID);
 
         $(o).html(manager.accountName);
+        
+        console.log(o);
 
-        $("#contributorRelation").append(o);
+        $("#editedTaskContributorRelation").append(o);
     });
 
     project.contributors.forEach((contributor) => {
         var o = new Option(contributor.accountName, contributor.accountID);
 
         $(o).html(contributor.accountName);
+        
+        console.log(o);
 
-        $("#contributorRelation").append(o);
+        $("#editedTaskContributorRelation").append(o);
     });
 
 }
