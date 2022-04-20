@@ -1,8 +1,8 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <jsp:include page="/page/link/header.jsp"/>
 <main>
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
-    <script type="text/javascript" src="page/auth/auth.js"></script>
     <div class="mainContent">
         <h1>Login Here</h1>
         <div class="subContent">
@@ -25,11 +25,11 @@
                 <input type="submit" class="styledButton" value="Register Here">
             </form>
         </div>
-        
-        <div class="subContent hidden" id="errorDisplay">
+
+        <div class="subContent" id="errorDisplay">
             <ul>
                 <c:forEach items="${errorList}" var="error">
-                    <li>${error}</li>
+                    <li><span>${error}</span></li>
                 </c:forEach>
             </ul>
         </div>

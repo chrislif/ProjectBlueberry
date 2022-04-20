@@ -235,13 +235,13 @@ function showTaskForm(sprintList) {
                         <h2>Add a Task to ${story.storyName}</h2><br>
                 
                         <label for="taskName">Task Name: </label>
-                        <input type="text" name="taskName" id="newTaskName"> <br> <br>
+                        <input type="text" name="taskName" id="newTaskName"> <span id="taskNameValidation" style="color: rgb(255, 166, 48)"></span><br> <br>
                 
                         <label for="taskDetails">Task Details: </label>
-                        <input type="text" name="taskDetails" id="newTaskDetails"> <br> <br>
+                        <input type="text" name="taskDetails" id="newTaskDetails"><span id="taskDetailsValidation" style="color: rgb(255, 166, 48)"></span> <br> <br>
                 
                         <label for="taskTime">Task Time (In Hours): </label>
-                        <input type="text" name="taskTime" id="newTaskTime"> <br> <br>
+                        <input type="text" name="taskTime" id="newTaskTime"><span id="taskTimeValidation" style="color: rgb(255, 166, 48)"></span> <br> <br>
                 
                         <label for="taskPriorityLevel">Priority: </label>
                         <select name="taskPriorityLevel" id="taskPriorityLevel">
@@ -536,20 +536,35 @@ function deleteSprint() {
 }
 
 function createTask() {
-    $("#taskCreateButton").attr('disabled', true);
-    ajaxCall('Task',
-            {'projectID': project.projectID,
-                'storyID': $(this).attr("data-storyid"),
-                'taskName': $("#newTaskName").val(),
-                'taskDetails': $("#newTaskDetails").val(),
-                'taskTime': $("#newTaskTime").val(),
-                'taskPriority': $("#taskPriorityLevel option:selected").val()},
-            'POST', (result) => {
-        $("#taskCreateButton").attr('disabled', false);
-        $("#mainModal").fadeOut(500);
-        var editedProject = JSON.parse(result);
-        displayProject(editedProject.sprints); //Set a length for validation of task components
-    });
+    var flag = true;
+    if ($("#newTaskName").val().trim() === "") {
+        $("#taskNameValidation").html("Enter a task name");
+        flag = false;
+    }
+    if ($("#newTaskDetails").val().trim() === ""){
+        $("#taskDetailsValidation").html("Enter details for the task");
+        flag = false;
+    }
+    if ($("#newTaskTime").val().trim() === ""){
+        $("#taskTimeValidation").html("Enter estimated time for task");
+        flag = false;
+    }
+    if (flag) {
+        $("#taskCreateButton").attr('disabled', true);
+        ajaxCall('Task',
+                {'projectID': project.projectID,
+                    'storyID': $(this).attr("data-storyid"),
+                    'taskName': $("#newTaskName").val(),
+                    'taskDetails': $("#newTaskDetails").val(),
+                    'taskTime': $("#newTaskTime").val(),
+                    'taskPriority': $("#taskPriorityLevel option:selected").val()},
+                'POST', (result) => {
+            $("#taskCreateButton").attr('disabled', false);
+            $("#mainModal").fadeOut(500);
+            var editedProject = JSON.parse(result);
+            displayProject(editedProject.sprints); //Set a length for validation of task components
+        });
+    }
 }
 
 function editTask() {
@@ -759,7 +774,7 @@ var sprintFormModal = `
             </select><br><br>
 
             <label for="sprintName">Sprint Name: </label>
-            <input type="text" name="sprintName" id="sprintName"><span id="nameValidation" style="color: red"></span><br><br>
+            <input type="text" name="sprintName" id="sprintName"><span id="nameValidation" style="color: rgb(255, 166, 48)"></span><br><br>
 
             <label for="sprintStartDate">Sprint Start Date: </label>
             <input type="date" id="sprintStartDate" name="sprintStartDate"><br><br>
@@ -778,7 +793,7 @@ var storyFormModal = `
                 <h2>Add Story</h2><br>
 
                 <label for="storyName">User Story Name: </label>
-                <input type="text" name="storyName" id="newStoryName"><span id="storyValidation" style="color: red"></span> <br> <br>
+                <input type="text" name="storyName" id="newStoryName"><span id="storyValidation" style="color: rgb(255, 166, 48)"></span> <br> <br>
 
                 <label for="priorityLevel">Priority: </label>
                 <select name="priorityLevel" id="storyPriorityLevel">

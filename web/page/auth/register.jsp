@@ -27,7 +27,7 @@
     <div class="subContent" id="errorDisplay">
         <ul>
             <c:forEach items="${errorList}" var="error">
-                <li>${error}</li>
+                <li><span>${error}</span></li>
             </c:forEach>
         </ul>
     </div>
