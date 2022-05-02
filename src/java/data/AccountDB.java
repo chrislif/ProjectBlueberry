@@ -130,7 +130,7 @@ public class AccountDB {
         Connection connection = pool.getConnection();
         PreparedStatement statement = null;
         ResultSet resultSet = null;
-        Account account = new Account();
+        Account account = null;
 
         String query = "SELECT accountID from account where accountName = ?";
 
@@ -139,10 +139,11 @@ public class AccountDB {
             statement.setString(1, accountName);
             resultSet = statement.executeQuery();
 
-            resultSet.next();
-
-            account.setAccountID(resultSet.getInt("accountID"));
-
+            if (resultSet.next()) {
+                account = new Account();
+                account.setAccountID(resultSet.getInt("accountID"));
+            }
+            
             return account;
         } catch (SQLException ex) {
             throw ex;
